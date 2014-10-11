@@ -12,7 +12,7 @@ import java.util.List;
  * @author sebastian
  *
  */
-public interface ITaskSuggester
+public interface ITaskSuggestor
 {
 	/**
 	 * Get an array of the suggested tasks.
