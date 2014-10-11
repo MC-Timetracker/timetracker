@@ -1,5 +1,6 @@
 package iiitd.mc.timetracker.data;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -10,11 +11,32 @@ import java.util.List;
  */
 public class Task 
 {
+	/**
+	 * String to separate task names in the hierarchy.
+	 * e.g. "." for "Studies.Maths.Assignment"
+	 */
+	public static final String THS = ".";
+	
 	private String name;
 	private Task parent;
 	//private String geo;			//TODO: proper data type
 	private String description;
 	private List<Task> subtasks;
+	
+	/**
+	 * Constructs a new Task.
+	 * @param name The name describing the task
+	 * @param parent If parent is null or not being set the task is considered on the top most hierarchy level.
+	 */
+	public Task(String name, Task parent)
+	{
+		setName(name);
+		setParent(parent);
+	}
+	public Task(String name)
+	{
+		this(name, null);
+	}
 	
 	/**
 	 * Get the name describing the Task.
@@ -73,7 +95,20 @@ public class Task
 	 */
 	public List<Task> getSubtasks() 
 	{
+		if(subtasks == null)
+			subtasks = new ArrayList<Task>();
+		
 		return subtasks;
+	}
+	
+	@Override
+	public String toString()
+	{
+		String p = "";
+		if (parent != null)
+			p = parent.toString() + THS;
+		
+		return p + this.name;
 	}
 		
 }
