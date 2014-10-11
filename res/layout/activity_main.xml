@@ -9,8 +9,20 @@
     tools:context="iiitd.mc.timetracker.MainActivity" >
 
     <TextView
+        android:id="@+id/textView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/hello_world" />
+
+    <AutoCompleteTextView
+        android:id="@+id/taskSelectionBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView1"
+        android:layout_marginTop="31dp"
+        android:ems="10" >
+
+        <requestFocus />
+    </AutoCompleteTextView>
 
 </RelativeLayout>

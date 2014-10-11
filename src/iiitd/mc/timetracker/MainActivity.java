@@ -1,9 +1,15 @@
 package iiitd.mc.timetracker;
 
+import iiitd.mc.timetracker.context.*;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.View.OnFocusChangeListener;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 
 public class MainActivity extends ActionBarActivity {
 
@@ -11,6 +17,21 @@ public class MainActivity extends ActionBarActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		
+		AutoCompleteTextView autoTv = (AutoCompleteTextView) findViewById(R.id.taskSelectionBox);
+		
+		ITaskSuggestor suggester = new RecentTaskSuggestor();
+		String[] suggestedTasks = suggester.getTaskStrings();
+		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, suggestedTasks);
+		autoTv.setAdapter(adapter);
+		
+		autoTv.setThreshold(0);
+		autoTv.setOnClickListener(new OnClickListener() {
+				public void onClick(View view)
+				{
+					((AutoCompleteTextView)view).showDropDown();
+				}
+		});
 	}
 
 	@Override
