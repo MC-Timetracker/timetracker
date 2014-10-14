@@ -9,10 +9,29 @@ import java.util.Date;
  */
 public class Recording 
 {
+	/**
+	 * @author Shubham
+	 * Member for Id variable added
+	 */
+	private int recordingId;
 	private Date start;
 	private Date end;
 	private Task task;
 	
+	/**
+	 * Get the recordingId for the recording performed.
+	 * @return the recordingId
+	 */
+	public int getRecordingId() {
+		return recordingId;
+	}
+	/**
+	 * Set the recordingId for the recording performed
+	 * @param recordingId the recordingId to set
+	 */
+	public void setRecordingId(int recordingId) {
+		this.recordingId = recordingId;
+	}
 	/**
 	 * Get time when work on the recording was started.
 	 * @return 
@@ -60,5 +79,5 @@ public class Recording
 	public void setTask(Task task)
 	{
 		this.task = task;
-	}	
+	}
 }

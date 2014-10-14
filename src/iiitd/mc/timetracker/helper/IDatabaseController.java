@@ -86,7 +86,7 @@ public interface IDatabaseController
 	 * @param start Time when the recording was started.
 	 * @param stop Time when the recording was stopped.
 	 */
-	public void insertRecording(int taskId, Date start, Date stop);
+	public void insertRecording(int id, int taskId, Date start, Date stop);
 	
 	/**
 	 * Create a new Recording indicating a time span the user worked on a specific Task.
@@ -95,7 +95,7 @@ public interface IDatabaseController
 	public void insertRecording(Recording newRecording);
 	
 	/**
-	 * Get the Recording with the given ID.
+	 * Get the Recordings with the given ID.
 	 * @param recordingId The Recording ID.
 	 * @return Returns the Recording instance or null if no Recording with the given ID exists.
 	 */
