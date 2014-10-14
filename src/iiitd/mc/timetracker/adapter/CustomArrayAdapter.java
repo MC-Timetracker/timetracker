@@ -90,7 +90,7 @@ public class CustomArrayAdapter extends ArrayAdapter<String> implements Filterab
 				
 				for(int i=0;i < count; i++){
 					String item = values.get(i);
-					if(item.toLowerCase().contains(prefixString)){
+					if(item.toLowerCase().contains("."+prefixString) || item.toLowerCase().startsWith(prefixString)){
 						newValues.add(item);
 					}
 				}

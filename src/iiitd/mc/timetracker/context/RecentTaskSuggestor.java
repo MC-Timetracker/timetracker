@@ -1,8 +1,11 @@
 package iiitd.mc.timetracker.context;
 
 import iiitd.mc.timetracker.data.*;
+import iiitd.mc.timetracker.helper.MockupDatabaseController;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -15,7 +18,12 @@ public class RecentTaskSuggestor implements ITaskSuggestor
 	/**
 	 * Returns all previously used tasks, most recently used task first.
 	 */
-	private List<Task> temp;
+	private List<Task> tasks;
+	private List<Recording> recordings;
+	
+	MockupDatabaseController mDBC = new MockupDatabaseController();
+	
+	
 	public List<Task> getTaskList()
 	{ 
 		//TODO: get list of recordings from database
@@ -26,26 +34,20 @@ public class RecentTaskSuggestor implements ITaskSuggestor
 		 * LIMIT 10
 		 */
 		
+		tasks = mDBC.getTasks();
+		recordings = mDBC.getRecordings();
 		
-		temp = new ArrayList<Task>();
+		/*Collections.sort(tasks,new Comparator<Task>(){
+
+			@Override
+			public int compare(Task task1, Task task2)
+			{
+				//return recordings.get(task1.getTaskId()).getStart().compareTo(recordings.get(task2.getTaskId()).getStart());
+			}
+			
+		});*/
 		
-		Task t1 = new Task("Studies", null);
-			Task t2 = new Task("MC", t1);
-			t1.getSubtasks().add(t2);
-				Task t5 = new Task("Assignment", t2);
-				t2.getSubtasks().add(t5);
-			Task t3 = new Task("DMG", t1);
-			t1.getSubtasks().add(t3);
-			Task t4 = new Task("GradAlgo", t1);
-			t1.getSubtasks().add(t4);
-		
-		temp.add(t1);
-		temp.add(t2);
-		temp.add(t3);
-		temp.add(t4);
-		temp.add(t5);
-		
-		return temp;
+		return tasks;
 	}
 	
 	public List<String> getTaskStrings()
