@@ -39,6 +39,8 @@ public class RecentTaskSuggestor implements ITaskSuggestor
 			Task t4 = new Task("GradAlgo", t1);
 			t1.getSubtasks().add(t4);
 		
+		temp.add(t1);
+		temp.add(t2);
 		temp.add(t3);
 		temp.add(t4);
 		temp.add(t5);
@@ -46,15 +48,14 @@ public class RecentTaskSuggestor implements ITaskSuggestor
 		return temp;
 	}
 	
-	public String[] getTaskStrings()
+	public List<String> getTaskStrings()
 	{
 		List<Task> lst = this.getTaskList();
 		
-		String[] array = new String[lst.size()];
-		int index = 0;
+		List<String> array = new ArrayList<String>(lst.size());
+		
 		for (Task value : lst) {
-			array[index] = value.toString();
-			index++;
+			array.add(value.toString());
 		}
 		
 		return array;
