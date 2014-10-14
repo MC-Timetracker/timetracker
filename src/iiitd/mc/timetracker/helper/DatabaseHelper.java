@@ -37,6 +37,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		//private static final String TASK_LOCATION = "location";	//TODO: 
 		
 		//Recording Table - Column names
+		public static final String RECORDING_TASKID = "taskid";
 		public static final String RECORDING_STARTTIME = "starttime";
 		public static final String RECORDING_STOPTIME = "stoptime";
 		
@@ -44,12 +45,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		//Task Table Create Statement
 		public static final String CREATE_TABLE_TASK = "create table " + TABLE_TASK + "(" + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
 				+ TASK_NAME + " TEXT NOT NULL, " + TASK_DESCRIPTION + " TEXT, " + TASK_PARENT + " INTEGER, FOREIGN KEY("
-				+ TASK_PARENT + ") REFERENCES " + TABLE_TASK + "(" + KEY_ID + ");";
+				+ TASK_PARENT + ") REFERENCES " + TABLE_TASK + "(" + KEY_ID + ") ON DELETE CASCADE;";
 		
 		//Recording Table Create Statement
-		public static final String CREATE_TABLE_RECORDING = "create table " + TABLE_RECORDING + "(" + KEY_ID + " INTEGER, "
-				+ RECORDING_STARTTIME + " DATETIME, " + RECORDING_STOPTIME + " DATETIME, FOREIGN KEY("
-				+ KEY_ID + ") REFERENCES " + TABLE_TASK + "(" + KEY_ID + ");";
+		public static final String CREATE_TABLE_RECORDING = "create table " + TABLE_RECORDING + "(" + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+				+ RECORDING_TASKID + " INTEGER, "+ RECORDING_STARTTIME + " DATETIME, " + RECORDING_STOPTIME + " DATETIME, FOREIGN KEY("
+				+ RECORDING_TASKID + ") REFERENCES " + TABLE_TASK + "(" + KEY_ID + ") ON DELETE CASCADE;";
 		
 		public DatabaseHelper(Context context){
 			super(context,DATABASE_NAME,null,DATABASE_VERSION);
