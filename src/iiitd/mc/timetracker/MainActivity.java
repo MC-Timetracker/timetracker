@@ -1,5 +1,8 @@
 package iiitd.mc.timetracker;
 
+import java.util.List;
+
+import iiitd.mc.timetracker.adapter.CustomArrayAdapter;
 import iiitd.mc.timetracker.context.*;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -7,8 +10,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.View.OnFocusChangeListener;
-import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 
 public class MainActivity extends ActionBarActivity {
@@ -21,8 +22,8 @@ public class MainActivity extends ActionBarActivity {
 		AutoCompleteTextView autoTv = (AutoCompleteTextView) findViewById(R.id.taskSelectionBox);
 		
 		ITaskSuggestor suggester = new RecentTaskSuggestor();
-		String[] suggestedTasks = suggester.getTaskStrings();
-		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, suggestedTasks);
+		List<String> suggestedTasks = suggester.getTaskStrings();
+		CustomArrayAdapter adapter = new CustomArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, suggestedTasks);
 		autoTv.setAdapter(adapter);
 		
 		autoTv.setThreshold(0);
