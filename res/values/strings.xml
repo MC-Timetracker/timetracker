@@ -10,6 +10,10 @@
     <string name= "NewText"></string>
     <string name="new_project"></string>
     <string name="desc_newproject">New_Project</string>
+    <string name="btnStop">Stop</string>
+    <string name="btnPause">Pause</string>
+    <string name="btnResume">Resume</string>
+     
      
     <!-- Nav Drawer Menu Items -->
     <string-array name="nav_drawer_items">

@@ -1,5 +1,6 @@
 package iiitd.mc.timetracker;
 
+
 import iiitd.mc.timetracker.adapter.NavigationAdapter;
 
 import android.support.v4.app.ActionBarDrawerToggle;
@@ -8,49 +9,82 @@ import android.support.v7.app.ActionBarActivity;
 import android.app.ActionBar;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.Chronometer;
 import android.widget.ListView;
 
 public class MainActivity extends ActionBarActivity implements OnItemClickListener{
 
-	//private String[] mNavigationTitles;
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
     private CharSequence mTitle;
     private ActionBarDrawerToggle mDrawerToggle;
     private ActionBar actionBar;
     private NavigationAdapter myAdapter;
+    Button btnStart,btnStop,btnPause,btnResume;
+    private Chronometer chronometer;
+    long stoptime=0;
     
 	@Override
 	protected void onCreate(Bundle savedInstanceState) 
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		btnStart =(Button) findViewById(R.id.btnStart);
+		btnStop =(Button) findViewById(R.id.btnStop);
+		btnStart.setOnClickListener(new OnClickListener(){
+			public void onClick(View v)
+			{
+				setContentView(R.layout.pausestop);	
+				chronometer=(Chronometer) findViewById(R.id.chronometer);
+				chronometer.setBase(SystemClock.elapsedRealtime());
+				chronometer.start();
+					
+			}
+		});
+		
 		
 		navigationDisplay();
 	}
-
+	public void Stop(View view)
+	{
+		chronometer.stop();
+	}
+	
+	
+	public void Pause(View view)
+	{
+		btnPause =(Button) findViewById(R.id.btnPause);
+		btnResume =(Button) findViewById(R.id.btnResume);
+		stoptime=chronometer.getBase()-SystemClock.elapsedRealtime();
+		chronometer.stop();
+		btnPause.setVisibility(View.INVISIBLE);
+		btnResume.setVisibility(View.VISIBLE);
+	}
+    
+	public void Resume(View view){
+		btnResume =(Button) findViewById(R.id.btnResume);
+		chronometer.setBase(SystemClock.elapsedRealtime()+stoptime);
+		chronometer.start();
+		btnPause.setVisibility(View.VISIBLE);
+		btnResume.setVisibility(View.INVISIBLE);
+	
+	}
 	
 	public void navigationDisplay()
 	{
 		actionBar = getActionBar();
-		//actionBar.setDisplayHomeAsUpEnabled(true);
 		actionBar.setIcon(getWallpaper());
-		//getActionBar().setHomeButtonEnabled(true);
 		mTitle = "Time Tracker";
-		 
-        //mNavigationTitles = getResources().getStringArray(R.array.nav_drawer_items);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
- 
-        // Set the adapter for the list view
-        /*mDrawerList.setAdapter(new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_1, mNavigationTitles));*/
-        //Set the list's click listener
         myAdapter = new NavigationAdapter(this);
         mDrawerList.setAdapter(myAdapter);
         mDrawerList.setOnItemClickListener(this);
@@ -76,7 +110,6 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
  
         // Set the drawer toggle as the DrawerListener
         mDrawerLayout.setDrawerListener(mDrawerToggle);
- 
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);
 	}
@@ -117,12 +150,9 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
      * Swaps fragments in the main content view
      */
    private void selectItem(int position) {
-        //Toast.makeText(this, R.string.app_name, Toast.LENGTH_SHORT).show();
  
         // Highlight the selected item, update the title, and close the drawer
         mDrawerList.setItemChecked(position, true);
-        //setTitle(mNavigationTitles[position]);
-        //mDrawerLayout.closeDrawer(mDrawerList);
     }
  
     @Override
@@ -131,16 +161,10 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
         getActionBar().setTitle(mTitle);
     }
  
-    /*private class DrawerItemClickListener implements ListView.OnItemClickListener {
-        @Override
-        public void onItemClick(AdapterView parent, View view, int position, long id) {
-            selectItem(position);
-        }
-    }*/
+    
 
 	public void onItemClick(AdapterView<?> parent, View view, int position,
-			long id) {
-		//Toast.makeText(this, mNavigationTitles[position]+ "was selected", Toast.LENGTH_LONG).show();
+			long id){
 		selectItem(position);
 		// TODO Auto-generated method stub
 		
