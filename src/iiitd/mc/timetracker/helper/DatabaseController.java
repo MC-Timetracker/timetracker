@@ -14,7 +14,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
-import android.text.format.DateFormat;
 
 /**
  * Database Helper class to perform all Database CURD operations
@@ -62,7 +61,7 @@ public class DatabaseController implements IDatabaseController {
 		ContentValues contentValue_task=new ContentValues();
 		contentValue_task.put(DatabaseHelper.TASK_NAME,newTask.getId());
 		contentValue_task.put(DatabaseHelper.TASK_DESCRIPTION, newTask.getDescription());
-		contentValue_task.put(DatabaseHelper.TASK_PARENT,newTask.getParent().getId());
+		contentValue_task.put(DatabaseHelper.TASK_PARENT,newTask.getParent().getId()); //TODO: check for null parent
 		database.insert(DatabaseHelper.TABLE_TASK, null, contentValue_task);
 	}
 
@@ -79,7 +78,15 @@ public class DatabaseController implements IDatabaseController {
 		task.setId(c.getInt(c.getColumnIndex(DatabaseHelper.KEY_ID)));
 		task.setName(c.getString(c.getColumnIndex(DatabaseHelper.TASK_NAME)));
 		task.setDescription(c.getString(c.getColumnIndex(DatabaseHelper.TASK_DESCRIPTION)));	
-		// TODO task.setParent(c.getInt(c.getColumnIndex(DatabaseHelper.TASK_PARENT)));
+		
+		// load parent task
+		int parentId = c.getInt(c.getColumnIndex(DatabaseHelper.TASK_PARENT));
+		if (parentId > -1)
+		{
+			Task parent = getTask(parentId);
+			task.setParent(parent);
+		}
+		
 		return task;
 	}
 
@@ -94,8 +101,16 @@ public class DatabaseController implements IDatabaseController {
 				Task task=new Task();
 				task.setId(c.getInt(c.getColumnIndex(DatabaseHelper.KEY_ID)));
 				task.setName(c.getString(c.getColumnIndex(DatabaseHelper.TASK_NAME)));
-				task.setDescription(c.getString(c.getColumnIndex(DatabaseHelper.TASK_DESCRIPTION)));	
-				// TODO task.setParent(c.getInt(c.getColumnIndex(DatabaseHelper.TASK_PARENT)));
+				task.setDescription(c.getString(c.getColumnIndex(DatabaseHelper.TASK_DESCRIPTION)));
+				
+				// load parent task
+				int parentId = c.getInt(c.getColumnIndex(DatabaseHelper.TASK_PARENT));
+				if (parentId > -1)
+				{
+					Task parent = getTask(parentId);
+					task.setParent(parent);
+				}
+				
 				tasks.add(task);
 			}while(c.moveToNext());
 		}
