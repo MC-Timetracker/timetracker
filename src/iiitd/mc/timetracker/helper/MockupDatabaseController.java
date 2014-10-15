@@ -88,6 +88,7 @@ public class MockupDatabaseController implements IDatabaseController
 	@Override
 	public List<Task> getTasks()
 	{
+		open();
 		return taskList;
 	}
 
@@ -152,13 +153,6 @@ public class MockupDatabaseController implements IDatabaseController
 	{
 		// TODO Auto-generated method stub
 
-	}
-
-	@Override
-	public void insertRecording(int id, int taskId, Date start, Date stop)
-	{
-		// TODO Auto-generated method stub
-		
 	}
 
 }

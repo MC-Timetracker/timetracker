@@ -13,7 +13,7 @@ import java.util.List;
  * @author sebastian
  *
  */
-public class RecentTaskSuggestor implements ITaskSuggestor
+public class RecentTaskSuggestor
 {
 	/**
 	 * Returns all previously used tasks, most recently used task first.
@@ -24,7 +24,7 @@ public class RecentTaskSuggestor implements ITaskSuggestor
 	MockupDatabaseController mDBC = new MockupDatabaseController();
 	
 	
-	public List<Task> getTaskList()
+	public List<Task> getRecentTasks()
 	{ 
 		//TODO: get list of recordings from database
 		/* e.g. as SQL:
@@ -55,18 +55,5 @@ public class RecentTaskSuggestor implements ITaskSuggestor
 			}
 		}
 		return tasks;
-	}
-	
-	public List<String> getTaskStrings()
-	{
-		List<Task> lst = this.getTaskList();
-		
-		List<String> array = new ArrayList<String>(lst.size());
-		
-		for (Task value : lst) {
-			array.add(value.toString());
-		}
-		
-		return array;
 	}
 }

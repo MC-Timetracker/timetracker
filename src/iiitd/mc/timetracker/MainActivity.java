@@ -21,7 +21,7 @@ public class MainActivity extends ActionBarActivity {
 		
 		AutoCompleteTextView autoTv = (AutoCompleteTextView) findViewById(R.id.taskSelectionBox);
 		
-		ITaskSuggestor suggester = new RecentTaskSuggestor();
+		ITaskSuggestor suggester = new MainTaskSuggestor();
 		List<String> suggestedTasks = suggester.getTaskStrings();
 		CustomArrayAdapter adapter = new CustomArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, suggestedTasks);
 		autoTv.setAdapter(adapter);
