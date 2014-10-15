@@ -61,7 +61,13 @@ public class DatabaseController implements IDatabaseController {
 		ContentValues contentValue_task=new ContentValues();
 		contentValue_task.put(DatabaseHelper.TASK_NAME,newTask.getId());
 		contentValue_task.put(DatabaseHelper.TASK_DESCRIPTION, newTask.getDescription());
-		contentValue_task.put(DatabaseHelper.TASK_PARENT,newTask.getParent().getId()); //TODO: check for null parent
+		
+		// put parentId - if no parent is set, put -1
+		int parentId = -1;
+		if (newTask.getParent() != null)
+			parentId = newTask.getId();
+		contentValue_task.put(DatabaseHelper.TASK_PARENT, parentId);
+		
 		database.insert(DatabaseHelper.TABLE_TASK, null, contentValue_task);
 	}
 
