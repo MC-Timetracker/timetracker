@@ -154,11 +154,4 @@ public class MockupDatabaseController implements IDatabaseController
 
 	}
 
-	@Override
-	public void insertRecording(int id, int taskId, Date start, Date stop)
-	{
-		// TODO Auto-generated method stub
-		
-	}
-
 }
