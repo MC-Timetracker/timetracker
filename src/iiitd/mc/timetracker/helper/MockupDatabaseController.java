@@ -71,14 +71,6 @@ public class MockupDatabaseController implements IDatabaseController
 	}
 
 	@Override
-	public void insertTask(String name, String desc, int parentId)
-	{
-		// TODO Auto-generated method stub
-		
-
-	}
-
-	@Override
 	public void insertTask(Task newTask)
 	{
 		// TODO Auto-generated method stub
@@ -115,13 +107,6 @@ public class MockupDatabaseController implements IDatabaseController
 
 	@Override
 	public void deleteTask(Task removedTask)
-	{
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void insertRecording(int taskId, Date start, Date stop)
 	{
 		// TODO Auto-generated method stub
 
