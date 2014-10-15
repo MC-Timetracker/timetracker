@@ -18,6 +18,27 @@ public class Recording
 	private Date end;
 	private Task task;
 	
+	
+	/**
+	 * Construct a new Recording instance.
+	 * @param recordingId The unique ID to identify the recording.
+	 * @param task The task being recorded for that time.
+	 * @param start The time when started recording.
+	 * @param end The time when finished recording.
+	 */
+	public Recording(int recordingId, Task task, Date start, Date end)
+	{
+		setRecordingId(recordingId); //TODO: ID assigned by DatabaseController only?
+		setTask(task);
+		setStart(start);
+		setEnd(end);
+	}
+	public Recording()
+	{
+		
+	}
+	
+	
 	/**
 	 * Get the recordingId for the recording performed.
 	 * @return the recordingId
