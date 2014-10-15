@@ -80,7 +80,6 @@ public class DatabaseController implements IDatabaseController {
 		task.setName(c.getString(c.getColumnIndex(DatabaseHelper.TASK_NAME)));
 		task.setDescription(c.getString(c.getColumnIndex(DatabaseHelper.TASK_DESCRIPTION)));	
 		// TODO task.setParent(c.getInt(c.getColumnIndex(DatabaseHelper.TASK_PARENT)));
-		task.setParent(null);
 		return task;
 	}
 
@@ -107,7 +106,10 @@ public class DatabaseController implements IDatabaseController {
 
 	@Override
 	public void updateTask(Task updatedTask) {
-		// TODO Auto-generated method stub
+		ContentValues contentValue_task = new ContentValues();
+		contentValue_task.put(DatabaseHelper.TASK_NAME,updatedTask.getName());
+		contentValue_task.put(DatabaseHelper.TASK_DESCRIPTION, updatedTask.getDescription());
+		database.update(DatabaseHelper.TABLE_TASK,contentValue_task, DatabaseHelper.KEY_ID + " = " + updatedTask.getId(), null);	
 	}
 
 	@Override
@@ -193,9 +195,10 @@ public class DatabaseController implements IDatabaseController {
 	@Override
 	public void updateRecording(Recording updatedRecording) {
 		ContentValues contentValue_recording = new ContentValues();
+		contentValue_recording.put(DatabaseHelper.RECORDING_TASKID,updatedRecording.getTask().getId());
 		contentValue_recording.put(DatabaseHelper.RECORDING_STARTTIME, updatedRecording.getStart().toString());
 		contentValue_recording.put(DatabaseHelper.RECORDING_STOPTIME, updatedRecording.getEnd().toString());
-		//database.update(DatabaseHelper.TABLE_RECORDING,contentValue_recording, DatabaseHelper.KEY_ID + " = " + updatedRecording.getId(), whereArgs)
+		database.update(DatabaseHelper.TABLE_RECORDING,contentValue_recording, DatabaseHelper.KEY_ID + " = " + updatedRecording.getRecordingId(), null);
 	}
 
 	@Override
