@@ -163,13 +163,11 @@ public class DatabaseController implements IDatabaseController {
 				try {
 					record.setStart(ft.parse(c.getString(c.getColumnIndex(DatabaseHelper.RECORDING_STARTTIME))));
 				} catch (ParseException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				try {
 					record.setEnd(ft.parse(c.getString(c.getColumnIndex(DatabaseHelper.RECORDING_STOPTIME))));
 				} catch (ParseException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 		return record;
@@ -190,13 +188,11 @@ public class DatabaseController implements IDatabaseController {
 				try {
 					record.setStart(ft.parse(c.getString(c.getColumnIndex(DatabaseHelper.RECORDING_STARTTIME))));
 				} catch (ParseException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				try {
 					record.setEnd(ft.parse(c.getString(c.getColumnIndex(DatabaseHelper.RECORDING_STOPTIME))));
 				} catch (ParseException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				recordings.add(record);

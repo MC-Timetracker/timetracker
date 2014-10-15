@@ -25,15 +25,7 @@ public class RecentTaskSuggestor implements ITaskSuggestor
 	
 	
 	public List<Task> getTaskList()
-	{ 
-		//TODO: get list of recordings from database
-		/* e.g. as SQL:
-		 * SELECT DISTINCT Tasks.ID 
-		 * FROM Tasks INNER JOIN Recordings ON Tasks.ID = Recordings.task_id
-		 * ORDER BY Recordings.start_time DESC
-		 * LIMIT 10
-		 */
-		
+	{		
 		recordings = mDBC.getRecordings();
 		tasks = new ArrayList<Task>();
 		

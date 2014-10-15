@@ -34,7 +34,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		public static final String TASK_NAME = "name";
 		public static final String TASK_DESCRIPTION = "description";
 		public static final String TASK_PARENT = "parent";
-		//private static final String TASK_LOCATION = "location";	//TODO: 
+		//private static final String TASK_LOCATION = "location";	//TODO: implement location field?
 		
 		//Recording Table - Column names
 		public static final String RECORDING_TASKID = "taskid";
@@ -58,18 +58,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 		@Override
 		public void onCreate(SQLiteDatabase db) {
-			// TODO Create the required tables 
+			// Create the required tables 
 			db.execSQL(CREATE_TABLE_TASK);
 			db.execSQL(CREATE_TABLE_RECORDING);
 		}
 
 		@Override
 		public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-			// TODO On Upgrade drop the required tables
+			// On Upgrade drop the required tables
 			db.execSQL("DROP TABLE IF EXISTS " + TABLE_RECORDING);
 			db.execSQL("DROP TABLE IF EXISTS " + TABLE_TASK);
 			
-			// TODO  Now create new tables
+			//  Now create new tables
 			onCreate(db);
 		}
 }
