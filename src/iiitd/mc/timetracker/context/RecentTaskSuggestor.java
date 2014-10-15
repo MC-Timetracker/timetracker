@@ -25,7 +25,7 @@ public class RecentTaskSuggestor
 	
 	
 	public List<Task> getRecentTasks()
-	{ 
+	{
 		//TODO: get list of recordings from database
 		/* e.g. as SQL:
 		 * SELECT DISTINCT Tasks.ID 
@@ -33,7 +33,6 @@ public class RecentTaskSuggestor
 		 * ORDER BY Recordings.start_time DESC
 		 * LIMIT 10
 		 */
-		
 		recordings = mDBC.getRecordings();
 		tasks = new ArrayList<Task>();
 		

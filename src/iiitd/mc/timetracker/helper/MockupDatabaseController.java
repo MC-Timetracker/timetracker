@@ -67,22 +67,19 @@ public class MockupDatabaseController implements IDatabaseController
 	@Override
 	public void close()
 	{
-		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override
 	public void insertTask(Task newTask)
 	{
-		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override
 	public Task getTask(int id)
 	{
-		// TODO Auto-generated method stub
-		return null;
+				return null;
 	}
 
 	@Override
@@ -95,36 +92,31 @@ public class MockupDatabaseController implements IDatabaseController
 	@Override
 	public void updateTask(Task updatedTask)
 	{
-		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override
 	public void deleteTask(int id)
 	{
-		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override
 	public void deleteTask(Task removedTask)
 	{
-		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override
 	public void insertRecording(Recording newRecording)
 	{
-		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override
 	public Recording getRecording(int recordingId)
 	{
-		// TODO Auto-generated method stub
-		return null;
+				return null;
 	}
 
 	@Override
@@ -137,15 +129,13 @@ public class MockupDatabaseController implements IDatabaseController
 	@Override
 	public void updateRecording(Recording updatedRecording)
 	{
-		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override
 	public void deleteRecording(int id)
 	{
-		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override

@@ -23,9 +23,10 @@ public class Task
 	private int id;
 	private String name;
 	private Task parent;
-	//private String geo;			//TODO: proper data type
+	//private String geo;			//TODO: proper data type for location?
 	private String description;
 	private List<Task> subtasks;
+	
 	
 	/**
 	 * Constructs a new Task.
@@ -42,8 +43,10 @@ public class Task
 		this(name, null);
 	}
 	public Task() {
-		// TODO Auto-generated constructor stub
+		
 	}
+	
+	
 	/**
 	 * Get the id of the task
 	 * @return the id
