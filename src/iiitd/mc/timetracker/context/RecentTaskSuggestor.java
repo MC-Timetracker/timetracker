@@ -34,19 +34,26 @@ public class RecentTaskSuggestor implements ITaskSuggestor
 		 * LIMIT 10
 		 */
 		
-		tasks = mDBC.getTasks();
 		recordings = mDBC.getRecordings();
+		tasks = new ArrayList<Task>();
 		
-		/*Collections.sort(tasks,new Comparator<Task>(){
+		Collections.sort(recordings,new Comparator<Recording>(){
 
 			@Override
-			public int compare(Task task1, Task task2)
+			public int compare(Recording r1, Recording r2)
 			{
-				//return recordings.get(task1.getTaskId()).getStart().compareTo(recordings.get(task2.getTaskId()).getStart());
+				return r2.getStart().compareTo(r1.getStart());
 			}
 			
-		});*/
+		});
 		
+		for(Recording rec: recordings){
+			
+			Task temp = rec.getTask();
+			if(!tasks.contains(temp)){
+				tasks.add(temp);
+			}
+		}
 		return tasks;
 	}
 	

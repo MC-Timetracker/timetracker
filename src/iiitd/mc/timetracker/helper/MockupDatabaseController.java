@@ -40,11 +40,11 @@ public class MockupDatabaseController implements IDatabaseController
 			Task t8 = new Task("Cricket",t6);
 		
 		long date = 200000;
-		Recording r1 = new Recording(1,t2,new Date(date+200), new Date(date+400));
-		Recording r2 = new Recording(2,t3,new Date(date-500), new Date(date-100));
-		Recording r3 = new Recording(3,t4,new Date(date+1000), new Date(date+1500));
-		Recording r4 = new Recording(4,t7,new Date(date-1000), new Date(date-800));
-		Recording r5 = new Recording(5,t8,new Date(date+2000), new Date(date+3000));
+		Recording r1 = new Recording(1,t2,new Date(date+200),new Date(date+1000));
+		Recording r2 = new Recording(2,t3,new Date(date-600),new Date(date));
+		Recording r3 = new Recording(3,t4,new Date(date+1100),new Date(date+2000));
+		Recording r4 = new Recording(4,t7,new Date(date-2000),new Date(date-1000));
+		Recording r5 = new Recording(5,t8,new Date(date+2100),new Date(date+3000));
 		
 		taskList.add(t1);
 		taskList.add(t2);
@@ -60,6 +60,7 @@ public class MockupDatabaseController implements IDatabaseController
 		recordsList.add(r3);
 		recordsList.add(r4);
 		recordsList.add(r5);
+		
 		return this;
 	}
 
@@ -95,7 +96,6 @@ public class MockupDatabaseController implements IDatabaseController
 	@Override
 	public List<Task> getTasks()
 	{
-		open();
 		return taskList;
 	}
 
@@ -121,13 +121,6 @@ public class MockupDatabaseController implements IDatabaseController
 	}
 
 	@Override
-	public void insertRecording(int taskId, Date start, Date stop)
-	{
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
 	public void insertRecording(Recording newRecording)
 	{
 		// TODO Auto-generated method stub
@@ -144,6 +137,7 @@ public class MockupDatabaseController implements IDatabaseController
 	@Override
 	public List<Recording> getRecordings()
 	{
+		open();
 		return recordsList;
 	}
 
@@ -166,6 +160,13 @@ public class MockupDatabaseController implements IDatabaseController
 	{
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public void insertRecording(int id, int taskId, Date start, Date stop)
+	{
+		// TODO Auto-generated method stub
+		
 	}
 
 }
