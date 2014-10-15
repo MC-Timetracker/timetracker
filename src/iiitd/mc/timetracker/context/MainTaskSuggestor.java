@@ -5,6 +5,11 @@ import iiitd.mc.timetracker.data.Task;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Merges different tasks into one Task list
+ * @author gullal
+ *
+ */
 public class MainTaskSuggestor implements ITaskSuggestor
 {
 

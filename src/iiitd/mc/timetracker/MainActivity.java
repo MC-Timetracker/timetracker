@@ -12,6 +12,11 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AutoCompleteTextView;
 
+/**
+ * The Main Activity of the timetracker application
+ * @author gullal
+ *
+ */
 public class MainActivity extends ActionBarActivity {
 
 	@Override

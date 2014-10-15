@@ -6,6 +6,11 @@ import iiitd.mc.timetracker.helper.MockupDatabaseController;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Suggests top hierarchy tasks
+ * @author gullal
+ *
+ */
 public class TopHierarchySuggestor
 {
 

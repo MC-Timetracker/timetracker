@@ -10,7 +10,7 @@ import java.util.List;
 
 /**
  * Suggests tasks that were entered by the user previously.
- * @author sebastian
+ * @author sebastian & gullal
  *
  */
 public class RecentTaskSuggestor
