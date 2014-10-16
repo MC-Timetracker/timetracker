@@ -17,7 +17,6 @@ import android.widget.ListView;
 
 public class MainActivity extends ActionBarActivity implements OnItemClickListener{
 
-	//private String[] mNavigationTitles;
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
     private CharSequence mTitle;
@@ -30,7 +29,6 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		
 		navigationDisplay();
 	}
 
@@ -38,12 +36,9 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
 	public void navigationDisplay()
 	{
 		actionBar = getActionBar();
-		//actionBar.setDisplayHomeAsUpEnabled(true);
 		actionBar.setIcon(getWallpaper());
-		//getActionBar().setHomeButtonEnabled(true);
 		mTitle = "Time Tracker";
 		 
-        //mNavigationTitles = getResources().getStringArray(R.array.nav_drawer_items);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
  
