@@ -1,9 +1,16 @@
 package iiitd.mc.timetracker;
 
+<<<<<<< HEAD
 import iiitd.mc.timetracker.adapter.NavigationAdapter;
 
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
+=======
+import java.util.List;
+
+import iiitd.mc.timetracker.adapter.CustomArrayAdapter;
+import iiitd.mc.timetracker.context.*;
+>>>>>>> f28f19228cd86ecdfda543e2c77d1f18479c7665
 import android.support.v7.app.ActionBarActivity;
 import android.app.ActionBar;
 import android.content.res.Configuration;
@@ -11,11 +18,23 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+<<<<<<< HEAD
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
 public class MainActivity extends ActionBarActivity implements OnItemClickListener{
+=======
+import android.view.View.OnClickListener;
+import android.widget.AutoCompleteTextView;
+
+/**
+ * The Main Activity of the timetracker application
+ * @author gullal
+ *
+ */
+public class MainActivity extends ActionBarActivity {
+>>>>>>> f28f19228cd86ecdfda543e2c77d1f18479c7665
 
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
@@ -29,7 +48,25 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+<<<<<<< HEAD
 		navigationDisplay();
+=======
+		
+		AutoCompleteTextView autoTv = (AutoCompleteTextView) findViewById(R.id.taskSelectionBox);
+		
+		ITaskSuggestor suggester = new MainTaskSuggestor();
+		List<String> suggestedTasks = suggester.getTaskStrings();
+		CustomArrayAdapter adapter = new CustomArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, suggestedTasks);
+		autoTv.setAdapter(adapter);
+		
+		autoTv.setThreshold(0);
+		autoTv.setOnClickListener(new OnClickListener() {
+				public void onClick(View view)
+				{
+					((AutoCompleteTextView)view).showDropDown();
+				}
+		});
+>>>>>>> f28f19228cd86ecdfda543e2c77d1f18479c7665
 	}
 
 	

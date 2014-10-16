@@ -1,8 +1,6 @@
 package iiitd.mc.timetracker.helper;
 
-import java.util.Date;
 import java.util.List;
-
 import iiitd.mc.timetracker.data.*;
 import android.database.SQLException;
 
@@ -29,14 +27,6 @@ public interface IDatabaseController
 	
 	
 	// Tasks
-	
-	/**
-	 * Insert a new Task.
-	 * @param name Name of the task.
-	 * @param desc Additional description of the task (optional).
-	 * @param parentid The ID of the parent task in the hierarchy or -1 for a "root" task without parent.
-	 */
-	public void insertTask(String name, String desc, int parentId);
 	
 	/**
 	 * Insert a new Task.
@@ -82,20 +72,12 @@ public interface IDatabaseController
 	
 	/**
 	 * Create a new Recording indicating a time span the user worked on a specific Task.
-	 * @param taskId The ID of the task to be recorded.
-	 * @param start Time when the recording was started.
-	 * @param stop Time when the recording was stopped.
-	 */
-	public void insertRecording(int taskId, Date start, Date stop);
-	
-	/**
-	 * Create a new Recording indicating a time span the user worked on a specific Task.
 	 * @param newRecording The Recording containing the properties to be saved to the database.
 	 */
 	public void insertRecording(Recording newRecording);
 	
 	/**
-	 * Get the Recording with the given ID.
+	 * Get the Recordings with the given ID.
 	 * @param recordingId The Recording ID.
 	 * @return Returns the Recording instance or null if no Recording with the given ID exists.
 	 */

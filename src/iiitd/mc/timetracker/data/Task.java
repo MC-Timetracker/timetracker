@@ -16,12 +16,17 @@ public class Task
 	 * e.g. "." for "Studies.Maths.Assignment"
 	 */
 	public static final String THS = ".";
-	
+	/**
+	 * Member for Id variable added
+	 * @author Shubham
+	 */
+	private int id;
 	private String name;
 	private Task parent;
-	//private String geo;			//TODO: proper data type
+	//private String geo;			//TODO: proper data type for location?
 	private String description;
 	private List<Task> subtasks;
+	
 	
 	/**
 	 * Constructs a new Task.
@@ -37,7 +42,25 @@ public class Task
 	{
 		this(name, null);
 	}
+	public Task() {
+		
+	}
 	
+	
+	/**
+	 * Get the id of the task
+	 * @return the id
+	 */
+	public int getId() {
+		return id;
+	}
+	/**
+	 * Set the id of the task 
+	 * @param id the id to set
+	 */
+	public void setId(int id) {
+		this.id = id;
+	}
 	/**
 	 * Get the name describing the Task.
 	 * @return

@@ -10,12 +10,15 @@
 
     <TextView
         android:id="@+id/textView1"
+<<<<<<< HEAD
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:text="@string/hello_world" />
 
     <AnalogClock
         android:id="@+id/analogClock1"
+=======
+>>>>>>> f28f19228cd86ecdfda543e2c77d1f18479c7665
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/textView1"
@@ -50,6 +53,7 @@
     android:layout_marginLeft="0dp"
     android:layout_marginStart="0dp"> 
 
+<<<<<<< HEAD
     <!-- Listview to display slider menu -->
     <ListView
         android:id="@+id/left_drawer"
@@ -62,4 +66,18 @@
         android:background="#FF8800" 
         android:layout_marginLeft="0dp"/>
 </android.support.v4.widget.DrawerLayout>
+=======
+    <AutoCompleteTextView
+        android:id="@+id/taskSelectionBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView1"
+        android:layout_marginTop="31dp"
+        android:ems="10"
+        android:inputType="textAutoComplete|textAutoCorrect" >
+
+        <requestFocus />
+    </AutoCompleteTextView>
+
+>>>>>>> f28f19228cd86ecdfda543e2c77d1f18479c7665
 </RelativeLayout>
