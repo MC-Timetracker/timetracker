@@ -14,13 +14,15 @@ import android.widget.TextView;
 public class NavigationAdapter extends BaseAdapter{
 
 	private Context context;
-	String[] mNavigationTitles;
+	public static String[] mNavigationTitles;
 	int[] images = {R.drawable.ic_newproject, R.drawable.ic_newtask, R.drawable.ic_edittask, R.drawable.ic_statistics};
 	
 	public NavigationAdapter(Context context){
 		this.context= context;
 		mNavigationTitles = context.getResources().getStringArray(R.array.nav_drawer_items);
 	}
+	
+
 	@Override
 	public int getCount() {
 		// TODO Auto-generated method stub

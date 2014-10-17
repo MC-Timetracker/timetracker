@@ -3,24 +3,28 @@
 
     <string name="app_name">Time Tracker</string>
     <string name="hello_world"></string>
+    <string name="new_task"></string>
     <string name="action_settings">Settings</string>
     <string name="btnStart">Start</string>
     <string name="drawer_open">Slider Menu Opened</string>
     <string name="drawer_close">Slider Menu Closed</string>
-    <string name= "NewText"></string>
+    <string name="NewText"></string>
     <string name="new_project"></string>
     <string name="desc_newproject">New_Project</string>
     <string name="btnStop">Stop</string>
     <string name="btnPause">Pause</string>
     <string name="btnResume">Resume</string>
-     
-     
+
     <!-- Nav Drawer Menu Items -->
     <string-array name="nav_drawer_items">
-        <item >New Project</item>
-        <item >New Task</item>
-        <item >Edit Task </item>
-        <item >Statistics</item>
+        <item>New Task</item>
+        <item>List Task</item>
+        <item>List Recordings </item>
+        <item>Statistics</item>
     </string-array>
+
+    <string name="title_activity_new__task">New_Task</string>
+    <string name="title_activity_base">BaseActivity</string>
+    <string name="title_activity_list__task">List_Task</string>
 
 </resources>
