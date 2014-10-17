@@ -1,6 +1,5 @@
 package iiitd.mc.timetracker;
 
-import iiitd.mc.timetracker.*;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,22 +7,21 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-public class List_Task extends BaseActivity {
+public class Statistics extends BaseActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_list__task);
-		Intent i = getIntent();
-		TextView tv1= new TextView(this);
+		setContentView(R.layout.activity_statistics);
+		Intent intent = getIntent();
+		TextView tv = new TextView(this);
 		navigationDisplay();
-		
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.list__task, menu);
+		getMenuInflater().inflate(R.menu.statistics, menu);
 		return true;
 	}
 

@@ -15,7 +15,7 @@ public class NavigationAdapter extends BaseAdapter{
 
 	private Context context;
 	public static String[] mNavigationTitles;
-	int[] images = {R.drawable.ic_newproject, R.drawable.ic_newtask, R.drawable.ic_edittask, R.drawable.ic_statistics};
+	int[] images = {R.drawable.ic_newtask, R.drawable.ic_listtask, R.drawable.ic_listrecordings, R.drawable.ic_statistics};
 	
 	public NavigationAdapter(Context context){
 		this.context= context;

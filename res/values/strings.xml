@@ -2,8 +2,10 @@
 <resources>
 
     <string name="app_name">Time Tracker</string>
-    <string name="hello_world"></string>
     <string name="new_task"></string>
+    <string name="list_task"></string>
+    <string name="list_recordings"></string>
+    <string name ="statistics"></string>
     <string name="action_settings">Settings</string>
     <string name="btnStart">Start</string>
     <string name="drawer_open">Slider Menu Opened</string>
@@ -26,5 +28,8 @@
     <string name="title_activity_new__task">New_Task</string>
     <string name="title_activity_base">BaseActivity</string>
     <string name="title_activity_list__task">List_Task</string>
+    <string name="title_activity_list__recordings">List_Recordings</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_statistics">Statistics</string>
 
 </resources>

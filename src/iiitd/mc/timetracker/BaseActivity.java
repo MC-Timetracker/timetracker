@@ -117,19 +117,30 @@ public class BaseActivity extends ActionBarActivity implements OnItemClickListen
 	    //FragmentTransaction transaction = getFragmentManager().beginTransaction();
 	    switch(position){
 	    
-	    case 0: 
-	    	Intent task = new Intent(this,New_Task.class);
-		    startActivity(task);
-	    	/*fragment = new NavigationOptions();
-	    	transaction.replace(R.id.fragment1, fragment);
-	    	transaction.addToBackStack(null);
-	    	transaction.commit();*/
+	    case 0:
+	    	Intent new_task = new Intent(this,New_Task.class);
+		    startActivity(new_task);
+		    break;
+		    
+	    case 1: 
+	    	
+	    	Intent list_task = new Intent(this,List_Task.class);
+		    startActivity(list_task);
+		    break;
+		    
+	    case 2: 
+		    
+	    	Intent list_recordings = new Intent(this,List_Recordings.class);
+	    	startActivity(list_recordings);
 	    	break;
-	    /*case 1: 
-	    	//Intent list_task  = new Intent(this,List_Task.class);
-	    	task = new Intent(this,List_Task.class); 
-		    startActivity(task);
-		    break;*/
+	    	
+	    case 3: 
+	    	
+	    	Intent statistics = new Intent(this, Statistics.class);
+	    	startActivity(statistics);
+	    	break;
+	    	
+		default:
 		    
 	    }
 	    

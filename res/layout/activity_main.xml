@@ -8,11 +8,6 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="iiitd.mc.timetracker.MainActivity" >
 
-    <TextView
-        android:id="@+id/textView1"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_world" />
     
     <android.support.v4.widget.DrawerLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
@@ -43,19 +38,19 @@
         android:layout_marginLeft="0dp"/>
 </android.support.v4.widget.DrawerLayout>
 
-		<RelativeLayout
+    <RelativeLayout
         android:id="@+id/root_layout"
         android:layout_width="500dp"
         android:layout_height="116dp"
-        android:layout_alignLeft="@+id/textView1"
+        android:layout_alignLeft="@+id/drawer_layout"
         android:layout_centerVertical="true"
         android:background="@drawable/border"
         android:gravity="center_vertical"
-        android:shadowColor="#F50743" 
+        android:shadowColor="#F50743"
         android:shadowDx="2"
         android:shadowDy="2"
-        android:shadowRadius="4">
-    
+        android:shadowRadius="4" >
+
         <Button
             android:id="@+id/btnStart"
             android:layout_width="wrap_content"
@@ -63,19 +58,17 @@
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentRight="true"
-            android:text="@string/btnStart"
-            />
+            android:text="@string/btnStart" />
 
-        <EditText
-            android:id="@+id/editText1"
+        <AutoCompleteTextView
+            android:id="@+id/taskSelectionBox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
-            android:inputType="text" >
+            android:layout_centerHorizontal="true"
+            android:ems="10"
+            android:inputType="textAutoComplete|textAutoCorrect" />
 
-            <requestFocus />
-        </EditText>
-     </RelativeLayout>
+    </RelativeLayout>
+
 </RelativeLayout>

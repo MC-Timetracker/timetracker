@@ -6,6 +6,10 @@ import iiitd.mc.timetracker.adapter.NavigationAdapter;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
+import java.util.List;
+
+import iiitd.mc.timetracker.adapter.CustomArrayAdapter;
+import iiitd.mc.timetracker.context.*;
 import android.support.v7.app.ActionBarActivity;
 import android.app.ActionBar;
 import android.app.Fragment;
@@ -22,12 +26,18 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.ListView;
 
-public class MainActivity extends BaseActivity{
 
+/**
+ * The Main Activity of the timetracker application
+ * @author gullal
+ *
+ */
+public class MainActivity extends BaseActivity {
     
     Button btnStart,btnStop,btnPause,btnResume;
     private Chronometer chronometer;
@@ -52,12 +62,26 @@ public class MainActivity extends BaseActivity{
 		});
 		
 		navigationDisplay();
+		
+		AutoCompleteTextView autoTv = (AutoCompleteTextView) findViewById(R.id.taskSelectionBox);
+		
+		ITaskSuggestor suggester = new MainTaskSuggestor();
+		List<String> suggestedTasks = suggester.getTaskStrings();
+		CustomArrayAdapter adapter = new CustomArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, suggestedTasks);
+		autoTv.setAdapter(adapter);
+		
+		autoTv.setThreshold(0);
+		autoTv.setOnClickListener(new OnClickListener() {
+				public void onClick(View view)
+				{
+					((AutoCompleteTextView)view).showDropDown();
+				}
+		});
 	}
 	public void Stop(View view)
 	{
 		chronometer.stop();
 	}
-	
 	
 	public void Pause(View view)
 	{
