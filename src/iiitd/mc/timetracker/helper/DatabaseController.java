@@ -98,8 +98,19 @@ public class DatabaseController implements IDatabaseController {
 
 	@Override
 	public List<Task> getTasks() {
+		return getTasksWhere("1");
+	}
+	
+	@Override
+	public List<Task> getTasks(String name)
+	{
+		return getTasksWhere(DatabaseHelper.TASK_NAME + "='" + name + "'");
+	}
+	
+	private List<Task> getTasksWhere(String filter)
+	{
 		List<Task> tasks=new ArrayList<Task>();
-		String selectTasksQuery="SELECT * FROM " + DatabaseHelper.TABLE_TASK;
+		String selectTasksQuery="SELECT * FROM " + DatabaseHelper.TABLE_TASK + " WHERE " + filter;
 		database=dbHelper.getReadableDatabase();
 		Cursor c = database.rawQuery(selectTasksQuery, null);
 		if(c.moveToFirst()){
