@@ -23,17 +23,18 @@ import android.widget.Button;
  * @author gullal
  *
  */
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends ActionBarActivity implements RecorderListener {
 	
 	ITaskSuggestor suggester;
-	TaskService taskService;
+	TaskRecorder taskRecorder;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		
-		taskService = new TaskService();
+		taskRecorder = new TaskRecorder();
+		taskRecorder.addListener(this);
 		
 		AutoCompleteTextView autoTv = (AutoCompleteTextView) findViewById(R.id.taskSelectionBox);
 		
@@ -77,17 +78,12 @@ public class MainActivity extends ActionBarActivity {
 		AutoCompleteTextView taskSelector = (AutoCompleteTextView) findViewById(R.id.taskSelectionBox);
 		final String taskString = taskSelector.getText().toString();
 		
-		taskService.startRecording(taskString);
-		
-		toggleStartStopButton(true);
-		//TODO: implement toggleStartStop through event of TaskService instead.
-		// currently the button state will be wrong if the user cancels the creation of a new task
+		taskRecorder.startRecording(taskString);
 	}
 	
 	public void onStopRecording(View v)
 	{
-		taskService.stopRecording();
-		toggleStartStopButton(false);
+		taskRecorder.stopRecording();
 	}
 	
 
@@ -109,5 +105,19 @@ public class MainActivity extends ActionBarActivity {
 		Button bttStop = (Button) findViewById(R.id.bttStop);
 		bttStart.setVisibility(startVisible);
 		bttStop.setVisibility(stopVisible);
+	}
+
+	@Override
+	public void onRecorderStateChanged(RecorderEvent e)
+	{
+		switch(e.getState())
+		{
+		case Started:
+			toggleStartStopButton(true);
+			break;
+		case Stopped:
+			toggleStartStopButton(false);
+			break;
+		}
 	}
 }

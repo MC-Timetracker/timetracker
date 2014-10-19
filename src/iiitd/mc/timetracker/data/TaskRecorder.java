@@ -1,8 +1,10 @@
 package iiitd.mc.timetracker.data;
 
 import java.util.Date;
+import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Vector;
 import java.util.regex.Pattern;
 
 import android.app.AlertDialog;
@@ -20,9 +22,58 @@ import iiitd.mc.timetracker.helper.IDatabaseController;
  * @author sebastian
  *
  */
-public class TaskService
+public class TaskRecorder
 {
+	private transient Vector<RecorderListener> listeners;
 	private Recording currentRecording = null;
+	
+	/**
+	 * Add a listener for events of the TaskRecorder.
+	 * @param l
+	 */
+	synchronized public void addListener(RecorderListener l) {
+		if (listeners == null)
+			listeners = new Vector<>();
+		listeners.addElement(l);
+	}  
+
+	/**
+	 * Remove a listener for events of the TaskRecorder.
+	 * @param l
+	 */
+	synchronized public void removeListener(RecorderListener l) {
+		if (listeners == null)
+			listeners = new Vector<>();
+		listeners.removeElement(l);
+	}
+
+	/**
+	 * Send an event to all listeners announcing a state change.
+	 * @param state
+	 */
+	protected void fireRecorderEvent(RecorderEventState state) {
+		// if we have no listeners, do nothing...
+		if (listeners != null && !listeners.isEmpty()) {
+			// create the event object to send
+			RecorderEvent event = new RecorderEvent(this, state);
+
+			// make a copy of the listener list in case
+			//   anyone adds/removes listeners
+			Vector<RecorderListener> targets;
+			synchronized (this) {
+				targets = (Vector<RecorderListener>) listeners.clone();
+			}
+
+			// walk through the listener list and
+			//   call the sunMoved method in each
+			Enumeration<RecorderListener> e = targets.elements();
+			while (e.hasMoreElements()) {
+				RecorderListener l = (RecorderListener) e.nextElement();
+				l.onRecorderStateChanged(event);
+			}
+		}
+	}
+	
 	
 	/**
 	 * Start recording the given Task.
@@ -41,12 +92,14 @@ public class TaskService
 		currentRecording = new Recording();
 		currentRecording.setTask(task);
 		currentRecording.setStart(new Date());
+		
+		this.fireRecorderEvent(RecorderEventState.Started);
 	}
 	
 	public void startRecording(String taskString)
 	{
 		final String sTask = taskString;
-		Task task = TaskService.getTaskFromString(sTask);
+		Task task = TaskRecorder.getTaskFromString(sTask);
 		
 		if (task != null)
 		{
@@ -60,7 +113,7 @@ public class TaskService
 			       .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
 			           public void onClick(DialogInterface dialog, int id) {
 			               // Create new task and start recording it
-			        	   Task newTask = TaskService.createTaskFromString(sTask);
+			        	   Task newTask = TaskRecorder.createTaskFromString(sTask);
 			        	   startRecording(newTask);
 			           }
 			       })
@@ -92,6 +145,8 @@ public class TaskService
 		db.close();
 		
 		currentRecording = null;
+		
+		this.fireRecorderEvent(RecorderEventState.Stopped);
 	}
 	
 	/**
