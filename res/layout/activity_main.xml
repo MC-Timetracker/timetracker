@@ -26,4 +26,25 @@
         <requestFocus />
     </AutoCompleteTextView>
 
+    <Button
+        android:id="@+id/bttStart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/taskSelectionBox"
+        android:layout_toRightOf="@+id/taskSelectionBox"
+        android:background="@android:color/holo_green_dark"
+        android:onClick="onStartRecording"
+        android:text="@string/bttStart" />
+
+    <Button
+        android:id="@+id/bttStop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/taskSelectionBox"
+        android:layout_toRightOf="@+id/taskSelectionBox"
+        android:background="@android:color/holo_red_dark"
+        android:onClick="onStopRecording"
+        android:text="@string/bttStop"
+        android:visibility="gone" />
+    
 </RelativeLayout>

@@ -4,5 +4,10 @@
     <string name="app_name">timetracker</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="bttStart">Start</string>
+    <string name="bttStop">Stop</string>
+    <string name="createNewTask">Do you want to create a new task?</string>
+    <string name="yes">Yes</string>
+    <string name="cancel">Cancel</string>
 
 </resources>
