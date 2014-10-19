@@ -76,9 +76,35 @@ public class MainActivity extends ActionBarActivity implements RecorderListener 
 	{	
 		// Get the task instance that corresponds to the String entered by the user
 		AutoCompleteTextView taskSelector = (AutoCompleteTextView) findViewById(R.id.taskSelectionBox);
-		final String taskString = taskSelector.getText().toString();
+		final String sTask = taskSelector.getText().toString();
 		
-		taskRecorder.startRecording(taskString);
+		Task task = TaskRecorder.getTaskFromString(sTask);
+		
+		if (task != null)
+		{
+			taskRecorder.startRecording(task);
+		}
+		else
+		{
+			// if task does not exist, ask the user if it should be created
+			AlertDialog.Builder builder = new AlertDialog.Builder(this);
+			AlertDialog dialog = builder.setMessage(R.string.createNewTask)
+			       .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+			           public void onClick(DialogInterface dialog, int id) {
+			               // Create new task and start recording it
+			        	   Task newTask = TaskRecorder.createTaskFromString(sTask);
+			        	   taskRecorder.startRecording(newTask);
+			           }
+			       })
+			       .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+			           public void onClick(DialogInterface dialog, int id) {
+			               // Do nothing
+			           }
+			       })
+			       .create();
+			dialog.show();
+			return; // further action is handled in dialog event handlers
+		}
 	}
 	
 	public void onStopRecording(View v)

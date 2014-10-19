@@ -96,37 +96,6 @@ public class TaskRecorder
 		this.fireRecorderEvent(RecorderEventState.Started);
 	}
 	
-	public void startRecording(String taskString)
-	{
-		final String sTask = taskString;
-		Task task = TaskRecorder.getTaskFromString(sTask);
-		
-		if (task != null)
-		{
-			this.startRecording(task);
-		}
-		else
-		{
-			// if task does not exist, ask the user if it should be created
-			AlertDialog.Builder builder = new AlertDialog.Builder(ApplicationHelper.getAppContext());
-			builder.setMessage(R.string.createNewTask)
-			       .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-			           public void onClick(DialogInterface dialog, int id) {
-			               // Create new task and start recording it
-			        	   Task newTask = TaskRecorder.createTaskFromString(sTask);
-			        	   startRecording(newTask);
-			           }
-			       })
-			       .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-			           public void onClick(DialogInterface dialog, int id) {
-			               // Do nothing
-			           }
-			       })
-			       .create();
-			return; // further action is handled in dialog event handlers
-		}
-	}
-	
 	
 	/**
 	 * Stop the currently recorded Task and save the finished Recording to the database.
