@@ -17,15 +17,17 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 
 public class BaseActivity extends ActionBarActivity implements OnItemClickListener{
 	
 	public DrawerLayout mDrawerLayout;
     public ListView mDrawerList;
-    public  CharSequence mTitle;
+    public CharSequence mTitle;
     public ActionBarDrawerToggle mDrawerToggle;
     public ActionBar actionBar;
     public NavigationAdapter myAdapter;
+    public RelativeLayout mstartrelativelayout;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +42,7 @@ public class BaseActivity extends ActionBarActivity implements OnItemClickListen
 		actionBar.setIcon(getWallpaper());
 		mTitle = "Time Tracker";
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mstartrelativelayout = (RelativeLayout) findViewById(R.id.root_layout);
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
         myAdapter = new NavigationAdapter(this);
         mDrawerList.setAdapter(myAdapter);
@@ -55,12 +58,16 @@ public class BaseActivity extends ActionBarActivity implements OnItemClickListen
  
             /** Called when a drawer has settled in a completely closed state. */
             public void onDrawerClosed(View view) {
-                actionBar.setTitle(mTitle);
+                //actionBar.setTitle(mTitle);
+            	//invalidateOptionsMenu();
+            	//mstartrelativelayout.bringToFront();
+            	closedrawer();
+            	
             }
  
             /** Called when a drawer has settled in a completely open state. */
             public void onDrawerOpened(View drawerView) {
-                actionBar.setTitle(mTitle);
+                //actionBar.setTitle(mTitle);
                 invalidateOptionsMenu();
                 mDrawerLayout.bringToFront();
             }
@@ -118,25 +125,30 @@ public class BaseActivity extends ActionBarActivity implements OnItemClickListen
 	    switch(position){
 	    
 	    case 0:
+	    	
 	    	Intent new_task = new Intent(this,New_Task.class);
+	    	mDrawerLayout.closeDrawer(mDrawerList);
 		    startActivity(new_task);
 		    break;
 		    
 	    case 1: 
 	    	
 	    	Intent list_task = new Intent(this,List_Task.class);
+	    	mDrawerLayout.closeDrawer(mDrawerList);
 		    startActivity(list_task);
 		    break;
 		    
 	    case 2: 
 		    
 	    	Intent list_recordings = new Intent(this,List_Recordings.class);
+	    	mDrawerLayout.closeDrawer(mDrawerList);
 	    	startActivity(list_recordings);
 	    	break;
 	    	
 	    case 3: 
 	    	
 	    	Intent statistics = new Intent(this, Statistics.class);
+	    	mDrawerLayout.closeDrawer(mDrawerList);
 	    	startActivity(statistics);
 	    	break;
 	    	
@@ -152,15 +164,18 @@ public class BaseActivity extends ActionBarActivity implements OnItemClickListen
     }
  
     @Override
-    public void setTitle(CharSequence title) {
+    /*public void setTitle(CharSequence title) {
         mTitle = title;
         getActionBar().setTitle(mTitle);
-    }
+    }*/
 	public void onItemClick(AdapterView<?> parent, View view, int position,
 			long id){
 		selectItem(position);
 		// TODO Auto-generated method stub
 		
 	}
+    public void closedrawer(){
+    
+    }
 	
 }

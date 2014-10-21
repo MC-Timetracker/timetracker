@@ -5,9 +5,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 public class Statistics extends BaseActivity {
+	
+	public RelativeLayout relativelayout_statistics;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -36,4 +40,12 @@ public class Statistics extends BaseActivity {
 		}
 		return super.onOptionsItemSelected(item);
 	}
+	public void closedrawer(){
+        
+		//brings relative layout of statistics to the front on closing the drawer
+		relativelayout_statistics = (RelativeLayout) findViewById(R.id.relativelayout_statistics); 
+    	relativelayout_statistics.bringToFront();
+    	
+    }
+	
 }

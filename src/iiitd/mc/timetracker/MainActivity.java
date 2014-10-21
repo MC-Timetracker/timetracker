@@ -31,6 +31,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 
 
 /**
@@ -41,6 +42,7 @@ import android.widget.ListView;
 
 public class MainActivity extends BaseActivity {
     
+	public RelativeLayout relativelayoutstart, relativelayoutbuttons;
     Button btnStart,btnStop,btnPause,btnResume;
     private Chronometer chronometer;
     long stoptime=0;
@@ -54,16 +56,18 @@ public class MainActivity extends BaseActivity {
 		navigationDisplay();
 		btnStart =(Button) findViewById(R.id.btnStart);
 		btnStop =(Button) findViewById(R.id.btnStop);
-		btnStart.setOnClickListener(new OnClickListener(){
+		/*(btnStart.setOnClickListener(new OnClickListener(){
 			public void onClick(View v)
 			{
-				setContentView(R.layout.pausestop);	
+				setContentView(R.layout.pausestop);
+				navigationDisplay();
 				chronometer=(Chronometer) findViewById(R.id.chronometer);
 				chronometer.setBase(SystemClock.elapsedRealtime());
 				chronometer.start();
+				//closedrawerpausestop();
 					
 			}
-		});
+		});*/
 		
 		navigationDisplay();
 		
@@ -83,6 +87,16 @@ public class MainActivity extends BaseActivity {
 		});
 		
 	}
+	public void Start(View view)
+	{
+		setContentView(R.layout.pausestop);
+		navigationDisplay();
+		chronometer=(Chronometer) findViewById(R.id.chronometer);
+		chronometer.setBase(SystemClock.elapsedRealtime());
+		chronometer.start();
+		//closedrawerpausestop();
+			
+	}
 	public void Stop(View view)
 	{
 		chronometer.stop();
@@ -90,45 +104,7 @@ public class MainActivity extends BaseActivity {
 	
 	public void Pause(View view)
 	{
-		actionBar = getActionBar();
-		actionBar.setIcon(getWallpaper());
-		mTitle = "Time Tracker";
-		 
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        mDrawerList = (ListView) findViewById(R.id.left_drawer);
- 
-        // Set the adapter for the list view
-        /*mDrawerList.setAdapter(new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_1, mNavigationTitles));*/
-        //Set the list's click listener
-        myAdapter = new NavigationAdapter(this);
-        mDrawerList.setAdapter(myAdapter);
-        mDrawerList.setOnItemClickListener(this);
- 
-        mDrawerToggle = new ActionBarDrawerToggle(
-                this,                  /* host Activity */
-                mDrawerLayout,         /* DrawerLayout object */
-                R.drawable.ic_drawer,  /* nav drawer icon to replace 'Up' caret */
-                R.string.drawer_open,  /* "open drawer" description */
-                R.string.drawer_close  /* "close drawer" description */
-        ) {
- 
-            /** Called when a drawer has settled in a completely closed state. */
-            public void onDrawerClosed(View view) {
-                actionBar.setTitle(mTitle);
-            }
- 
-            /** Called when a drawer has settled in a completely open state. */
-            public void onDrawerOpened(View drawerView) {
-                actionBar.setTitle(mTitle);
-            }
-        };
- 
-        // Set the drawer toggle as the DrawerListener
-        mDrawerLayout.setDrawerListener(mDrawerToggle);
- 
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setHomeButtonEnabled(true);
+		
 		btnPause =(Button) findViewById(R.id.btnPause);
 		btnResume =(Button) findViewById(R.id.btnResume);
 		stoptime=chronometer.getBase()-SystemClock.elapsedRealtime();
@@ -144,6 +120,20 @@ public class MainActivity extends BaseActivity {
 		btnPause.setVisibility(View.VISIBLE);
 		btnResume.setVisibility(View.INVISIBLE);
 	
+	}
+	
+	public void closedrawer() {
+       
+		//brings relative layout where pause stop buttons come to the front on closing the drawer
+		relativelayoutstart = (RelativeLayout) findViewById(R.id.root_layout);
+		relativelayoutstart.bringToFront();
+    	
+    }
+	public void closedrawerpausestop(){
+		
+		relativelayoutbuttons = (RelativeLayout) findViewById(R.id.pausestop);
+		relativelayoutbuttons.bringToFront();
+		
 	}
 
 }	

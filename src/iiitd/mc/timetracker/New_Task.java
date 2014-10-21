@@ -1,15 +1,25 @@
 package iiitd.mc.timetracker;
 
-import iiitd.mc.timetracker.*;
+import iiitd.mc.timetracker.adapter.CustomArrayAdapter;
+import iiitd.mc.timetracker.context.ITaskSuggestor;
+import iiitd.mc.timetracker.context.MainTaskSuggestor;
+
+import java.util.List;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.NavUtils;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.AutoCompleteTextView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-public class New_Task extends BaseActivity{
+public class New_Task extends BaseActivity {
+	
+	public RelativeLayout relativelayoutnew_task;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -18,13 +28,27 @@ public class New_Task extends BaseActivity{
 		Intent intent = getIntent();
 		TextView tv = new TextView(this);
 		navigationDisplay();
+		AutoCompleteTextView autoTv = (AutoCompleteTextView) findViewById(R.id.taskSelectionBox);
+		
+		ITaskSuggestor suggester = new MainTaskSuggestor();
+		List<String> suggestedTasks = suggester.getTaskStrings();
+		CustomArrayAdapter adapter = new CustomArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, suggestedTasks);
+		autoTv.setAdapter(adapter);
+		
+		autoTv.setThreshold(0);
+		autoTv.setOnClickListener(new OnClickListener() {
+				public void onClick(View view)
+				{
+					((AutoCompleteTextView)view).showDropDown();
+				}
+		});
 		
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.new_task,menu);
+		getMenuInflater().inflate(R.menu.new__task, menu);
 		return true;
 	}
 
@@ -39,4 +63,11 @@ public class New_Task extends BaseActivity{
 		}
 		return super.onOptionsItemSelected(item);
 	}
+	public void closedrawer(){
+		
+		//brings relative layout of new task to the front on closing the drawer
+		relativelayoutnew_task = (RelativeLayout) findViewById(R.id.relativelayoutnew_task); 
+    	relativelayoutnew_task.bringToFront();
+    	
+    }
 }

@@ -59,7 +59,8 @@
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentRight="true"
-            android:text="@string/btnStart" />
+            android:text="@string/btnStart"
+            android:onClick="Start" />
 
         <AutoCompleteTextView
             android:id="@+id/taskSelectionBox"
