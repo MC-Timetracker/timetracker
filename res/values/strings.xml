@@ -34,5 +34,9 @@
     <string name="title_activity_list__task">List Task</string>
     <string name="title_activity_list__recordings">List Recordings</string>
     <string name="title_activity_statistics">Statistics</string>
+    <string name="promptCreateNewTask">Do you want to create a new task?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="cancel">Cancel</string>
 
 </resources>

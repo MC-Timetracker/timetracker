@@ -15,13 +15,17 @@ public class MainTaskSuggestor implements ITaskSuggestor
 
 	private List<Task> tasks;
 	
+	TopHierarchySuggestor topTasksSuggestor = new TopHierarchySuggestor();
+	RecentTaskSuggestor recentTasksSuggestor = new RecentTaskSuggestor();
+	
+	
 	@Override
 	public List<Task> getTaskList()
 	{
 		tasks = new ArrayList<Task>();
-		List<Task> topTasks = new TopHierarchySuggestor().getTopTasks();
+		List<Task> topTasks = topTasksSuggestor.getTopTasks();
 		tasks.addAll(topTasks);
-		List<Task> recentTasks = new RecentTaskSuggestor().getRecentTasks();
+		List<Task> recentTasks = recentTasksSuggestor.getRecentTasks();
 		tasks.addAll(recentTasks);
 		
 		return tasks;
