@@ -152,9 +152,36 @@ public class TaskRecorder
 		return task;
 	}
 
+	/**
+	 * Adds the new task to the database.
+	 * Cascadingly creates parent tasks if they do not exist yet.
+	 * If a task with the exact given taskString already exists the existing task is returned and no new task is created.
+	 * @param taskString The full task path describing the task to be created with its parents. 
+	 * @return The newly created or already existing task for the given taskString.
+	 */
 	public static Task createTaskFromString(String taskString)
 	{
-		// TODO Auto-generated method stub
-		return null;
+		// check for existing task
+		Task task = getTaskFromString(taskString);
+		if(task != null)
+			return task;
+		
+		// create new task for lowest part in hierarchy
+		int separator = taskString.lastIndexOf(Task.THS);
+		String taskName = taskString.substring(separator+1);
+		Task taskParent = null;
+		if(separator != -1)
+		{
+			String parentName = taskString.substring(0, separator);
+			taskParent = createTaskFromString(parentName);
+		}
+		Task newTask = new Task(taskName, taskParent);
+		
+		IDatabaseController db = ApplicationHelper.createDatabaseController();
+		db.open();	
+		db.insertTask(newTask);	
+		db.close();
+		
+		return newTask;
 	}
 }
