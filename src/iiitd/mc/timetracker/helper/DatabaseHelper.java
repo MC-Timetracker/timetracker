@@ -24,8 +24,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		public static final String DATABASE_NAME = "timeTracker";
 		
 		//Table names
-		public static final String TABLE_RECORDING = "RECORDING";
-		public static final String TABLE_TASK = "TASK";
+		public static final String TABLE_RECORDING = "Recordings";
+		public static final String TABLE_TASK = "Tasks";
 		
 		//Common column name for id
 		public static final String KEY_ID = "id";
@@ -43,12 +43,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		
 		//Table Create Statements
 		//Task Table Create Statement
-		public static final String CREATE_TABLE_TASK = "create table " + TABLE_TASK + "(" + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+		public static final String CREATE_TABLE_TASK = "CREATE TABLE " + TABLE_TASK + "(" + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
 				+ TASK_NAME + " TEXT NOT NULL, " + TASK_DESCRIPTION + " TEXT, " + TASK_PARENT + " INTEGER, FOREIGN KEY("
 				+ TASK_PARENT + ") REFERENCES " + TABLE_TASK + "(" + KEY_ID + ") ON DELETE CASCADE;";
 		
 		//Recording Table Create Statement
-		public static final String CREATE_TABLE_RECORDING = "create table " + TABLE_RECORDING + "(" + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+		public static final String CREATE_TABLE_RECORDING = "CREATE TABLE " + TABLE_RECORDING + "(" + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
 				+ RECORDING_TASKID + " INTEGER, "+ RECORDING_STARTTIME + " DATETIME, " + RECORDING_STOPTIME + " DATETIME, FOREIGN KEY("
 				+ RECORDING_TASKID + ") REFERENCES " + TABLE_TASK + "(" + KEY_ID + ") ON DELETE CASCADE;";
 		
