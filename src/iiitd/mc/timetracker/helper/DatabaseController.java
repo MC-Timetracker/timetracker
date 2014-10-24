@@ -39,22 +39,6 @@ public class DatabaseController implements IDatabaseController {
 		dbHelper.close();
 	}
 	
-	public void insertTask(String name, String desc, int parentid){
-		ContentValues contentValue_task = new ContentValues();
-		contentValue_task.put(DatabaseHelper.TASK_NAME,name);
-		contentValue_task.put(DatabaseHelper.TASK_DESCRIPTION, desc);
-		contentValue_task.put(DatabaseHelper.TASK_PARENT,parentid);
-		database.insert(DatabaseHelper.TABLE_TASK, null, contentValue_task);
-	}
-	
-	public void insertRecording(int id,int taskId,Date start,Date stop){
-		ContentValues contentValue_recording = new ContentValues();
-		contentValue_recording.put(DatabaseHelper.KEY_ID, id);
-		contentValue_recording.put(DatabaseHelper.RECORDING_TASKID, taskId);
-		contentValue_recording.put(DatabaseHelper.RECORDING_STARTTIME, start.toString());
-		contentValue_recording.put(DatabaseHelper.RECORDING_STOPTIME,stop.toString());
-		database.insert(DatabaseHelper.TABLE_RECORDING, null, contentValue_recording);
-	}
 
 	@Override
 	public void insertTask(Task newTask) {
