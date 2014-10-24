@@ -49,7 +49,7 @@ public class DatabaseController implements IDatabaseController {
 		// put parentId - if no parent is set, put -1
 		long parentId = -1;
 		if (newTask.getParent() != null)
-			parentId = newTask.getId();
+			parentId = newTask.getParent().getId();
 		contentValue_task.put(DatabaseHelper.TASK_PARENT, parentId);
 		
 		long id = database.insert(DatabaseHelper.TABLE_TASK, null, contentValue_task);
