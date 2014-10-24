@@ -43,7 +43,7 @@ public class DatabaseController implements IDatabaseController {
 	@Override
 	public void insertTask(Task newTask) {
 		ContentValues contentValue_task=new ContentValues();
-		contentValue_task.put(DatabaseHelper.TASK_NAME,newTask.getId());
+		contentValue_task.put(DatabaseHelper.TASK_NAME, newTask.getName());
 		contentValue_task.put(DatabaseHelper.TASK_DESCRIPTION, newTask.getDescription());
 		
 		// put parentId - if no parent is set, put -1
