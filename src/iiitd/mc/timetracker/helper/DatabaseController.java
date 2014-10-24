@@ -39,46 +39,30 @@ public class DatabaseController implements IDatabaseController {
 		dbHelper.close();
 	}
 	
-	public void insertTask(String name, String desc, int parentid){
-		ContentValues contentValue_task = new ContentValues();
-		contentValue_task.put(DatabaseHelper.TASK_NAME,name);
-		contentValue_task.put(DatabaseHelper.TASK_DESCRIPTION, desc);
-		contentValue_task.put(DatabaseHelper.TASK_PARENT,parentid);
-		database.insert(DatabaseHelper.TABLE_TASK, null, contentValue_task);
-	}
-	
-	public void insertRecording(int id,int taskId,Date start,Date stop){
-		ContentValues contentValue_recording = new ContentValues();
-		contentValue_recording.put(DatabaseHelper.KEY_ID, id);
-		contentValue_recording.put(DatabaseHelper.RECORDING_TASKID, taskId);
-		contentValue_recording.put(DatabaseHelper.RECORDING_STARTTIME, start.toString());
-		contentValue_recording.put(DatabaseHelper.RECORDING_STOPTIME,stop.toString());
-		database.insert(DatabaseHelper.TABLE_RECORDING, null, contentValue_recording);
-	}
 
 	@Override
 	public void insertTask(Task newTask) {
 		ContentValues contentValue_task=new ContentValues();
-		contentValue_task.put(DatabaseHelper.TASK_NAME,newTask.getId());
+		contentValue_task.put(DatabaseHelper.TASK_NAME, newTask.getName());
 		contentValue_task.put(DatabaseHelper.TASK_DESCRIPTION, newTask.getDescription());
 		
 		// put parentId - if no parent is set, put -1
-		int parentId = -1;
+		long parentId = -1;
 		if (newTask.getParent() != null)
-			parentId = newTask.getId();
+			parentId = newTask.getParent().getId();
 		contentValue_task.put(DatabaseHelper.TASK_PARENT, parentId);
 		
-		database.insert(DatabaseHelper.TABLE_TASK, null, contentValue_task);
+		long id = database.insert(DatabaseHelper.TABLE_TASK, null, contentValue_task);
+		// update Task instance with the assigned auto-increment id
+		newTask.setId(id);
 	}
 
 	@Override
-	public Task getTask(int id) {
+	public Task getTask(long id) {
 		String selectTaskQuery="SELECT * FROM " + DatabaseHelper.TABLE_TASK + " WHERE " + DatabaseHelper.KEY_ID + " = " + id;
 		database=dbHelper.getReadableDatabase();
 		Cursor c = database.rawQuery(selectTaskQuery, null);
-		if(c!=null)
-			c.moveToFirst();
-		else
+		if(c == null || !c.moveToFirst())
 			return null;
 		Task task=new Task();
 		task.setId(c.getInt(c.getColumnIndex(DatabaseHelper.KEY_ID)));
@@ -131,8 +115,6 @@ public class DatabaseController implements IDatabaseController {
 				tasks.add(task);
 			}while(c.moveToNext());
 		}
-		else
-			return null;
 		return tasks;
 	}
 
@@ -145,7 +127,7 @@ public class DatabaseController implements IDatabaseController {
 	}
 
 	@Override
-	public void deleteTask(int id) {
+	public void deleteTask(long id) {
 		database.delete(DatabaseHelper.TABLE_TASK, DatabaseHelper.KEY_ID + " = " + id, null);	
 	}
 
@@ -161,18 +143,20 @@ public class DatabaseController implements IDatabaseController {
 		contentValue_recording.put(DatabaseHelper.RECORDING_TASKID, newRecording.getTask().getId());
 		contentValue_recording.put(DatabaseHelper.RECORDING_STARTTIME, newRecording.getStart().toString());
 		contentValue_recording.put(DatabaseHelper.RECORDING_STOPTIME,newRecording.getEnd().toString());
-		database.insert(DatabaseHelper.TABLE_RECORDING, null, contentValue_recording);
+		
+		long id = database.insert(DatabaseHelper.TABLE_RECORDING, null, contentValue_recording);
+		
+		// update Recording instance with the assigned auto-increment id
+		newRecording.setRecordingId(id);
 	}
 
 	@Override
-	public Recording getRecording(int recordingId) {
+	public Recording getRecording(long recordingId) {
 		SimpleDateFormat ft = new SimpleDateFormat();
 		String selectRecordingQuery = "SELECT * FROM " + DatabaseHelper.TABLE_RECORDING + " WHERE " + DatabaseHelper.KEY_ID + " = " + recordingId;
 		database=dbHelper.getReadableDatabase();
 		Cursor c = database.rawQuery(selectRecordingQuery, null);
-		if(c!=null)
-			c.moveToFirst();
-		else
+		if(c == null || !c.moveToFirst())
 			return null;
 		Recording record=new Recording();
 		record.setRecordingId(c.getInt(c.getColumnIndex(DatabaseHelper.KEY_ID)));
@@ -200,8 +184,8 @@ public class DatabaseController implements IDatabaseController {
 		if(c.moveToFirst()){
 			do{
 				Recording record=new Recording();
-				record.setRecordingId(c.getInt(c.getColumnIndex(DatabaseHelper.KEY_ID)));
-				record.setTask(getTask(c.getInt(c.getColumnIndex(DatabaseHelper.RECORDING_TASKID))));
+				record.setRecordingId(c.getLong(c.getColumnIndex(DatabaseHelper.KEY_ID)));
+				record.setTask(getTask(c.getLong(c.getColumnIndex(DatabaseHelper.RECORDING_TASKID))));
 				try {
 					record.setStart(ft.parse(c.getString(c.getColumnIndex(DatabaseHelper.RECORDING_STARTTIME))));
 				} catch (ParseException e) {
@@ -215,8 +199,6 @@ public class DatabaseController implements IDatabaseController {
 				recordings.add(record);
 			}while(c.moveToNext());
 		}
-		else
-			return null;
 		return recordings;
 	}
 
@@ -230,7 +212,7 @@ public class DatabaseController implements IDatabaseController {
 	}
 
 	@Override
-	public void deleteRecording(int id) {
+	public void deleteRecording(long id) {
 		database.delete(DatabaseHelper.TABLE_RECORDING, DatabaseHelper.KEY_ID + " = " + id, null);
 	}
 

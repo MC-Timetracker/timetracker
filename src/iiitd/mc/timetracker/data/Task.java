@@ -20,7 +20,7 @@ public class Task
 	 * Member for Id variable added
 	 * @author Shubham
 	 */
-	private int id;
+	private long id;
 	private String name;
 	private Task parent;
 	//private String geo;			//TODO: proper data type for location?
@@ -51,14 +51,14 @@ public class Task
 	 * Get the id of the task
 	 * @return the id
 	 */
-	public int getId() {
+	public long getId() {
 		return id;
 	}
 	/**
 	 * Set the id of the task 
 	 * @param id the id to set
 	 */
-	public void setId(int id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 	/**

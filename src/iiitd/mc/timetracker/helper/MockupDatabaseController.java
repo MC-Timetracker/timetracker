@@ -89,7 +89,7 @@ public class MockupDatabaseController implements IDatabaseController
 	}
 
 	@Override
-	public Task getTask(int id)
+	public Task getTask(long id)
 	{
 		for(Iterator<Task> i = taskList.iterator(); i.hasNext(); ) 
 		{
@@ -130,7 +130,7 @@ public class MockupDatabaseController implements IDatabaseController
 	}
 
 	@Override
-	public void deleteTask(int id)
+	public void deleteTask(long id)
 	{
 		taskList.remove(getTask(id));
 	}
@@ -153,7 +153,7 @@ public class MockupDatabaseController implements IDatabaseController
 	}
 
 	@Override
-	public Recording getRecording(int recordingId)
+	public Recording getRecording(long recordingId)
 	{
 		for(Iterator<Recording> i = recordsList.iterator(); i.hasNext(); ) 
 		{
@@ -180,7 +180,7 @@ public class MockupDatabaseController implements IDatabaseController
 	}
 
 	@Override
-	public void deleteRecording(int id)
+	public void deleteRecording(long id)
 	{
 		recordsList.remove(getRecording(id));
 	}
