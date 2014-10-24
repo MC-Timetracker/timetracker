@@ -1,7 +1,8 @@
 package iiitd.mc.timetracker.context;
 
+import iiitd.mc.timetracker.ApplicationHelper;
 import iiitd.mc.timetracker.data.*;
-import iiitd.mc.timetracker.helper.MockupDatabaseController;
+import iiitd.mc.timetracker.helper.*;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -20,20 +21,19 @@ public class RecentTaskSuggestor
 	 */
 	private List<Task> tasks;
 	private List<Recording> recordings;
+	IDatabaseController db;
 	
-	MockupDatabaseController mDBC = new MockupDatabaseController();
-	
+	public RecentTaskSuggestor()
+	{
+		db = ApplicationHelper.createDatabaseController();
+	}
 	
 	public List<Task> getRecentTasks()
 	{
-		//TODO: get list of recordings from database
-		/* e.g. as SQL:
-		 * SELECT DISTINCT Tasks.ID 
-		 * FROM Tasks INNER JOIN Recordings ON Tasks.ID = Recordings.task_id
-		 * ORDER BY Recordings.start_time DESC
-		 * LIMIT 10
-		 */
-		recordings = mDBC.getRecordings();
+		db.open();
+		recordings = db.getRecordings(); //TODO: Why save them in the RecentTaskSuggester instance if not reused?
+		db.close();
+		
 		tasks = new ArrayList<Task>();
 		
 		Collections.sort(recordings,new Comparator<Recording>(){

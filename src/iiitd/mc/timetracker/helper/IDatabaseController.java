@@ -48,6 +48,14 @@ public interface IDatabaseController
 	public List<Task> getTasks();
 	
 	/**
+	 * Get the task(s) that have the given name.
+	 * As the name is not necessarily unique to a task this may list containing several Task instances.
+	 * @param name The name of the tasks to retrieve.
+	 * @return A list of all the tasks with the given name (empty, one or several elements).
+	 */
+	public List<Task> getTasks(String name);
+	
+	/**
 	 * Edit an existing Task.
 	 * @param updatedTask The Task with its updated properties, the Task ID has to stay unchanged.
 	 */

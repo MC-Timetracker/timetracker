@@ -5,26 +5,33 @@ import iiitd.mc.timetracker.data.Task;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 import android.database.SQLException;
 
 /**
- * 
+ * A naive in-memory implementation of the IDatabaseController interface for debugging purposes.
  * @author gullal
  *
  */
 public class MockupDatabaseController implements IDatabaseController
 {
 
-	private List<Task> taskList;
-	private List<Recording> recordsList;
+	private static List<Task> taskList = new ArrayList<Task>();
+	private static int tid = 1;
+	private static List<Recording> recordsList = new ArrayList<Recording>();
+	private static int rid = 1;
+	private static boolean initialized = false;
+	
 	
 	@Override
 	public IDatabaseController open() throws SQLException
 	{
-		taskList = new ArrayList<Task>();
-		recordsList = new ArrayList<Recording>();
+		if(initialized)
+			return this;
+		
+		//if this is the first call, set some test data
 		
 		Task t1 = new Task("Studies", null);
 			Task t2 = new Task("MC", t1);
@@ -46,21 +53,22 @@ public class MockupDatabaseController implements IDatabaseController
 		Recording r4 = new Recording(4,t7,new Date(date-2000),new Date(date-1000));
 		Recording r5 = new Recording(5,t8,new Date(date+2100),new Date(date+3000));
 		
-		taskList.add(t1);
-		taskList.add(t2);
-		taskList.add(t3);
-		taskList.add(t4);
-		taskList.add(t5);
-		taskList.add(t6);
-		taskList.add(t7);
-		taskList.add(t8);
+		insertTask(t1);
+		insertTask(t2);
+		insertTask(t3);
+		insertTask(t4);
+		insertTask(t5);
+		insertTask(t6);
+		insertTask(t7);
+		insertTask(t8);
 		
-		recordsList.add(r1);
-		recordsList.add(r2);
-		recordsList.add(r3);
-		recordsList.add(r4);
-		recordsList.add(r5);
+		insertRecording(r1);
+		insertRecording(r2);
+		insertRecording(r3);
+		insertRecording(r4);
+		insertRecording(r5);
 		
+		initialized = true;
 		return this;
 	}
 
@@ -73,50 +81,88 @@ public class MockupDatabaseController implements IDatabaseController
 	@Override
 	public void insertTask(Task newTask)
 	{
+		// "auto-increment" id
+		newTask.setId(tid);
+		tid++;
 		
+		taskList.add(newTask);
 	}
 
 	@Override
 	public Task getTask(int id)
 	{
-				return null;
+		for(Iterator<Task> i = taskList.iterator(); i.hasNext(); ) 
+		{
+		    Task t = i.next();
+		    if(t.getId() == id)
+		    	return t;
+		}
+		
+		return null;
 	}
 
 	@Override
 	public List<Task> getTasks()
 	{
-		open();
 		return taskList;
+	}
+
+	@Override
+	public List<Task> getTasks(String name)
+	{
+		List<Task> namedTasks = new ArrayList<>();
+		
+		for(Iterator<Task> i = taskList.iterator(); i.hasNext(); ) 
+		{
+		    Task t = i.next();
+		    if(t.getName().equalsIgnoreCase(name))
+		    	namedTasks.add(t);
+		}
+		
+		return namedTasks;
 	}
 
 	@Override
 	public void updateTask(Task updatedTask)
 	{
-		
+		deleteTask(updatedTask.getId());
+		insertTask(updatedTask);
 	}
 
 	@Override
 	public void deleteTask(int id)
 	{
-		
+		taskList.remove(getTask(id));
 	}
 
 	@Override
 	public void deleteTask(Task removedTask)
 	{
-		
+		taskList.remove(removedTask);
 	}
 
+	
 	@Override
 	public void insertRecording(Recording newRecording)
 	{
+		// "auto-increment" id
+		newRecording.setRecordingId(rid);
+		rid++;
 		
+		recordsList.add(newRecording);
 	}
 
 	@Override
 	public Recording getRecording(int recordingId)
 	{
-				return null;
+		for(Iterator<Recording> i = recordsList.iterator(); i.hasNext(); ) 
+		{
+		    Recording r = i.next();
+		    if(r.getRecordingId() == recordingId)
+		    	return r;
+		}
+		
+		return null;
 	}
 
 	@Override
@@ -129,20 +175,20 @@ public class MockupDatabaseController implements IDatabaseController
 	@Override
 	public void updateRecording(Recording updatedRecording)
 	{
-		
+		deleteRecording(updatedRecording.getRecordingId());
+		insertRecording(updatedRecording);
 	}
 
 	@Override
 	public void deleteRecording(int id)
 	{
-		
+		recordsList.remove(getRecording(id));
 	}
 
 	@Override
 	public void deleteRecording(Recording removedRecording)
 	{
-		// TODO Auto-generated method stub
-
+		recordsList.remove(removedRecording);
 	}
 
 }
