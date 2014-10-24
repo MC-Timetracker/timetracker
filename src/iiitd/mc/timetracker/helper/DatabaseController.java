@@ -131,8 +131,6 @@ public class DatabaseController implements IDatabaseController {
 				tasks.add(task);
 			}while(c.moveToNext());
 		}
-		else
-			return null;
 		return tasks;
 	}
 
@@ -215,8 +213,6 @@ public class DatabaseController implements IDatabaseController {
 				recordings.add(record);
 			}while(c.moveToNext());
 		}
-		else
-			return null;
 		return recordings;
 	}
 
