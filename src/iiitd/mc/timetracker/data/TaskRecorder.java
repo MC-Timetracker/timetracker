@@ -7,13 +7,7 @@ import java.util.List;
 import java.util.Vector;
 import java.util.regex.Pattern;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.view.View;
-import android.widget.Button;
 import iiitd.mc.timetracker.ApplicationHelper;
-import iiitd.mc.timetracker.R;
-import iiitd.mc.timetracker.helper.DatabaseController;
 import iiitd.mc.timetracker.helper.IDatabaseController;
 
 /**
@@ -138,7 +132,7 @@ public class TaskRecorder
 	{
 		Task task = null;
 		
-		IDatabaseController db = ApplicationHelper.createDatabaseController(); //TODO: why does DatabaseController need a Context?
+		IDatabaseController db = ApplicationHelper.createDatabaseController();
 		db.open();
 		
 		String[] taskStringParts = taskString.split(Pattern.quote(Task.THS));
