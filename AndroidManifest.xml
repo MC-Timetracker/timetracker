@@ -23,6 +23,34 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".New_Task"
+            android:label="@string/title_activity_new__task"
+            android:parentActivityName=".BaseActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="iiitd.mc.timetracker.BaseActivity" />
+        </activity>
+        <activity
+            android:name=".List_Task"
+            android:label="@string/title_activity_list__task"
+            android:parentActivityName=".BaseActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="iiitd.mc.timetracker.BaseActivity" />
+        </activity>
+        <activity
+            android:name=".List_Recordings"
+            android:label="@string/title_activity_list__recordings" >
+        </activity>
+        <activity
+            android:name=".Statistics"
+            android:label="@string/title_activity_statistics"
+            android:parentActivityName=".BaseActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="iiitd.mc.timetracker.BaseActivity" />
+        </activity>
     </application>
 
 </manifest>
