@@ -43,14 +43,20 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		
 		//Table Create Statements
 		//Task Table Create Statement
-		public static final String CREATE_TABLE_TASK = "CREATE TABLE " + TABLE_TASK + "(" + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-				+ TASK_NAME + " TEXT NOT NULL, " + TASK_DESCRIPTION + " TEXT, " + TASK_PARENT + " INTEGER, FOREIGN KEY("
-				+ TASK_PARENT + ") REFERENCES " + TABLE_TASK + "(" + KEY_ID + ") ON DELETE CASCADE;";
+		public static final String CREATE_TABLE_TASK = "CREATE TABLE " + TABLE_TASK + "(" 
+				+ KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+				+ TASK_NAME + " TEXT NOT NULL, " 
+				+ TASK_DESCRIPTION + " TEXT, " 
+				+ TASK_PARENT + " INTEGER REFERENCES " + TABLE_TASK + "(" + KEY_ID + ") ON DELETE CASCADE "
+				+ ");";
 		
 		//Recording Table Create Statement
-		public static final String CREATE_TABLE_RECORDING = "CREATE TABLE " + TABLE_RECORDING + "(" + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-				+ RECORDING_TASKID + " INTEGER, "+ RECORDING_STARTTIME + " DATETIME, " + RECORDING_STOPTIME + " DATETIME, FOREIGN KEY("
-				+ RECORDING_TASKID + ") REFERENCES " + TABLE_TASK + "(" + KEY_ID + ") ON DELETE CASCADE;";
+		public static final String CREATE_TABLE_RECORDING = "CREATE TABLE " + TABLE_RECORDING + "(" 
+				+ KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+				+ RECORDING_TASKID + " INTEGER REFERENCES " + TABLE_TASK + "(" + KEY_ID + ") ON DELETE CASCADE, "
+				+ RECORDING_STARTTIME + " DATETIME, " 
+				+ RECORDING_STOPTIME + " DATETIME "
+				+ ");";
 		
 		public DatabaseHelper(Context context){
 			super(context,DATABASE_NAME,null,DATABASE_VERSION);
