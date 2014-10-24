@@ -62,9 +62,7 @@ public class DatabaseController implements IDatabaseController {
 		String selectTaskQuery="SELECT * FROM " + DatabaseHelper.TABLE_TASK + " WHERE " + DatabaseHelper.KEY_ID + " = " + id;
 		database=dbHelper.getReadableDatabase();
 		Cursor c = database.rawQuery(selectTaskQuery, null);
-		if(c!=null)
-			c.moveToFirst();
-		else
+		if(c == null || !c.moveToFirst())
 			return null;
 		Task task=new Task();
 		task.setId(c.getInt(c.getColumnIndex(DatabaseHelper.KEY_ID)));
@@ -158,9 +156,7 @@ public class DatabaseController implements IDatabaseController {
 		String selectRecordingQuery = "SELECT * FROM " + DatabaseHelper.TABLE_RECORDING + " WHERE " + DatabaseHelper.KEY_ID + " = " + recordingId;
 		database=dbHelper.getReadableDatabase();
 		Cursor c = database.rawQuery(selectRecordingQuery, null);
-		if(c!=null)
-			c.moveToFirst();
-		else
+		if(c == null || !c.moveToFirst())
 			return null;
 		Recording record=new Recording();
 		record.setRecordingId(c.getInt(c.getColumnIndex(DatabaseHelper.KEY_ID)));
