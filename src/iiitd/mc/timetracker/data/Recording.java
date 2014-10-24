@@ -13,7 +13,7 @@ public class Recording
 	 * @author Shubham
 	 * Member for Id variable added
 	 */
-	private int recordingId;
+	private long recordingId;
 	private Date start;
 	private Date end;
 	private Task task;
@@ -26,7 +26,7 @@ public class Recording
 	 * @param start The time when started recording.
 	 * @param end The time when finished recording.
 	 */
-	public Recording(int recordingId, Task task, Date start, Date end)
+	public Recording(long recordingId, Task task, Date start, Date end)
 	{
 		setRecordingId(recordingId); //TODO: ID assigned by DatabaseController only?
 		setTask(task);
@@ -43,14 +43,14 @@ public class Recording
 	 * Get the recordingId for the recording performed.
 	 * @return the recordingId
 	 */
-	public int getRecordingId() {
+	public long getRecordingId() {
 		return recordingId;
 	}
 	/**
 	 * Set the recordingId for the recording performed
 	 * @param recordingId the recordingId to set
 	 */
-	public void setRecordingId(int recordingId) {
+	public void setRecordingId(long recordingId) {
 		this.recordingId = recordingId;
 	}
 	/**

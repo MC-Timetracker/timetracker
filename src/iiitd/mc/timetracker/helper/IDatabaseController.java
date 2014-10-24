@@ -39,7 +39,7 @@ public interface IDatabaseController
 	 * @param id The task ID.
 	 * @return Returns the Task instance or null if no task with the given ID exists.
 	 */
-	public Task getTask(int id);
+	public Task getTask(long id);
 	
 	/**
 	 * Returns a list of all tasks.
@@ -66,7 +66,7 @@ public interface IDatabaseController
 	 * All Subtasks and Recordings for that Task will also be deleted (cascaded delete).
 	 * @param id The ID of the Task to be deleted.
 	 */
-	public void deleteTask(int id);
+	public void deleteTask(long id);
 	
 	/**
 	 * Delete the given Task from the database.
@@ -89,7 +89,7 @@ public interface IDatabaseController
 	 * @param recordingId The Recording ID.
 	 * @return Returns the Recording instance or null if no Recording with the given ID exists.
 	 */
-	public Recording getRecording(int recordingId);
+	public Recording getRecording(long recordingId);
 	
 	/**
 	 * Get a list of all Recordings.
@@ -107,7 +107,7 @@ public interface IDatabaseController
 	 * Delete the given Recording from the database.
 	 * @param id The ID of the Recording to be removed.
 	 */
-	public void deleteRecording(int id);
+	public void deleteRecording(long id);
 	
 	/**
 	 * Delete the given Recording from the database.
