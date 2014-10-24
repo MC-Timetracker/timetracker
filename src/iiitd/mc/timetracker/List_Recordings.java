@@ -1,12 +1,9 @@
 package iiitd.mc.timetracker;
 
-import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 public class List_Recordings extends BaseActivity {
 	
@@ -16,8 +13,6 @@ public class List_Recordings extends BaseActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_list__recordings);
-		Intent intent = getIntent();
-		TextView tv = new TextView(this); 
 		navigationDisplay();
 	}
 

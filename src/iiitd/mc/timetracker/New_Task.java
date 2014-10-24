@@ -6,8 +6,6 @@ import iiitd.mc.timetracker.context.MainTaskSuggestor;
 
 import java.util.List;
 
-import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -15,7 +13,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AutoCompleteTextView;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 public class New_Task extends BaseActivity {
 	
@@ -25,8 +22,7 @@ public class New_Task extends BaseActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_new__task);
-		Intent intent = getIntent();
-		TextView tv = new TextView(this);
+		
 		navigationDisplay();
 		AutoCompleteTextView autoTv = (AutoCompleteTextView) findViewById(R.id.taskSelectionBox);
 		
