@@ -31,7 +31,7 @@
     <string name="description">Description: </string>
     <string name="btnDone">Done</string>
     <string name="btnClear">Clear</string>
-    <string name="title_activity_list__task">List Task</string>
+    <string name="title_activity_list_tasks">All Tasks</string>
     <string name="title_activity_list_recordings">All Recordings</string>
     <string name="title_activity_statistics">Statistics</string>
     <string name="promptCreateNewTask">Do you want to create a new task?</string>

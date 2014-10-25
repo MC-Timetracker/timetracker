@@ -32,8 +32,8 @@
                 android:value="iiitd.mc.timetracker.BaseActivity" />
         </activity>
         <activity
-            android:name=".List_Task"
-            android:label="@string/title_activity_list__task"
+            android:name=".ListTasksActivity"
+            android:label="@string/title_activity_list_tasks"
             android:parentActivityName=".BaseActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
