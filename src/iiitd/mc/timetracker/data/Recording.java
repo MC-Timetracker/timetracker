@@ -3,6 +3,7 @@ package iiitd.mc.timetracker.data;
 import iiitd.mc.timetracker.ApplicationHelper;
 
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -109,13 +110,14 @@ public class Recording
 	@Override
 	public String toString()
 	{
-		DateFormat df = android.text.format.DateFormat.getDateFormat(ApplicationHelper.getAppContext());
+		DateFormat dateFormatter = android.text.format.DateFormat.getDateFormat(ApplicationHelper.getAppContext());
+		DateFormat timeFormatter = new SimpleDateFormat("HH:mm");
 		String sTime = "?";
-		if(getStart() != null)
-			sTime = df.format(getStart());
+		if(start != null)
+			sTime = dateFormatter.format(start) + " " + timeFormatter.format(start);
 		String eTime = "?";
-		if(getEnd() != null)
-			eTime = df.format(getEnd());
+		if(end != null)
+			eTime = dateFormatter.format(end) + " " + timeFormatter.format(end);
 		return getTask().toString() + " [" + sTime + " - " + eTime + "]";
 	}
 }
