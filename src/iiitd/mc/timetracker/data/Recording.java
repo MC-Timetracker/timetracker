@@ -1,5 +1,8 @@
 package iiitd.mc.timetracker.data;
 
+import iiitd.mc.timetracker.ApplicationHelper;
+
+import java.text.DateFormat;
 import java.util.Date;
 
 /**
@@ -100,5 +103,19 @@ public class Recording
 	public void setTask(Task task)
 	{
 		this.task = task;
+	}
+	
+	
+	@Override
+	public String toString()
+	{
+		DateFormat df = android.text.format.DateFormat.getDateFormat(ApplicationHelper.getAppContext());
+		String sTime = "?";
+		if(getStart() != null)
+			sTime = df.format(getStart());
+		String eTime = "?";
+		if(getEnd() != null)
+			eTime = df.format(getEnd());
+		return getTask().toString() + " [" + sTime + " - " + eTime + "]";
 	}
 }
