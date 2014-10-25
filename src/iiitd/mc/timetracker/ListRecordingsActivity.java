@@ -1,19 +1,30 @@
 package iiitd.mc.timetracker;
 
+import java.util.List;
+
+import iiitd.mc.timetracker.data.Recording;
+import iiitd.mc.timetracker.helper.IDatabaseController;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 
 public class ListRecordingsActivity extends BaseActivity {
 	
 	public RelativeLayout relativelayoutlist_recordings;
+	ListView lvRecordings;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_list_recordings);
 		navigationDisplay();
+		
+		lvRecordings = (ListView) findViewById(R.id.lvRecordings);
+		
+		loadRecordingsList();
 	}
 
 	@Override
@@ -39,6 +50,21 @@ public class ListRecordingsActivity extends BaseActivity {
 		//brings relative layout of list recordings to the front on closing the drawer
 		relativelayoutlist_recordings = (RelativeLayout) findViewById(R.id.relativelayoutlist_recordings); 
     	relativelayoutlist_recordings.bringToFront();
-    	
     }
+	
+	
+	/**
+	 * Populate the list in the UI with the Recordings from the database.
+	 */
+	public void loadRecordingsList()
+	{
+		IDatabaseController db = ApplicationHelper.createDatabaseController();
+		db.open();
+		List<Recording> recordings = db.getRecordings();
+		db.close();
+		
+		ArrayAdapter<Recording> adapter = new ArrayAdapter<Recording>(this, 
+				android.R.layout.simple_list_item_1, android.R.id.text1, recordings);
+		lvRecordings.setAdapter(adapter);
+	}
 }
