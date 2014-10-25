@@ -139,7 +139,7 @@ public class BaseActivity extends ActionBarActivity implements OnItemClickListen
 		    
 	    case 2: 
 		    
-	    	Intent list_recordings = new Intent(this,List_Recordings.class);
+	    	Intent list_recordings = new Intent(this,ListRecordingsActivity.class);
 	    	mDrawerLayout.closeDrawer(mDrawerList);
 	    	startActivity(list_recordings);
 	    	break;

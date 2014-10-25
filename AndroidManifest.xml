@@ -40,8 +40,8 @@
                 android:value="iiitd.mc.timetracker.BaseActivity" />
         </activity>
         <activity
-            android:name=".List_Recordings"
-            android:label="@string/title_activity_list__recordings" >
+            android:name=".ListRecordingsActivity"
+            android:label="@string/title_activity_list_recordings" >
         </activity>
         <activity
             android:name=".Statistics"
