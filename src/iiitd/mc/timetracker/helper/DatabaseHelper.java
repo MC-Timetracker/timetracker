@@ -54,8 +54,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		public static final String CREATE_TABLE_RECORDING = "CREATE TABLE " + TABLE_RECORDING + "(" 
 				+ KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
 				+ RECORDING_TASKID + " INTEGER REFERENCES " + TABLE_TASK + "(" + KEY_ID + ") ON DELETE CASCADE, "
-				+ RECORDING_STARTTIME + " DATETIME, " 
-				+ RECORDING_STOPTIME + " DATETIME "
+				+ RECORDING_STARTTIME + " INTEGER, " 
+				+ RECORDING_STOPTIME + " INTEGER "
 				+ ");";
 		
 		public DatabaseHelper(Context context){
