@@ -138,7 +138,6 @@ public class DatabaseController implements IDatabaseController {
 	@Override
 	public void insertRecording(Recording newRecording) {
 		ContentValues contentValue_recording = new ContentValues();
-		contentValue_recording.put(DatabaseHelper.KEY_ID, newRecording.getRecordingId());
 		contentValue_recording.put(DatabaseHelper.RECORDING_TASKID, newRecording.getTask().getId());
 		contentValue_recording.put(DatabaseHelper.RECORDING_STARTTIME, newRecording.getStart().toString());
 		contentValue_recording.put(DatabaseHelper.RECORDING_STOPTIME,newRecording.getEnd().toString());
