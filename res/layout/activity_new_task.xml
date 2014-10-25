@@ -6,7 +6,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="iiitd.mc.timetracker.New_Task" 
+    tools:context="iiitd.mc.timetracker.NewTaskActivity" 
     android:id="@+id/relativelayoutnew_task">
 
 

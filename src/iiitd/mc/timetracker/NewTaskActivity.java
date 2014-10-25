@@ -14,14 +14,14 @@ import android.view.View.OnClickListener;
 import android.widget.AutoCompleteTextView;
 import android.widget.RelativeLayout;
 
-public class New_Task extends BaseActivity {
+public class NewTaskActivity extends BaseActivity {
 	
 	public RelativeLayout relativelayoutnew_task;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_new__task);
+		setContentView(R.layout.activity_new_task);
 		
 		navigationDisplay();
 		AutoCompleteTextView autoTv = (AutoCompleteTextView) findViewById(R.id.taskSelectionBox);
@@ -44,7 +44,7 @@ public class New_Task extends BaseActivity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.new__task, menu);
+		getMenuInflater().inflate(R.menu.new_task, menu);
 		return true;
 	}
 
