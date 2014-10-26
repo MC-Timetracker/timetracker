@@ -6,6 +6,7 @@ import iiitd.mc.timetracker.context.*;
 import iiitd.mc.timetracker.data.*;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.view.View;
@@ -28,8 +29,10 @@ public class MainActivity extends BaseActivity implements RecorderListener {
     private Chronometer chronometer;
     long stoptime=0;
     
-    TaskRecorder taskRecorder;
-    ITaskSuggestor suggester;
+    private TaskRecorder taskRecorder;
+    private ITaskSuggestor suggester;
+    private CustomArrayAdapter taskListAdapter;
+    private AutoCompleteTextView autoTv;
     
     
 	@Override
@@ -51,12 +54,9 @@ public class MainActivity extends BaseActivity implements RecorderListener {
 	 */
 	public void initTaskAutocomplete()
 	{
-		AutoCompleteTextView autoTv = (AutoCompleteTextView) findViewById(R.id.taskSelectionBox);
+		autoTv = (AutoCompleteTextView) findViewById(R.id.taskSelectionBox);
 		
-		suggester = new MainTaskSuggestor();
-		List<String> suggestedTasks = suggester.getTaskStrings();
-		CustomArrayAdapter taskListAdapter = new CustomArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, suggestedTasks);
-		autoTv.setAdapter(taskListAdapter);
+		addTasksToAutoView();
 		
 		autoTv.setThreshold(0);
 		autoTv.setOnClickListener(new OnClickListener() {
@@ -92,6 +92,7 @@ public class MainActivity extends BaseActivity implements RecorderListener {
 			           public void onClick(DialogInterface dialog, int id) {
 			               // Create new task and start recording it
 			        	   Task newTask = TaskRecorder.createTaskFromString(sTask);
+			        	   addTasksToAutoView();
 			        	   taskRecorder.startRecording(newTask);
 			           }
 			       })
@@ -163,6 +164,8 @@ public class MainActivity extends BaseActivity implements RecorderListener {
 	public void stopUI()
 	{
 		chronometer.stop();
+		Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+		startActivity(intent);
 	}
 	
 	public void Pause(View view)
@@ -191,6 +194,17 @@ public class MainActivity extends BaseActivity implements RecorderListener {
 	public void closedrawerpausestop(){
 		relativelayoutbuttons = (RelativeLayout) findViewById(R.id.pausestop);
 		relativelayoutbuttons.bringToFront();
+	}
+	
+	/*
+	 * Adds tasks to the Auto Complete View for suggestions
+	 */
+	private void addTasksToAutoView()
+	{
+		suggester = new MainTaskSuggestor();
+		List<String> suggestedTasks = suggester.getTaskStrings();
+		taskListAdapter = new CustomArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, suggestedTasks);
+		autoTv.setAdapter(taskListAdapter);		
 	}
 
 }	
