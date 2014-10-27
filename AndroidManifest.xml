@@ -51,6 +51,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="iiitd.mc.timetracker.BaseActivity" />
         </activity>
+      	<service android:name=".data.TaskRecorderService" />
     </application>
 
 </manifest>

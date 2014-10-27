@@ -1,12 +1,19 @@
 package iiitd.mc.timetracker;
 
 import java.util.List;
+
 import iiitd.mc.timetracker.adapter.CustomArrayAdapter;
 import iiitd.mc.timetracker.context.*;
 import iiitd.mc.timetracker.data.*;
+import iiitd.mc.timetracker.data.TaskRecorderService.TaskRecorderBinder;
 import android.app.AlertDialog;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.ServiceConnection;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.os.SystemClock;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -21,14 +28,17 @@ import android.widget.RelativeLayout;
  * @author gullal
  *
  */
-public class MainActivity extends BaseActivity implements RecorderListener {
-    
+public class MainActivity extends BaseActivity {
+	
 	public RelativeLayout relativelayoutstart, relativelayoutbuttons;
     Button btnStart,btnStop,btnPause,btnResume;
     private Chronometer chronometer;
     long stoptime=0;
     
-    TaskRecorder taskRecorder;
+    Intent recorderIntent;
+    TaskRecorderService taskRecorder;
+    boolean taskRecorderBound = false;
+    
     ITaskSuggestor suggester;
     
     
@@ -40,11 +50,9 @@ public class MainActivity extends BaseActivity implements RecorderListener {
 
 		navigationDisplay();
 		
-		taskRecorder = new TaskRecorder();
-		taskRecorder.addListener(this);
-		
 		initTaskAutocomplete();
 	}
+	
 	
 	/**
 	 * Initial setup of the autocomplete dropdown task selection text box.
@@ -71,17 +79,32 @@ public class MainActivity extends BaseActivity implements RecorderListener {
 	/**
 	 * Handle everything to actually start recording the task in the business logic layer with TaskRecorder.
 	 */
-	public void startRecording()
+	public void startRecording(Task task)
 	{	
+		// Start recording in a Service
+		recorderIntent = new Intent(this, TaskRecorderService.class);
+		recorderIntent.putExtra(TaskRecorderService.EXTRA_TASK_ID, task.getId());
+		startService(recorderIntent);
+		
+		startUI();
+	}
+
+
+	/**
+	 * Event handler for click of start button.
+	 * @param view
+	 */
+	public void Start(View view)
+	{
 		// Get the task instance that corresponds to the String entered by the user
 		AutoCompleteTextView taskSelector = (AutoCompleteTextView) findViewById(R.id.taskSelectionBox);
 		final String sTask = taskSelector.getText().toString();
 		
-		Task task = TaskRecorder.getTaskFromString(sTask);
+		Task task = TaskRecorderService.getTaskFromString(sTask);
 		
 		if (task != null)
 		{
-			taskRecorder.startRecording(task);
+			startRecording(task);
 		}
 		else
 		{
@@ -91,8 +114,8 @@ public class MainActivity extends BaseActivity implements RecorderListener {
 			       .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
 			           public void onClick(DialogInterface dialog, int id) {
 			               // Create new task and start recording it
-			        	   Task newTask = TaskRecorder.createTaskFromString(sTask);
-			        	   taskRecorder.startRecording(newTask);
+			        	   Task newTask = TaskRecorderService.createTaskFromString(sTask);
+			        	   startRecording(newTask);
 			           }
 			       })
 			       .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
@@ -105,40 +128,15 @@ public class MainActivity extends BaseActivity implements RecorderListener {
 			return; // further action is handled in dialog event handlers
 		}
 	}
-
-	/**
-	 * Receives events from the TaskRecorder informing the Activity when recording is started/stopped.
-	 */
-	@Override
-	public void onRecorderStateChanged(RecorderEvent e)
-	{
-		switch(e.getState())
-		{
-		case Started:
-			startUI();
-			break;
-		case Stopped:
-			stopUI();
-			break;
-		}
-	}
-
-
-	/**
-	 * Event handler for click of start button.
-	 * @param view
-	 */
-	public void Start(View view)
-	{
-		startRecording();
-	}
 	/**
 	 * Event handler for click of stop button.
 	 * @param view
 	 */
 	public void Stop(View view)
 	{
-		taskRecorder.stopRecording();
+		stopService(recorderIntent);
+		
+		stopUI();
 	}
 	
 	/**
@@ -192,5 +190,23 @@ public class MainActivity extends BaseActivity implements RecorderListener {
 		relativelayoutbuttons = (RelativeLayout) findViewById(R.id.pausestop);
 		relativelayoutbuttons.bringToFront();
 	}
+	
+	
+	/** Defines callbacks for service binding, passed to bindService() */
+    private ServiceConnection mConnection = new ServiceConnection() {
 
+        @Override
+        public void onServiceConnected(ComponentName className,
+                IBinder service) {
+            // We've bound to TaskRecorderService, cast the IBinder and get TaskRecorderService instance
+            TaskRecorderBinder binder = (TaskRecorderBinder) service;
+            taskRecorder = binder.getService();
+            taskRecorderBound = true;
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName arg0) {
+        	taskRecorderBound = false;
+        }
+    };
 }	
