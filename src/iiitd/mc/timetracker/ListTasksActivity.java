@@ -1,31 +1,44 @@
 package iiitd.mc.timetracker;
 
+import iiitd.mc.timetracker.adapter.ExpandableListAdapter;
 import iiitd.mc.timetracker.data.Task;
 import iiitd.mc.timetracker.helper.IDatabaseController;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
+import android.widget.ExpandableListView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 
-public class ListTasksActivity extends BaseActivity {
+public class ListTasksActivity extends BaseActivity{
 	
-	public RelativeLayout relativelayoutlist_task; 
-	ListView lvTasks;
-
+	public RelativeLayout RelativeLayoutlist_task; 
+	private ExpandableListView expListView;
+	private List<Task> listHeader;
+	private HashMap<Task, List<Task>> listItems;
+	private ExpandableListAdapter listAdapter;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_list_tasks);
+		setContentView(R.layout.activity_list_main);
 		navigationDisplay();
 		
-		lvTasks = (ListView) findViewById(R.id.lvTasks);
+		// Get the ListView
+		expListView = (ExpandableListView) findViewById(R.id.Explv);		
 		
 		loadTasksList();
+		
+		listAdapter = new ExpandableListAdapter(this, listHeader, listItems);
+		expListView.setAdapter(listAdapter);
 	}
 
 	@Override
@@ -46,26 +59,43 @@ public class ListTasksActivity extends BaseActivity {
 		}
 		return super.onOptionsItemSelected(item);
 	}
+	
 	public void closedrawer(){
      
 		//brings relative layout of list task to the front on closing the drawer
-		relativelayoutlist_task = (RelativeLayout) findViewById(R.id.relativelayoutlist_task); 
-    	relativelayoutlist_task.bringToFront();
+		RelativeLayoutlist_task = (RelativeLayout) findViewById(R.id.relativelayoutlist_task); 
+    	RelativeLayoutlist_task.bringToFront();
     }
 	
 	
 	/**
 	 * Populate the list in the UI with the Tasks from the database.
 	 */
+	/**
+	 * Populate the list in the UI with the Tasks from the database.
+	 */
 	public void loadTasksList()
 	{
+		listHeader = new ArrayList<Task>();
+		listItems = new HashMap<Task,List<Task>>();
+		
 		IDatabaseController db = ApplicationHelper.createDatabaseController();
 		db.open();
 		List<Task> tasks = db.getTasks();
 		db.close();
 		
-		ArrayAdapter<Task> adapter = new ArrayAdapter<Task>(this, 
-				android.R.layout.simple_list_item_1, android.R.id.text1, tasks);
-		lvTasks.setAdapter(adapter);
+		for(Task t: tasks)
+		{
+			if(t.getParent() == null)
+			{
+				listHeader.add(t);
+			}
+		}
+		
+		for(Task t: listHeader)
+		{
+			listItems.put(t,t.getSubtasks());
+		}
+		
 	}
 }

@@ -191,4 +191,11 @@ public class MockupDatabaseController implements IDatabaseController
 		recordsList.remove(removedRecording);
 	}
 
+	@Override
+	public List<Task> getSubTasks(long id)
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

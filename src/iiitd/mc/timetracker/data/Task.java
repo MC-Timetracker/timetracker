@@ -1,5 +1,8 @@
 package iiitd.mc.timetracker.data;
 
+import iiitd.mc.timetracker.ApplicationHelper;
+import iiitd.mc.timetracker.helper.IDatabaseController;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -120,6 +123,11 @@ public class Task
 	{
 		if(subtasks == null)
 			subtasks = new ArrayList<Task>();
+		
+		IDatabaseController db = ApplicationHelper.createDatabaseController();
+		db.open();
+		List<Task> subtasks = db.getSubTasks(id);
+		db.close();
 		
 		return subtasks;
 	}

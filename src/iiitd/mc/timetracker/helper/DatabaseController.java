@@ -90,6 +90,12 @@ public class DatabaseController implements IDatabaseController {
 		return getTasksWhere(DatabaseHelper.TASK_NAME + "='" + name + "'");
 	}
 	
+	@Override
+	public List<Task> getSubTasks(long id)
+	{
+		return getTasksWhere(DatabaseHelper.TASK_PARENT + "='" + id + "'");
+	}
+	
 	private List<Task> getTasksWhere(String filter)
 	{
 		List<Task> tasks=new ArrayList<Task>();

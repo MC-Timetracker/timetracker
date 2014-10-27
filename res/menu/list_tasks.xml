@@ -1,6 +1,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="iiitd.mc.timetracker.List_Task" >
+    tools:context="iiitd.mc.timetracker.ListTasksActivity" >
 
     <item
         android:id="@+id/action_settings"

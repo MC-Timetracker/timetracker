@@ -115,4 +115,9 @@ public interface IDatabaseController
 	 */
 	public void deleteRecording(Recording removedRecording);
 	
+	/**
+	 * Gets the subtasks under a particular task
+	 */
+	public List<Task> getSubTasks(long id);
+	
 }
