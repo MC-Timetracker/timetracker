@@ -133,5 +133,16 @@ public class Task
 		
 		return p + this.name;
 	}
+	
+	@Override
+	public boolean equals(Object obj)
+	{
+		if(obj instanceof Task)
+		{
+			if(id == ((Task)obj).id)
+				return true;
+		}
+		return false;
+	}
 		
 }

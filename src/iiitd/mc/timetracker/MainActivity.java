@@ -40,7 +40,9 @@ public class MainActivity extends BaseActivity {
     boolean taskRecorderBound = false;
     
     ITaskSuggestor suggester;
-    
+    private CustomArrayAdapter taskListAdapter;
+    private AutoCompleteTextView autoTv;
+
     
 	@Override
 	protected void onCreate(Bundle savedInstanceState) 
@@ -59,12 +61,9 @@ public class MainActivity extends BaseActivity {
 	 */
 	public void initTaskAutocomplete()
 	{
-		AutoCompleteTextView autoTv = (AutoCompleteTextView) findViewById(R.id.taskSelectionBox);
+		autoTv = (AutoCompleteTextView) findViewById(R.id.taskSelectionBox);
 		
-		suggester = new MainTaskSuggestor();
-		List<String> suggestedTasks = suggester.getTaskStrings();
-		CustomArrayAdapter taskListAdapter = new CustomArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, suggestedTasks);
-		autoTv.setAdapter(taskListAdapter);
+		addTasksToAutoView();
 		
 		autoTv.setThreshold(0);
 		autoTv.setOnClickListener(new OnClickListener() {
@@ -116,6 +115,7 @@ public class MainActivity extends BaseActivity {
 			               // Create new task and start recording it
 			        	   Task newTask = TaskRecorderService.createTaskFromString(sTask);
 			        	   startRecording(newTask);
+					   addTasksToAutoView();
 			           }
 			       })
 			       .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
@@ -161,6 +161,8 @@ public class MainActivity extends BaseActivity {
 	public void stopUI()
 	{
 		chronometer.stop();
+		Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+		startActivity(intent);
 	}
 	
 	public void Pause(View view)
@@ -190,23 +192,16 @@ public class MainActivity extends BaseActivity {
 		relativelayoutbuttons = (RelativeLayout) findViewById(R.id.pausestop);
 		relativelayoutbuttons.bringToFront();
 	}
-	
-	
-	/** Defines callbacks for service binding, passed to bindService() */
-    private ServiceConnection mConnection = new ServiceConnection() {
 
-        @Override
-        public void onServiceConnected(ComponentName className,
-                IBinder service) {
-            // We've bound to TaskRecorderService, cast the IBinder and get TaskRecorderService instance
-            TaskRecorderBinder binder = (TaskRecorderBinder) service;
-            taskRecorder = binder.getService();
-            taskRecorderBound = true;
-        }
 
-        @Override
-        public void onServiceDisconnected(ComponentName arg0) {
-        	taskRecorderBound = false;
-        }
-    };
+	/*
+	 * Adds tasks to the Auto Complete View for suggestions
+	 */
+	private void addTasksToAutoView()
+	{
+		suggester = new MainTaskSuggestor();
+		List<String> suggestedTasks = suggester.getTaskStrings();
+		taskListAdapter = new CustomArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, suggestedTasks);
+		autoTv.setAdapter(taskListAdapter);		
+	}
 }	
