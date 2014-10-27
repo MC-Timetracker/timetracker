@@ -7,7 +7,15 @@ import java.util.List;
 import java.util.Vector;
 import java.util.regex.Pattern;
 
+import android.app.Notification;
+import android.app.PendingIntent;
+import android.app.Service;
+import android.content.Intent;
+import android.os.Binder;
+import android.os.IBinder;
 import iiitd.mc.timetracker.ApplicationHelper;
+import iiitd.mc.timetracker.MainActivity;
+import iiitd.mc.timetracker.R;
 import iiitd.mc.timetracker.helper.IDatabaseController;
 
 /**
@@ -16,10 +24,58 @@ import iiitd.mc.timetracker.helper.IDatabaseController;
  * @author sebastian
  *
  */
-public class TaskRecorder
+public class TaskRecorderService extends Service
 {
+    public final static String EXTRA_TASK_ID = "TASK_ID";
+	private final IBinder mBinder = new TaskRecorderBinder();
+	
+	public final int ONGOING_NOTIFICATION_ID = 1;
+	
 	private transient Vector<RecorderListener> listeners;
 	private Recording currentRecording = null;
+	IDatabaseController db = ApplicationHelper.createDatabaseController();
+	
+	
+	/**
+     * Class used for the client Binder.  Because we know this service always
+     * runs in the same process as its clients, we don't need to deal with IPC.
+     */
+    public class TaskRecorderBinder extends Binder {
+        public TaskRecorderService getService() {
+            // Return this instance of TaskRecorderService so clients can call public methods
+            return TaskRecorderService.this;
+        }
+    }
+    
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) 
+    {
+    	// get Task to be recorded
+    	long taskId = intent.getLongExtra(EXTRA_TASK_ID, -1);
+    	if(taskId != -1)
+    	{
+    		db.open();
+    		Task task = db.getTask(taskId);
+    		db.close();
+    		
+    		startRecording(task);
+    	}
+    	
+    	return START_NOT_STICKY;
+    }
+    
+    @Override
+    public void onDestroy()
+    {
+    	stopRecording();
+    }
+
+    @Override
+    public IBinder onBind(Intent intent)
+    {
+        return mBinder;
+    }
+	
 	
 	/**
 	 * Add a listener for events of the TaskRecorder.
@@ -77,6 +133,9 @@ public class TaskRecorder
 	 */
 	public void startRecording(Task task)
 	{
+		if(task == null)
+			return;
+		
 		// if some Task is currently being recorded, stop that first as do not record parallel tasks
 		if (this.isRecording())
 		{
@@ -86,6 +145,15 @@ public class TaskRecorder
 		currentRecording = new Recording();
 		currentRecording.setTask(task);
 		currentRecording.setStart(new Date());
+		
+		String notificationTitle = getText(R.string.notification_recording) + " " + task.getName();
+		Notification notification = new Notification(R.drawable.ic_stat_recording, notificationTitle,
+		        System.currentTimeMillis());
+		Intent notificationIntent = new Intent(this, MainActivity.class);
+		PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
+		notification.setLatestEventInfo(this, notificationTitle,
+		        task.toString(), pendingIntent);
+		startForeground(ONGOING_NOTIFICATION_ID, notification);
 		
 		this.fireRecorderEvent(RecorderEventState.Started);
 	}
@@ -102,10 +170,11 @@ public class TaskRecorder
 		currentRecording.setEnd(new Date());
 		
 		// save Recording to database
-		IDatabaseController db = ApplicationHelper.createDatabaseController();
 		db.open();
 		db.insertRecording(currentRecording); //TODO: check result of DB operation?
 		db.close();
+		
+		stopForeground(true);
 		
 		currentRecording = null;
 		
