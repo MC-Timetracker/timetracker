@@ -1,30 +1,36 @@
 package iiitd.mc.timetracker;
 
-import android.app.Activity;
-import android.content.Intent;
+import java.util.List;
+
+import iiitd.mc.timetracker.data.Recording;
+import iiitd.mc.timetracker.helper.IDatabaseController;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
-public class List_Recordings extends BaseActivity {
+public class ListRecordingsActivity extends BaseActivity {
 	
 	public RelativeLayout relativelayoutlist_recordings;
+	ListView lvRecordings;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_list__recordings);
-		Intent intent = getIntent();
-		TextView tv = new TextView(this); 
+		setContentView(R.layout.activity_list_recordings);
 		navigationDisplay();
+		
+		lvRecordings = (ListView) findViewById(R.id.lvRecordings);
+		
+		loadRecordingsList();
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.list__recordings, menu);
+		getMenuInflater().inflate(R.menu.list_recordings, menu);
 		return true;
 	}
 
@@ -44,6 +50,21 @@ public class List_Recordings extends BaseActivity {
 		//brings relative layout of list recordings to the front on closing the drawer
 		relativelayoutlist_recordings = (RelativeLayout) findViewById(R.id.relativelayoutlist_recordings); 
     	relativelayoutlist_recordings.bringToFront();
-    	
     }
+	
+	
+	/**
+	 * Populate the list in the UI with the Recordings from the database.
+	 */
+	public void loadRecordingsList()
+	{
+		IDatabaseController db = ApplicationHelper.createDatabaseController();
+		db.open();
+		List<Recording> recordings = db.getRecordings();
+		db.close();
+		
+		ArrayAdapter<Recording> adapter = new ArrayAdapter<Recording>(this, 
+				android.R.layout.simple_list_item_1, android.R.id.text1, recordings);
+		lvRecordings.setAdapter(adapter);
+	}
 }

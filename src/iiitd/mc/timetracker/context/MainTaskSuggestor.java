@@ -26,7 +26,11 @@ public class MainTaskSuggestor implements ITaskSuggestor
 		List<Task> topTasks = topTasksSuggestor.getTopTasks();
 		tasks.addAll(topTasks);
 		List<Task> recentTasks = recentTasksSuggestor.getRecentTasks();
-		tasks.addAll(recentTasks);
+		for(Task t: recentTasks)
+		{
+			if(!tasks.contains(t))
+				tasks.add(t);
+		}
 		
 		return tasks;
 	}

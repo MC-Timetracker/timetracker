@@ -1,37 +1,19 @@
 package iiitd.mc.timetracker;
 
-import iiitd.mc.timetracker.adapter.NavigationAdapter;
-import android.support.v4.app.ActionBarDrawerToggle;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.widget.DrawerLayout;
-
 import java.util.List;
-
 import iiitd.mc.timetracker.adapter.CustomArrayAdapter;
 import iiitd.mc.timetracker.context.*;
 import iiitd.mc.timetracker.data.*;
-import android.support.v7.app.ActionBarActivity;
-import android.app.ActionBar;
 import android.app.AlertDialog;
-import android.app.Fragment;
-import android.app.FragmentTransaction;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.SystemClock;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.Chronometer;
-import android.widget.ListView;
 import android.widget.RelativeLayout;
 
 
@@ -40,7 +22,6 @@ import android.widget.RelativeLayout;
  * @author gullal
  *
  */
-
 public class MainActivity extends BaseActivity implements RecorderListener {
     
 	public RelativeLayout relativelayoutstart, relativelayoutbuttons;
@@ -48,8 +29,10 @@ public class MainActivity extends BaseActivity implements RecorderListener {
     private Chronometer chronometer;
     long stoptime=0;
     
-    TaskRecorder taskRecorder;
-    ITaskSuggestor suggester;
+    private TaskRecorder taskRecorder;
+    private ITaskSuggestor suggester;
+    private CustomArrayAdapter taskListAdapter;
+    private AutoCompleteTextView autoTv;
     
     
 	@Override
@@ -71,12 +54,9 @@ public class MainActivity extends BaseActivity implements RecorderListener {
 	 */
 	public void initTaskAutocomplete()
 	{
-		AutoCompleteTextView autoTv = (AutoCompleteTextView) findViewById(R.id.taskSelectionBox);
+		autoTv = (AutoCompleteTextView) findViewById(R.id.taskSelectionBox);
 		
-		suggester = new MainTaskSuggestor();
-		List<String> suggestedTasks = suggester.getTaskStrings();
-		CustomArrayAdapter taskListAdapter = new CustomArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, suggestedTasks);
-		autoTv.setAdapter(taskListAdapter);
+		addTasksToAutoView();
 		
 		autoTv.setThreshold(0);
 		autoTv.setOnClickListener(new OnClickListener() {
@@ -112,6 +92,7 @@ public class MainActivity extends BaseActivity implements RecorderListener {
 			           public void onClick(DialogInterface dialog, int id) {
 			               // Create new task and start recording it
 			        	   Task newTask = TaskRecorder.createTaskFromString(sTask);
+			        	   addTasksToAutoView();
 			        	   taskRecorder.startRecording(newTask);
 			           }
 			       })
@@ -183,6 +164,8 @@ public class MainActivity extends BaseActivity implements RecorderListener {
 	public void stopUI()
 	{
 		chronometer.stop();
+		Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+		startActivity(intent);
 	}
 	
 	public void Pause(View view)
@@ -211,6 +194,17 @@ public class MainActivity extends BaseActivity implements RecorderListener {
 	public void closedrawerpausestop(){
 		relativelayoutbuttons = (RelativeLayout) findViewById(R.id.pausestop);
 		relativelayoutbuttons.bringToFront();
+	}
+	
+	/*
+	 * Adds tasks to the Auto Complete View for suggestions
+	 */
+	private void addTasksToAutoView()
+	{
+		suggester = new MainTaskSuggestor();
+		List<String> suggestedTasks = suggester.getTaskStrings();
+		taskListAdapter = new CustomArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, suggestedTasks);
+		autoTv.setAdapter(taskListAdapter);		
 	}
 
 }	

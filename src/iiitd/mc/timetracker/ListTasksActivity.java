@@ -1,30 +1,37 @@
 package iiitd.mc.timetracker;
 
-import android.app.Activity;
-import android.content.Intent;
+import iiitd.mc.timetracker.data.Task;
+import iiitd.mc.timetracker.helper.IDatabaseController;
+
+import java.util.List;
+
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
-public class List_Task extends BaseActivity {
+public class ListTasksActivity extends BaseActivity {
 	
 	public RelativeLayout relativelayoutlist_task; 
+	ListView lvTasks;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_list__task);
-		Intent intent = getIntent();
-		TextView tv = new TextView(this);
+		setContentView(R.layout.activity_list_tasks);
 		navigationDisplay();
+		
+		lvTasks = (ListView) findViewById(R.id.lvTasks);
+		
+		loadTasksList();
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.list__task, menu);
+		getMenuInflater().inflate(R.menu.list_tasks, menu);
 		return true;
 	}
 
@@ -44,6 +51,21 @@ public class List_Task extends BaseActivity {
 		//brings relative layout of list task to the front on closing the drawer
 		relativelayoutlist_task = (RelativeLayout) findViewById(R.id.relativelayoutlist_task); 
     	relativelayoutlist_task.bringToFront();
-    	
     }
+	
+	
+	/**
+	 * Populate the list in the UI with the Tasks from the database.
+	 */
+	public void loadTasksList()
+	{
+		IDatabaseController db = ApplicationHelper.createDatabaseController();
+		db.open();
+		List<Task> tasks = db.getTasks();
+		db.close();
+		
+		ArrayAdapter<Task> adapter = new ArrayAdapter<Task>(this, 
+				android.R.layout.simple_list_item_1, android.R.id.text1, tasks);
+		lvTasks.setAdapter(adapter);
+	}
 }

@@ -2,7 +2,6 @@ package iiitd.mc.timetracker;
 
 import iiitd.mc.timetracker.adapter.NavigationAdapter;
 import android.app.ActionBar;
-import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Color;
@@ -126,21 +125,21 @@ public class BaseActivity extends ActionBarActivity implements OnItemClickListen
 	    
 	    case 0:
 	    	
-	    	Intent new_task = new Intent(this,New_Task.class);
+	    	Intent new_task = new Intent(this,NewTaskActivity.class);
 	    	mDrawerLayout.closeDrawer(mDrawerList);
 		    startActivity(new_task);
 		    break;
 		    
 	    case 1: 
 	    	
-	    	Intent list_task = new Intent(this,List_Task.class);
+	    	Intent list_task = new Intent(this,ListTasksActivity.class);
 	    	mDrawerLayout.closeDrawer(mDrawerList);
 		    startActivity(list_task);
 		    break;
 		    
 	    case 2: 
 		    
-	    	Intent list_recordings = new Intent(this,List_Recordings.class);
+	    	Intent list_recordings = new Intent(this,ListRecordingsActivity.class);
 	    	mDrawerLayout.closeDrawer(mDrawerList);
 	    	startActivity(list_recordings);
 	    	break;

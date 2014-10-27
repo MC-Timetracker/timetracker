@@ -1,5 +1,9 @@
 package iiitd.mc.timetracker.data;
 
+import iiitd.mc.timetracker.ApplicationHelper;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -13,7 +17,7 @@ public class Recording
 	 * @author Shubham
 	 * Member for Id variable added
 	 */
-	private int recordingId;
+	private long recordingId;
 	private Date start;
 	private Date end;
 	private Task task;
@@ -26,7 +30,7 @@ public class Recording
 	 * @param start The time when started recording.
 	 * @param end The time when finished recording.
 	 */
-	public Recording(int recordingId, Task task, Date start, Date end)
+	public Recording(long recordingId, Task task, Date start, Date end)
 	{
 		setRecordingId(recordingId); //TODO: ID assigned by DatabaseController only?
 		setTask(task);
@@ -43,14 +47,14 @@ public class Recording
 	 * Get the recordingId for the recording performed.
 	 * @return the recordingId
 	 */
-	public int getRecordingId() {
+	public long getRecordingId() {
 		return recordingId;
 	}
 	/**
 	 * Set the recordingId for the recording performed
 	 * @param recordingId the recordingId to set
 	 */
-	public void setRecordingId(int recordingId) {
+	public void setRecordingId(long recordingId) {
 		this.recordingId = recordingId;
 	}
 	/**
@@ -100,5 +104,20 @@ public class Recording
 	public void setTask(Task task)
 	{
 		this.task = task;
+	}
+	
+	
+	@Override
+	public String toString()
+	{
+		DateFormat dateFormatter = android.text.format.DateFormat.getDateFormat(ApplicationHelper.getAppContext());
+		DateFormat timeFormatter = new SimpleDateFormat("HH:mm");
+		String sTime = "?";
+		if(start != null)
+			sTime = dateFormatter.format(start) + " " + timeFormatter.format(start);
+		String eTime = "?";
+		if(end != null)
+			eTime = dateFormatter.format(end) + " " + timeFormatter.format(end);
+		return getTask().toString() + " [" + sTime + " - " + eTime + "]";
 	}
 }

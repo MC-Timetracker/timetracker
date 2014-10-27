@@ -33,7 +33,7 @@ public class ApplicationHelper extends Application
      */
     public static IDatabaseController createDatabaseController()
     {
-    	return new MockupDatabaseController();
-    	//return new DatabaseController(ApplicationHelper.context);	//TODO: use the "real" DatabaseController implementation
+    	//return new MockupDatabaseController();
+    	return new DatabaseController(ApplicationHelper.context);
     }
 }
