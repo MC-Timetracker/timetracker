@@ -14,7 +14,7 @@ import android.content.Intent;
 import android.os.Binder;
 import android.os.IBinder;
 import iiitd.mc.timetracker.ApplicationHelper;
-import iiitd.mc.timetracker.MainActivity;
+import iiitd.mc.timetracker.RunningActivity;
 import iiitd.mc.timetracker.R;
 import iiitd.mc.timetracker.helper.IDatabaseController;
 
@@ -149,7 +149,7 @@ public class TaskRecorderService extends Service
 		String notificationTitle = getText(R.string.notification_recording) + " " + task.getName();
 		Notification notification = new Notification(R.drawable.ic_stat_recording, notificationTitle,
 		        System.currentTimeMillis());
-		Intent notificationIntent = new Intent(this, MainActivity.class);
+		Intent notificationIntent = new Intent(this, RunningActivity.class);
 		PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
 		notification.setLatestEventInfo(this, notificationTitle,
 		        task.toString(), pendingIntent);
@@ -188,6 +188,11 @@ public class TaskRecorderService extends Service
 	public boolean isRecording()
 	{
 		return (this.currentRecording != null);
+	}
+	
+	public Recording getCurrentRecording()
+	{
+		return this.currentRecording;
 	}
 	
 	

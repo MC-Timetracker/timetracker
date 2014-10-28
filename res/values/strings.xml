@@ -39,5 +39,6 @@
     <string name="no">No</string>
     <string name="cancel">Cancel</string>
     <string name="notification_recording">Working on</string>
+    <string name="title_activity_running">Recording Task</string>
 
 </resources>

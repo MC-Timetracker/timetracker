@@ -31,10 +31,7 @@ import android.widget.RelativeLayout;
 public class MainActivity extends BaseActivity {
 	
 	public RelativeLayout relativelayoutstart, relativelayoutbuttons;
-    Button btnStart,btnStop,btnPause,btnResume;
-    private Chronometer chronometer;
-    long stoptime=0;
-    
+	
     Intent recorderIntent;
     TaskRecorderService taskRecorder;
     boolean taskRecorderBound = false;
@@ -85,7 +82,8 @@ public class MainActivity extends BaseActivity {
 		recorderIntent.putExtra(TaskRecorderService.EXTRA_TASK_ID, task.getId());
 		startService(recorderIntent);
 		
-		startUI();
+		Intent running_activity = new Intent(this, RunningActivity.class);
+		startActivity(running_activity);
 	}
 
 
@@ -128,70 +126,12 @@ public class MainActivity extends BaseActivity {
 			return; // further action is handled in dialog event handlers
 		}
 	}
-	/**
-	 * Event handler for click of stop button.
-	 * @param view
-	 */
-	public void Stop(View view)
-	{
-		stopService(recorderIntent);
-		
-		stopUI();
-	}
-	
-	/**
-	 * Handles all UI changes when recording is started.
-	 */
-	public void startUI()
-	{
-		setContentView(R.layout.pausestop);
-		navigationDisplay();
-		
-		//TODO: Chronometer should not count independent of taskRecorder but use that timing instead.
-		chronometer=(Chronometer) findViewById(R.id.chronometer);
-		chronometer.setBase(SystemClock.elapsedRealtime());
-		chronometer.start();
-		
-		//closedrawerpausestop();
-	}
-	
-	/**
-	 * Handles all UI changes when recording is stopped.
-	 */
-	public void stopUI()
-	{
-		chronometer.stop();
-		Intent intent = new Intent(getApplicationContext(),MainActivity.class);
-		startActivity(intent);
-	}
-	
-	public void Pause(View view)
-	{
-		btnPause =(Button) findViewById(R.id.btnPause);
-		btnResume =(Button) findViewById(R.id.btnResume);
-		stoptime=chronometer.getBase()-SystemClock.elapsedRealtime();
-		chronometer.stop();
-		btnPause.setVisibility(View.INVISIBLE);
-		btnResume.setVisibility(View.VISIBLE);
-	}
-    
-	public void Resume(View view){
-		btnResume =(Button) findViewById(R.id.btnResume);
-		chronometer.setBase(SystemClock.elapsedRealtime()+stoptime);
-		chronometer.start();
-		btnPause.setVisibility(View.VISIBLE);
-		btnResume.setVisibility(View.INVISIBLE);
-	}
 	
 	public void closedrawer() {
 		//brings relative layout where pause stop buttons come to the front on closing the drawer
 		relativelayoutstart = (RelativeLayout) findViewById(R.id.root_layout);
 		relativelayoutstart.bringToFront();
     }
-	public void closedrawerpausestop(){
-		relativelayoutbuttons = (RelativeLayout) findViewById(R.id.pausestop);
-		relativelayoutbuttons.bringToFront();
-	}
 
 
 	/*
