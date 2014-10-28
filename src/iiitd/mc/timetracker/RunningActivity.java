@@ -1,6 +1,5 @@
 package iiitd.mc.timetracker;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.view.Menu;
@@ -10,10 +9,12 @@ import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.RelativeLayout;
 
-public class RunningActivity extends MainActivity {
+public class RunningActivity extends BaseActivity {
 	
 	RelativeLayout relativelayoutrunningactivity;
 	Button btnStop,btnPause,btnResume;
+    Chronometer chronometer;
+    long stoptime=0;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
