@@ -20,11 +20,16 @@ public class RunningActivity extends BaseActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_running);
+		
+		btnPause =(Button) findViewById(R.id.btnPause);
+		btnResume =(Button) findViewById(R.id.btnResume);
+		
 		//TODO: Chronometer should not count independent of taskRecorder but use that timing instead.
-				chronometer=(Chronometer) findViewById(R.id.chronometer);
-				chronometer.setBase(SystemClock.elapsedRealtime());
-				chronometer.start();
-				navigationDisplay();
+		chronometer=(Chronometer) findViewById(R.id.chronometer);
+		chronometer.setBase(SystemClock.elapsedRealtime());
+		chronometer.start();
+		
+		navigationDisplay();
 	}
 	
 	/**
@@ -38,8 +43,6 @@ public class RunningActivity extends BaseActivity {
 	
 	public void Pause(View view)
 	{
-		btnPause =(Button) findViewById(R.id.btnPause);
-		btnResume =(Button) findViewById(R.id.btnResume);
 		stoptime=chronometer.getBase()-SystemClock.elapsedRealtime();
 		chronometer.stop();
 		btnPause.setVisibility(View.INVISIBLE);
@@ -47,7 +50,6 @@ public class RunningActivity extends BaseActivity {
 	}
     
 	public void Resume(View view){
-		btnResume =(Button) findViewById(R.id.btnResume);
 		chronometer.setBase(SystemClock.elapsedRealtime()+stoptime);
 		chronometer.start();
 		btnPause.setVisibility(View.VISIBLE);
@@ -72,11 +74,10 @@ public class RunningActivity extends BaseActivity {
 		}
 		return super.onOptionsItemSelected(item);
 	}
+	
 	public void closedrawer(){
-		
 		//brings relative layout of new task to the front on closing the drawer
 		relativelayoutrunningactivity = (RelativeLayout) findViewById(R.id.pausestop); 
     	relativelayoutrunningactivity.bringToFront();
-    	
     }
 }
