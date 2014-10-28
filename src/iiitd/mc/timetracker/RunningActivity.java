@@ -32,10 +32,7 @@ public class RunningActivity extends MainActivity {
 	public void Stop(View view)
 	{
 		chronometer.stop();
-		//Intent intent = new Intent(getApplicationContext(),RunningActivity.class);
-		//startActivity(intent);
-		btnPause.setEnabled(false);
-		btnResume.setEnabled(false);
+		finish();
 	}
 	
 	public void Pause(View view)
