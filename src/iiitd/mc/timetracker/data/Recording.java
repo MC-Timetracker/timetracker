@@ -5,6 +5,9 @@ import iiitd.mc.timetracker.ApplicationHelper;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
+
+import javax.xml.datatype.Duration;
 
 /**
  * A Recording describes a specific time period spent working on a Task.
@@ -104,6 +107,26 @@ public class Recording
 	public void setTask(Task task)
 	{
 		this.task = task;
+	}
+	
+	/**
+	 * Get the Duration of this Recording in the desired unit.
+	 * from: http://stackoverflow.com/questions/1555262/calculating-the-difference-between-two-java-date-instances
+	 * @param timeUnit The time unit in which the duration should be returned.
+	 * @return The duration of this Recording. If the Recording is still running, the current duration.
+	 */
+	public long getDuration(TimeUnit timeUnit)
+	{
+		if(start == null)
+			return 0;
+		
+		// set end to NOW if not set already
+		Date tEnd = end;
+		if(tEnd == null)
+			tEnd = new Date();
+		
+	    long diffInMillies = tEnd.getTime() - start.getTime();
+	    return timeUnit.convert(diffInMillies,TimeUnit.MILLISECONDS);
 	}
 	
 	
