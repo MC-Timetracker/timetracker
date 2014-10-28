@@ -25,8 +25,8 @@ import android.widget.RelativeLayout;
 public class MainActivity extends BaseActivity implements RecorderListener {
     
 	public RelativeLayout relativelayoutstart, relativelayoutbuttons;
-    Button btnStart,btnStop,btnPause,btnResume;
-    private Chronometer chronometer;
+    Button btnStart;
+    public Chronometer chronometer;
     long stoptime=0;
     
     private TaskRecorder taskRecorder;
@@ -147,13 +147,15 @@ public class MainActivity extends BaseActivity implements RecorderListener {
 	 */
 	public void startUI()
 	{
-		setContentView(R.layout.pausestop);
+		//setContentView(R.layout.pausestop);
+		Intent running_activity = new Intent(this, RunningActivity.class);
+		startActivity(running_activity);
 		navigationDisplay();
 		
 		//TODO: Chronometer should not count independent of taskRecorder but use that timing instead.
-		chronometer=(Chronometer) findViewById(R.id.chronometer);
+		/*chronometer=(Chronometer) findViewById(R.id.chronometer);
 		chronometer.setBase(SystemClock.elapsedRealtime());
-		chronometer.start();
+		chronometer.start();*/
 		
 		//closedrawerpausestop();
 	}
@@ -164,11 +166,11 @@ public class MainActivity extends BaseActivity implements RecorderListener {
 	public void stopUI()
 	{
 		chronometer.stop();
-		Intent intent = new Intent(getApplicationContext(),MainActivity.class);
-		startActivity(intent);
+		//Intent intent = new Intent(getApplicationContext(),RunningActivity.class);
+		//startActivity(intent);
 	}
 	
-	public void Pause(View view)
+	/*public void Pause(View view)
 	{
 		btnPause =(Button) findViewById(R.id.btnPause);
 		btnResume =(Button) findViewById(R.id.btnResume);
@@ -184,17 +186,17 @@ public class MainActivity extends BaseActivity implements RecorderListener {
 		chronometer.start();
 		btnPause.setVisibility(View.VISIBLE);
 		btnResume.setVisibility(View.INVISIBLE);
-	}
+	}*/
 	
 	public void closedrawer() {
 		//brings relative layout where pause stop buttons come to the front on closing the drawer
 		relativelayoutstart = (RelativeLayout) findViewById(R.id.root_layout);
 		relativelayoutstart.bringToFront();
     }
-	public void closedrawerpausestop(){
+	/*public void closedrawerpausestop(){
 		relativelayoutbuttons = (RelativeLayout) findViewById(R.id.pausestop);
 		relativelayoutbuttons.bringToFront();
-	}
+	}*/
 	
 	/*
 	 * Adds tasks to the Auto Complete View for suggestions
