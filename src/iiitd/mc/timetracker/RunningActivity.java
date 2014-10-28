@@ -125,6 +125,10 @@ public class RunningActivity extends BaseActivity {
             taskRecorder = binder.getService();
             mBound = true;
             
+            //close this Activity if no task is currently recorded
+            if(!taskRecorder.isRecording())
+            	finish();
+            
             //update view & timer based on actual recording time
             chronometer.setBase(SystemClock.elapsedRealtime()-taskRecorder.getCurrentRecording().getDuration(TimeUnit.MILLISECONDS));
     		chronometer.start();
