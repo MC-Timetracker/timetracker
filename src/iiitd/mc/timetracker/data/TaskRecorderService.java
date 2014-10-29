@@ -11,6 +11,7 @@ import android.app.Notification;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Binder;
 import android.os.IBinder;
 import iiitd.mc.timetracker.ApplicationHelper;
@@ -37,23 +38,13 @@ public class TaskRecorderService extends Service
 	IDatabaseController db = ApplicationHelper.createDatabaseController();
 	
 	Task breakTask;
-	private static final String DEFAULT_BREAK_TASK = "Break";
+	private static final String SETTINGS_BREAK_TASK_ID = "breakTaskId";
+	private static final String BREAK_TASK_NAME = "Break";
 	
 	
 	@Override
 	public void onCreate() {
 		super.onCreate();
-		
-		// get "Break" task
-		long breakTaskId = -1; //TODO: get "break" task from app settings
-		db.open();
-		breakTask = db.getTask(breakTaskId);
-		db.close();
-		if(breakTask == null)
-		{
-			breakTask = createTaskFromString(DEFAULT_BREAK_TASK);
-			breakTaskId = breakTask.getId(); //TODO: save "break" task to app settings
-		}
 	}
 	
 	/**
@@ -196,7 +187,7 @@ public class TaskRecorderService extends Service
 		
 		stopForeground(true);
 		
-		if(!currentRecording.getTask().equals(breakTask))
+		if(!currentRecording.getTask().equals(getBreakTask()))
 			lastRecording = currentRecording;
 		currentRecording = null;
 		
@@ -231,6 +222,34 @@ public class TaskRecorderService extends Service
 		return this.lastRecording;
 	}
 	
+	/**
+	 * Get the Task used to represent a break taken during other tasks.
+	 * @return The Task instance representing a break.
+	 */
+	public Task getBreakTask()
+	{
+		if(breakTask == null)
+		{
+			SharedPreferences settings = getSharedPreferences(getString(R.string.app_name), 0);
+			long breakTaskId = settings.getLong(SETTINGS_BREAK_TASK_ID, -1);
+			db.open();
+			breakTask = db.getTask(breakTaskId);
+			if(breakTask == null)
+			{
+				breakTask = new Task(BREAK_TASK_NAME, null);
+				db.insertTask(breakTask);
+				breakTaskId = breakTask.getId();
+				
+				//save ID to settings
+				SharedPreferences.Editor editor = settings.edit();
+				editor.putLong(SETTINGS_BREAK_TASK_ID, breakTaskId);
+				editor.commit();
+			}
+			db.close();
+		}
+		
+		return breakTask;
+	}
 	
 	/**
 	 * Return the Task instance that corresponds to the given string describing a task path.
@@ -302,7 +321,7 @@ public class TaskRecorderService extends Service
 	public void pauseRecording()
 	{
 		stopRecording();
-		startRecording(breakTask);
+		startRecording(getBreakTask());
 	}
 	
 	/**
