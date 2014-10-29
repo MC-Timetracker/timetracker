@@ -33,8 +33,28 @@ public class TaskRecorderService extends Service
 	
 	private transient Vector<RecorderListener> listeners;
 	private Recording currentRecording = null;
+	private Recording lastRecording = null;
 	IDatabaseController db = ApplicationHelper.createDatabaseController();
 	
+	Task breakTask;
+	private static final String DEFAULT_BREAK_TASK = "Break";
+	
+	
+	@Override
+	public void onCreate() {
+		super.onCreate();
+		
+		// get "Break" task
+		long breakTaskId = -1; //TODO: get "break" task from app settings
+		db.open();
+		breakTask = db.getTask(breakTaskId);
+		db.close();
+		if(breakTask == null)
+		{
+			breakTask = createTaskFromString(DEFAULT_BREAK_TASK);
+			breakTaskId = breakTask.getId(); //TODO: save "break" task to app settings
+		}
+	}
 	
 	/**
      * Class used for the client Binder.  Because we know this service always
@@ -176,6 +196,8 @@ public class TaskRecorderService extends Service
 		
 		stopForeground(true);
 		
+		if(!currentRecording.getTask().equals(breakTask))
+			lastRecording = currentRecording;
 		currentRecording = null;
 		
 		this.fireRecorderEvent(RecorderEventState.Stopped);
@@ -190,11 +212,24 @@ public class TaskRecorderService extends Service
 		return (this.currentRecording != null);
 	}
 	
+	/**
+	 * Get the Recording that is currently recorded.
+	 * @return The current Recording or null if not recording.
+	 */
 	public Recording getCurrentRecording()
 	{
 		return this.currentRecording;
 	}
 	
+	/**
+	 * Get the last completed Recording.
+	 * @return The Recording that was last completed or null if this TaskRecorderService instance 
+	 * 	did not finish recording anything yet.
+	 */
+	public Recording getLastRecording()
+	{
+		return this.lastRecording;
+	}
 	
 	
 	/**
@@ -257,5 +292,29 @@ public class TaskRecorderService extends Service
 		db.close();
 		
 		return newTask;
+	}
+	
+	/**
+	 * Pause Recording the current task.
+	 * This will stop recording and start recording a "Break" Task.
+	 * resumeRecording() allows to restart recording the paused Task later.
+	 */
+	public void pauseRecording()
+	{
+		stopRecording();
+		startRecording(breakTask);
+	}
+	
+	/**
+	 * Restart recording the Task that was most recently recorded.
+	 * If no LastRecording is available in this TaskRecorderService, this call is ignored.
+	 */
+	public void resumeRecording()
+	{
+		if(lastRecording != null)
+		{
+			Task lastTask = lastRecording.getTask();
+			startRecording(lastTask);
+		}
 	}
 }
