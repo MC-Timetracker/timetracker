@@ -36,10 +36,6 @@ public class RunningActivity extends BaseActivity {
 		btnPause =(Button) findViewById(R.id.btnPause);
 		btnResume =(Button) findViewById(R.id.btnResume);
 		
-		// bind to TaskRecorderService
-        Intent intent = new Intent(this, TaskRecorderService.class);
-        bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
-		
 		//TODO: Chronometer should not count independent of taskRecorder but use that timing instead.
 		chronometer=(Chronometer) findViewById(R.id.chronometer);
 		chronometer.setBase(SystemClock.elapsedRealtime());
@@ -49,8 +45,17 @@ public class RunningActivity extends BaseActivity {
 	}
 	
 	@Override
-	protected void onDestroy() {
-		super.onDestroy();
+	protected void onStart() {
+		super.onStart();
+		
+		// bind to TaskRecorderService
+        Intent intent = new Intent(this, TaskRecorderService.class);
+        bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
+	}
+	
+	@Override
+	protected void onStop() {
+		super.onStop();
 		
         // Unbind from the service
         if (mBound) {
@@ -127,12 +132,16 @@ public class RunningActivity extends BaseActivity {
             
             //close this Activity if no task is currently recorded
             if(!taskRecorder.isRecording())
+            {
             	finish();
-            
-            //update view & timer based on actual recording time
-            chronometer.setBase(SystemClock.elapsedRealtime()-taskRecorder.getCurrentRecording().getDuration(TimeUnit.MILLISECONDS));
-    		chronometer.start();
-    		//TODO set task name: taskRecorder.getCurrentRecording().toString();
+            } 
+            else
+            {
+	            //update view & timer based on actual recording time
+	            chronometer.setBase(SystemClock.elapsedRealtime()-taskRecorder.getCurrentRecording().getDuration(TimeUnit.MILLISECONDS));
+	    		chronometer.start();
+	    		//TODO set task name: taskRecorder.getCurrentRecording().toString();
+            }
         }
 
         @Override
