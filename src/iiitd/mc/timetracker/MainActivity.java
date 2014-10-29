@@ -17,6 +17,10 @@ import android.os.IBinder;
 import android.os.SystemClock;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.Chronometer;
@@ -68,6 +72,21 @@ public class MainActivity extends BaseActivity {
 				{
 					((AutoCompleteTextView)view).showDropDown();
 				}
+		});
+		
+
+	    getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+		autoTv.setOnItemClickListener(new OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+			{
+				// Hide keyboard when an item is selected
+			    InputMethodManager inm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+			    View currentFocus = getCurrentFocus();
+		        if (currentFocus != null) {
+		        	inm.hideSoftInputFromWindow(currentFocus.getWindowToken(), 0);
+		        }
+			}
 		});
 	}
 	
