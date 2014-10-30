@@ -13,7 +13,6 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.FrameLayout;
@@ -47,6 +46,7 @@ public class BaseActivity extends ActionBarActivity implements OnItemClickListen
 		actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#697848")));
 		actionBar.setIcon(getWallpaper());
 		mTitle = "Time Tracker";
+		
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mstartrelativelayout = (RelativeLayout) findViewById(R.id.root_layout);
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
@@ -146,4 +146,22 @@ public class BaseActivity extends ActionBarActivity implements OnItemClickListen
 		selectItem(position);
 	}
 	
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Pass the event to ActionBarDrawerToggle, if it returns
+        // true, then it has handled the app icon touch event
+        if (mDrawerToggle.onOptionsItemSelected(item)) {
+            return true;
+        }
+        // Handle your other action bar items...
+ 
+        return super.onOptionsItemSelected(item);
+    }
+    
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.base, menu);
+        return true;
+    }
 }
