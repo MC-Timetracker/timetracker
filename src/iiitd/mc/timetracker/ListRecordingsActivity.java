@@ -9,7 +9,6 @@ import iiitd.mc.timetracker.helper.IDatabaseController;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 
@@ -27,6 +26,7 @@ public class ListRecordingsActivity extends BaseActivity {
 		navigationDisplay();
 		
 		lvRecordings = (ListView) findViewById(R.id.lvRecordings);
+		
 		loadRecordingsList();
 		
 		adapter = new CustomAdapter(this, customlvrec);
@@ -66,12 +66,7 @@ public class ListRecordingsActivity extends BaseActivity {
 	{
 		IDatabaseController db = ApplicationHelper.createDatabaseController();
 		db.open();
-		List<Recording> recordings = db.getRecordings();
+		customlvrec = db.getRecordings();
 		db.close();
-		
-		for(Recording r : recordings)
-		{
-			customlvrec.add(r);
-		}
 	}
 }

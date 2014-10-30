@@ -1,24 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+     android:layout_width="fill_parent"
+    android:layout_height="?android:attr/listPreferredItemHeight"
     android:orientation="vertical" >
+    
+    <TextView
+        android:id="@+id/taskView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:textSize="18sp"
+        android:text="@string/task_view"/>
+    
+    <TextView
+        android:id="@+id/taskName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/taskView"
+        android:textSize="18sp"
+        android:paddingLeft="5dp"/>
+    
+    <TextView
+        android:id="@+id/durView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/taskView"
+        android:layout_alignParentLeft="true"
+        android:textSize="18sp"
+        android:text="@string/dur_view" />
+    
+    <TextView
+        android:id="@+id/duration"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/taskName"
+        android:textSize="18sp"
+        android:paddingLeft="5dp"
+        android:layout_toRightOf="@+id/durView" />
 
     <TextView
-        android:id="@+id/textViewRecording"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="left"
-        android:layout_margin="2dp"
-        android:textSize="15sp" 
-        />
-
-     <TextView
-        android:id="@+id/textViewInterval"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="left"
-        android:layout_margin="4dp"
-        android:textSize="12sp"/>
-     
-</LinearLayout>
+        android:id="@+id/time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:textSize="18sp"
+        android:layout_below="@+id/taskName"/>
+    
+</RelativeLayout>

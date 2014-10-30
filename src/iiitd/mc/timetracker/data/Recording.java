@@ -7,8 +7,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
-import javax.xml.datatype.Duration;
-
 /**
  * A Recording describes a specific time period spent working on a Task.
  * @author gullal

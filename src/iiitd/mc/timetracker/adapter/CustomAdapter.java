@@ -1,10 +1,13 @@
 package iiitd.mc.timetracker.adapter;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import iiitd.mc.timetracker.R;
 import iiitd.mc.timetracker.data.Recording;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -40,26 +43,38 @@ public class CustomAdapter extends BaseAdapter{
 		return 0;
 	}
 	
+	@SuppressLint("SimpleDateFormat")
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		String interval;
 		
-		if(convertView==null)
+		View view = convertView;
+		
+		if(view ==null)
 		{
 			LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			convertView = inflater.inflate(R.layout.recording_list, parent,false);
+			view = inflater.inflate(R.layout.recording_list, parent,false);
 		}
 		
-		TextView txtviewrecording=(TextView)convertView.findViewById(R.id.textViewRecording);
-		TextView txtviewinterval=(TextView)convertView.findViewById(R.id.textViewInterval);
+		Recording i = recordedactivitydata.get(position);
 		
-		Recording record=recordedactivitydata.get(position);
-		interval=record.getStart().toString() + "-" + record.getEnd().toString();
+		TextView taskName =(TextView)view.findViewById(R.id.taskName);
+		TextView recDur =(TextView)view.findViewById(R.id.duration);
+		TextView timeRange = (TextView)view.findViewById(R.id.time);
 		
-		txtviewrecording.setText(record.getTask().toString());
-		txtviewinterval.setText(interval);
+		if(taskName != null){
+			taskName.setText(i.getTask().getName());
+		}
+		if(recDur != null){
+			long dur = i.getDuration(TimeUnit.MINUTES);
+			recDur.setText(dur/60+":"+dur%60);
+		}
+		if(timeRange!= null){
+			SimpleDateFormat dformat = new SimpleDateFormat("HH:mm");
+			
+			timeRange.setText("("+dformat.format(i.getStart())+" - "+dformat.format(i.getEnd())+")");
+		}
 		
-		return convertView;
+		return view;
 	}
 
 }
