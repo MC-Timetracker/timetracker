@@ -13,8 +13,10 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 
@@ -27,11 +29,16 @@ public class BaseActivity extends ActionBarActivity implements OnItemClickListen
     public ActionBar actionBar;
     public NavigationAdapter myAdapter;
     public RelativeLayout mstartrelativelayout;
+    
+    protected FrameLayout frame;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_base);
+		frame = (FrameLayout) findViewById(R.id.frame);
+		
+		navigationDisplay();
 	}
 	
 	public void navigationDisplay()
@@ -57,18 +64,18 @@ public class BaseActivity extends ActionBarActivity implements OnItemClickListen
  
             /** Called when a drawer has settled in a completely closed state. */
             public void onDrawerClosed(View view) {
-                //actionBar.setTitle(mTitle);
-            	//invalidateOptionsMenu();
-            	//mstartrelativelayout.bringToFront();
-            	closedrawer();
+            	super.onDrawerClosed(view);
             	
+                //actionBar.setTitle(mTitle);
             }
  
             /** Called when a drawer has settled in a completely open state. */
             public void onDrawerOpened(View drawerView) {
+            	super.onDrawerOpened(drawerView);
+            	
                 //actionBar.setTitle(mTitle);
-                invalidateOptionsMenu();
-                mDrawerLayout.bringToFront();
+                //invalidateOptionsMenu();
+                //mDrawerLayout.bringToFront();
             }
         };
  

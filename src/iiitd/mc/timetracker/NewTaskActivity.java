@@ -6,7 +6,9 @@ import iiitd.mc.timetracker.context.MainTaskSuggestor;
 
 import java.util.List;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,15 +17,16 @@ import android.widget.AutoCompleteTextView;
 import android.widget.RelativeLayout;
 
 public class NewTaskActivity extends BaseActivity {
-	
-	public RelativeLayout relativelayoutnew_task;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_new_task);
 		
-		navigationDisplay();
+		//setContentView(R.layout.activity_new_task);
+		// use LayoutInflater in order to keep the NavigationDrawer of BaseActivity
+		LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        this.frame.addView(inflater.inflate(R.layout.activity_new_task, null));
+		
 		AutoCompleteTextView autoTv = (AutoCompleteTextView) findViewById(R.id.taskSelectionBox);
 		
 		ITaskSuggestor suggester = new MainTaskSuggestor();
@@ -59,11 +62,4 @@ public class NewTaskActivity extends BaseActivity {
 		}
 		return super.onOptionsItemSelected(item);
 	}
-	public void closedrawer(){
-		
-		//brings relative layout of new task to the front on closing the drawer
-		relativelayoutnew_task = (RelativeLayout) findViewById(R.id.relativelayoutnew_task); 
-    	relativelayoutnew_task.bringToFront();
-    	
-    }
 }

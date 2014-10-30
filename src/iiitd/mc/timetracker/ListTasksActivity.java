@@ -9,7 +9,9 @@ import java.util.HashMap;
 import java.util.List;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
@@ -20,7 +22,6 @@ import android.widget.RelativeLayout;
 
 public class ListTasksActivity extends BaseActivity{
 	
-	public RelativeLayout RelativeLayoutlist_task; 
 	private ExpandableListView expListView;
 	private List<Task> listHeader;
 	private HashMap<Task, List<Task>> listItems;
@@ -29,8 +30,11 @@ public class ListTasksActivity extends BaseActivity{
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_list_main);
-		navigationDisplay();
+		
+		//setContentView(R.layout.activity_list_main);
+		// use LayoutInflater in order to keep the NavigationDrawer of BaseActivity
+		LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        this.frame.addView(inflater.inflate(R.layout.activity_list_main, null));
 		
 		// Get the ListView
 		expListView = (ExpandableListView) findViewById(R.id.Explv);		
@@ -59,14 +63,6 @@ public class ListTasksActivity extends BaseActivity{
 		}
 		return super.onOptionsItemSelected(item);
 	}
-	
-	public void closedrawer(){
-     
-		//brings relative layout of list task to the front on closing the drawer
-		RelativeLayoutlist_task = (RelativeLayout) findViewById(R.id.relativelayoutlist_task); 
-    	RelativeLayoutlist_task.bringToFront();
-    }
-	
 	
 	/**
 	 * Populate the list in the UI with the Tasks from the database.

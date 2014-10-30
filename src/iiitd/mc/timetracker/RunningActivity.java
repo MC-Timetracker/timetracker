@@ -11,6 +11,7 @@ import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.os.SystemClock;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,7 +21,6 @@ import android.widget.RelativeLayout;
 
 public class RunningActivity extends BaseActivity {
 	
-	RelativeLayout relativelayoutrunningactivity;
 	Button btnStop,btnPause,btnResume;
     Chronometer chronometer;
     long stoptime=0;
@@ -31,7 +31,11 @@ public class RunningActivity extends BaseActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_running);
+		
+		//setContentView(R.layout.activity_running);
+		// use LayoutInflater in order to keep the NavigationDrawer of BaseActivity
+		LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        this.frame.addView(inflater.inflate(R.layout.activity_running, null));
 		
 		btnPause =(Button) findViewById(R.id.btnPause);
 		btnResume =(Button) findViewById(R.id.btnResume);
@@ -119,12 +123,6 @@ public class RunningActivity extends BaseActivity {
 		}
 		return super.onOptionsItemSelected(item);
 	}
-	
-	public void closedrawer(){
-		//brings relative layout of new task to the front on closing the drawer
-		relativelayoutrunningactivity = (RelativeLayout) findViewById(R.id.pausestop); 
-    	relativelayoutrunningactivity.bringToFront();
-    }
 	
 	/** Defines callbacks for service binding, passed to bindService() */
     private ServiceConnection mConnection = new ServiceConnection() {
