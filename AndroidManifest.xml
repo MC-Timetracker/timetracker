@@ -52,7 +52,7 @@
                 android:value="iiitd.mc.timetracker.BaseActivity" />
         </activity>
         <activity
-            android:name=".RunningActivity"
+            android:name="iiitd.mc.timetracker.RunningActivity"
             android:label="@string/title_activity_running" >
         </activity>
         <service android:name=".data.TaskRecorderService" />
