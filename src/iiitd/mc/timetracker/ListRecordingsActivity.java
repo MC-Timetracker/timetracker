@@ -1,7 +1,9 @@
 package iiitd.mc.timetracker;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import iiitd.mc.timetracker.adapter.CustomAdapter;
 import iiitd.mc.timetracker.data.Recording;
 import iiitd.mc.timetracker.helper.IDatabaseController;
 import android.os.Bundle;
@@ -15,7 +17,9 @@ public class ListRecordingsActivity extends BaseActivity {
 	
 	public RelativeLayout relativelayoutlist_recordings;
 	ListView lvRecordings;
-
+	CustomAdapter adapter;
+	public List<Recording> customlvrec = new ArrayList<Recording>();
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -23,8 +27,10 @@ public class ListRecordingsActivity extends BaseActivity {
 		navigationDisplay();
 		
 		lvRecordings = (ListView) findViewById(R.id.lvRecordings);
-		
 		loadRecordingsList();
+		
+		adapter = new CustomAdapter(this, customlvrec);
+		lvRecordings.setAdapter(adapter);
 	}
 
 	@Override
@@ -63,8 +69,9 @@ public class ListRecordingsActivity extends BaseActivity {
 		List<Recording> recordings = db.getRecordings();
 		db.close();
 		
-		ArrayAdapter<Recording> adapter = new ArrayAdapter<Recording>(this, 
-				android.R.layout.simple_list_item_1, android.R.id.text1, recordings);
-		lvRecordings.setAdapter(adapter);
+		for(Recording r : recordings)
+		{
+			customlvrec.add(r);
+		}
 	}
 }

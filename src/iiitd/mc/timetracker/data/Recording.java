@@ -119,7 +119,6 @@ public class Recording
 	{
 		if(start == null)
 			return 0;
-		
 		// set end to NOW if not set already
 		Date tEnd = end;
 		if(tEnd == null)
