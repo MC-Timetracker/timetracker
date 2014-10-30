@@ -44,8 +44,8 @@ public class BaseActivity extends ActionBarActivity implements OnItemClickListen
 	{
 		actionBar = getActionBar();
 		actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#697848")));
-		actionBar.setIcon(getWallpaper());
-		mTitle = "Time Tracker";
+		actionBar.setIcon(R.drawable.ic_launcher);
+		mTitle = getString(R.string.app_name);
 		
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mstartrelativelayout = (RelativeLayout) findViewById(R.id.root_layout);
