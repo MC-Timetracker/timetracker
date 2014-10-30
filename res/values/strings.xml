@@ -41,4 +41,7 @@
     <string name="notification_recording">Working on</string>
     <string name="title_activity_running">Recording Task</string>
 
+    <!-- List Recordings strings -->
+    <string name="task_view">Task:</string>
+    <string name="dur_view">Duration:</string>
 </resources>
