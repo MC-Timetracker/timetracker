@@ -1,19 +1,21 @@
 package iiitd.mc.timetracker;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.RelativeLayout;
 
 public class Statistics extends BaseActivity {
-	
-	public RelativeLayout relativelayout_statistics;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_statistics);
-		navigationDisplay();
+		
+		//setContentView(R.layout.activity_statistics);
+		// use LayoutInflater in order to keep the NavigationDrawer of BaseActivity
+		LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        this.frame.addView(inflater.inflate(R.layout.activity_statistics, null));
 	}
 
 	@Override
@@ -34,12 +36,4 @@ public class Statistics extends BaseActivity {
 		}
 		return super.onOptionsItemSelected(item);
 	}
-	public void closedrawer(){
-        
-		//brings relative layout of statistics to the front on closing the drawer
-		relativelayout_statistics = (RelativeLayout) findViewById(R.id.relativelayout_statistics); 
-    	relativelayout_statistics.bringToFront();
-    	
-    }
-	
 }

@@ -10,6 +10,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.WindowManager;
@@ -42,9 +43,11 @@ public class MainActivity extends BaseActivity {
 	protected void onCreate(Bundle savedInstanceState) 
 	{
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
-
-		navigationDisplay();
+		
+		//setContentView(R.layout.activity_main);
+		// use LayoutInflater in order to keep the NavigationDrawer of BaseActivity
+		LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        this.frame.addView(inflater.inflate(R.layout.activity_main, null));
 		
 		initTaskAutocomplete();
 	}
@@ -124,8 +127,8 @@ public class MainActivity extends BaseActivity {
 			           public void onClick(DialogInterface dialog, int id) {
 			               // Create new task and start recording it
 			        	   Task newTask = TaskRecorderService.createTaskFromString(sTask);
-			        	   addTasksToAutoView();
 			        	   startRecording(newTask);
+					   addTasksToAutoView();
 			           }
 			       })
 			       .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
@@ -138,13 +141,6 @@ public class MainActivity extends BaseActivity {
 			return; // further action is handled in dialog event handlers
 		}
 	}
-	
-	public void closedrawer() {
-		//brings relative layout where pause stop buttons come to the front on closing the drawer
-		relativelayoutstart = (RelativeLayout) findViewById(R.id.root_layout);
-		relativelayoutstart.bringToFront();
-    }
-
 
 	/*
 	 * Adds tasks to the Auto Complete View for suggestions

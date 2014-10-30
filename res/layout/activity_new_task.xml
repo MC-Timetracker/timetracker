@@ -9,42 +9,11 @@
     tools:context="iiitd.mc.timetracker.NewTaskActivity" 
     android:id="@+id/relativelayoutnew_task">
 
-
-    <android.support.v4.widget.DrawerLayout
-        
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/drawer_layout"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_gravity="left"
-    android:layout_marginLeft="0dp"
-    android:layout_marginStart="0dp" >
-    
-    <FrameLayout 
-        android:id = "@+id/frame"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" >
-        
-    </FrameLayout>
-
-    <!-- Listview to display slider menu -->
-    <ListView
-        android:id="@+id/left_drawer"
-        android:layout_width="250dp"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        android:choiceMode="singleChoice"
-        android:dividerHeight="2dp" 
-        android:entries="@array/nav_drawer_items"
-        android:background="#FF8800" 
-        android:layout_marginLeft="0dp"/>
-</android.support.v4.widget.DrawerLayout>
-
  	<TableRow 
- 	    	android:layout_width ="match_parent"
- 	    	android:layout_height ="wrap_content"
- 	    	android:id="@+id/row1"
- 	    	android:layout_marginTop="20dp">
+	   	android:layout_width ="match_parent"
+	   	android:layout_height ="wrap_content"
+	   	android:id="@+id/row1"
+	   	android:layout_marginTop="20dp" >
 
  		<TextView
  		    android:id="@+id/parentnametextview"
@@ -53,92 +22,92 @@
  		    android:gravity="top|left"
  		    android:text="@string/parentname" />
 
-           <AutoCompleteTextView
-                 android:id="@+id/taskSelectionBox"
-                 android:layout_height="wrap_content"
-                 android:layout_width="wrap_content"
-                 android:ems="10"
-                 android:gravity="top|left"
-                 android:inputType="textAutoComplete|textAutoCorrect"/>
+		<AutoCompleteTextView
+			android:id="@+id/taskSelectionBox"
+			android:layout_height="wrap_content"
+			android:layout_width="wrap_content"
+			android:ems="10"
+			android:gravity="top|left"
+			android:inputType="textAutoComplete|textAutoCorrect"/>
                  
-         </TableRow>
+	</TableRow>
          
- 		 <TableRow
- 		     	android:layout_width="match_parent"
- 		     	android:layout_height="wrap_content"
- 		     	android:layout_below="@+id/row1"
- 		     	android:layout_marginTop="40dp"
- 		     	android:id="@+id/row2">
+ 	<TableRow
+ 	    android:id="@+id/row2"
+ 	    android:layout_width="match_parent"
+ 	    android:layout_height="wrap_content"
+ 	    android:layout_below="@+id/row1"
+ 	    android:layout_marginTop="40dp" >
 
-             <TextView
-                 android:id="@+id/tasknametextview"
-                 android:layout_width="wrap_content"
-                 android:layout_height="wrap_content"
-                 android:text="@string/taskname" />
-             
-             <EditText
-               android:id="@+id/tasknameedittext"
-               android:layout_width="match_parent"
-               android:layout_height="wrap_content"
-               android:ems="10"
-               android:inputType="text" />
-                 
-         	</TableRow>
-         	<TableRow
-         	    android:layout_width="match_parent"
- 		     	android:layout_height="wrap_content"
- 		     	android:layout_below="@+id/row2"
- 		     	android:layout_marginTop="60dp" 
- 		     	android:id="@+id/row3">
-              <TextView 
-                  android:id="@+id/description"
-                  android:text="@string/description"
-                  android:layout_width="wrap_content"
-             	  android:layout_height="wrap_content" />
-        
-         </TableRow>
-         <TableRow
-             	android:layout_width="match_parent"
- 		     	android:layout_height="wrap_content"
- 		     	android:layout_below="@+id/row3"
- 		     	android:id="@+id/row4">
+ 	    <TextView
+ 	        android:id="@+id/tasknametextview"
+ 	        android:layout_width="wrap_content"
+ 	        android:layout_height="wrap_content"
+ 	        android:text="@string/taskname" />
 
-             <EditText
-                 android:layout_width="match_parent"
-                 android:layout_height="60dp"
-                 android:background="@drawable/border"
-                 android:ems="10"
-                 android:inputType="textMultiLine"
-                 android:maxLines="10"
-                 android:scrollbars="vertical" />
+ 	    <EditText
+ 	        android:id="@+id/tasknameedittext"
+ 	        android:layout_width="match_parent"
+ 	        android:layout_height="wrap_content"
+ 	        android:ems="10"
+ 	        android:inputType="text" />
+ 	</TableRow>
 
-          </TableRow>
-          <TableRow 
-              	android:layout_width="match_parent"
- 		     	android:layout_height="wrap_content"
- 		     	android:layout_below="@+id/row4" >
-             	
-              	<Button 
-              	    android:id="@+id/btnDone"
-              	    android:layout_width="wrap_content"
-              	    android:layout_height="wrap_content"
-              	    android:layout_marginTop="100dp"
-              	    android:text="@string/btnDone"
-              	    android:width="160dp"
-              	    android:background="@drawable/roundedbutton"
-              	    android:layout_marginLeft="0dp"/>
+ 	<TableRow
+ 	    android:id="@+id/row3"
+ 	    android:layout_width="match_parent"
+ 	    android:layout_height="wrap_content"
+ 	    android:layout_below="@+id/row2"
+ 	    android:layout_marginTop="60dp" >
 
-              	<Button
-              	    android:id="@+id/btnClear"
-              	    android:layout_width="wrap_content"
-              	    android:layout_height="wrap_content"
-              	    android:layout_marginRight="0dp"
-              	    android:layout_marginTop="100dp"
-              	    android:text="@string/btnClear"
-              	    android:width="170dp" 
-              	    android:background="@drawable/roundedbutton" 
-              	    android:layout_marginLeft="15dp"/>
-              
-          </TableRow>
+ 	    <TextView
+ 	        android:id="@+id/description"
+ 	        android:layout_width="wrap_content"
+ 	        android:layout_height="wrap_content"
+ 	        android:text="@string/description" />
+ 	</TableRow>
+
+ 	<TableRow
+ 	    android:id="@+id/row4"
+ 	    android:layout_width="match_parent"
+ 	    android:layout_height="wrap_content"
+ 	    android:layout_below="@+id/row3" >
+
+ 	    <EditText
+ 	        android:layout_width="match_parent"
+ 	        android:layout_height="60dp"
+ 	        android:background="@drawable/border"
+ 	        android:ems="10"
+ 	        android:inputType="textMultiLine"
+ 	        android:maxLines="10"
+ 	        android:scrollbars="vertical" />
+ 	</TableRow>
+
+ 	<TableRow
+ 	    android:layout_width="match_parent"
+ 	    android:layout_height="wrap_content"
+ 	    android:layout_below="@+id/row4" >
+
+ 	    <Button
+ 	        android:id="@+id/btnDone"
+ 	        android:layout_width="wrap_content"
+ 	        android:layout_height="wrap_content"
+ 	        android:layout_marginLeft="0dp"
+ 	        android:layout_marginTop="100dp"
+ 	        android:background="@drawable/roundedbutton"
+ 	        android:text="@string/btnDone"
+ 	        android:width="160dp" />
+
+ 	    <Button
+ 	        android:id="@+id/btnClear"
+ 	        android:layout_width="wrap_content"
+ 	        android:layout_height="wrap_content"
+ 	        android:layout_marginLeft="15dp"
+ 	        android:layout_marginRight="0dp"
+ 	        android:layout_marginTop="100dp"
+ 	        android:background="@drawable/roundedbutton"
+ 	        android:text="@string/btnClear"
+ 	        android:width="170dp" />
+ 	</TableRow>
       
 </RelativeLayout>

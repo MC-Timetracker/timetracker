@@ -11,16 +11,13 @@ import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.os.SystemClock;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Chronometer;
-import android.widget.RelativeLayout;
 
 public class RunningActivity extends BaseActivity {
 	
-	RelativeLayout relativelayoutrunningactivity;
 	Button btnStop,btnPause,btnResume;
     Chronometer chronometer;
     long stoptime=0;
@@ -31,7 +28,11 @@ public class RunningActivity extends BaseActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_running);
+		
+		//setContentView(R.layout.activity_running);
+		// use LayoutInflater in order to keep the NavigationDrawer of BaseActivity
+		LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        this.frame.addView(inflater.inflate(R.layout.activity_running, null));
 		
 		btnPause =(Button) findViewById(R.id.btnPause);
 		btnResume =(Button) findViewById(R.id.btnResume);
@@ -40,8 +41,6 @@ public class RunningActivity extends BaseActivity {
 		chronometer=(Chronometer) findViewById(R.id.chronometer);
 		chronometer.setBase(SystemClock.elapsedRealtime());
 		chronometer.start();
-		
-		navigationDisplay();
 	}
 	
 	@Override
@@ -100,31 +99,6 @@ public class RunningActivity extends BaseActivity {
 		btnPause.setVisibility(View.VISIBLE);
 		btnResume.setVisibility(View.INVISIBLE);
 	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.running, menu);
-		return true;
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		// Handle action bar item clicks here. The action bar will
-		// automatically handle clicks on the Home/Up button, so long
-		// as you specify a parent activity in AndroidManifest.xml.
-		int id = item.getItemId();
-		if (id == R.id.action_settings) {
-			return true;
-		}
-		return super.onOptionsItemSelected(item);
-	}
-	
-	public void closedrawer(){
-		//brings relative layout of new task to the front on closing the drawer
-		relativelayoutrunningactivity = (RelativeLayout) findViewById(R.id.pausestop); 
-    	relativelayoutrunningactivity.bringToFront();
-    }
 	
 	/** Defines callbacks for service binding, passed to bindService() */
     private ServiceConnection mConnection = new ServiceConnection() {

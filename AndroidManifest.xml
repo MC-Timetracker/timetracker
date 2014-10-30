@@ -25,16 +25,14 @@
         </activity>
         <activity
             android:name=".NewTaskActivity"
-            android:label="@string/title_activity_new_task"
-            android:parentActivityName=".BaseActivity" >
+            android:label="@string/title_activity_new_task" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="iiitd.mc.timetracker.BaseActivity" />
         </activity>
         <activity
             android:name=".ListTasksActivity"
-            android:label="@string/title_activity_list_tasks"
-            android:parentActivityName=".BaseActivity" >
+            android:label="@string/title_activity_list_tasks" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="iiitd.mc.timetracker.BaseActivity" />
@@ -45,8 +43,7 @@
         </activity>
         <activity
             android:name=".Statistics"
-            android:label="@string/title_activity_statistics"
-            android:parentActivityName=".BaseActivity" >
+            android:label="@string/title_activity_statistics" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="iiitd.mc.timetracker.BaseActivity" />
@@ -54,6 +51,7 @@
         <activity
             android:name="iiitd.mc.timetracker.RunningActivity"
             android:label="@string/title_activity_running" >
+            android:launchMode="singleTop" >
         </activity>
         <service android:name=".data.TaskRecorderService" />
     </application>

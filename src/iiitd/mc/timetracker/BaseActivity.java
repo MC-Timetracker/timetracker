@@ -15,31 +15,38 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 
 public class BaseActivity extends ActionBarActivity implements OnItemClickListener{
 	
-	public DrawerLayout mDrawerLayout;
-    public ListView mDrawerList;
-    public CharSequence mTitle;
-    public ActionBarDrawerToggle mDrawerToggle;
-    public ActionBar actionBar;
-    public NavigationAdapter myAdapter;
-    public RelativeLayout mstartrelativelayout;
+	DrawerLayout mDrawerLayout;
+    ListView mDrawerList;
+    CharSequence mTitle;
+    ActionBarDrawerToggle mDrawerToggle;
+    ActionBar actionBar;
+    NavigationAdapter myAdapter;
+    RelativeLayout mstartrelativelayout;
+    
+    protected FrameLayout frame;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_base);
+		frame = (FrameLayout) findViewById(R.id.frame);
+		
+		navigationDisplay();
 	}
 	
-	public void navigationDisplay()
+	private void navigationDisplay()
 	{
 		actionBar = getActionBar();
 		actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#697848")));
-		actionBar.setIcon(getWallpaper());
-		mTitle = "Time Tracker";
+		actionBar.setIcon(R.drawable.ic_launcher);
+		mTitle = getString(R.string.app_name);
+		
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mstartrelativelayout = (RelativeLayout) findViewById(R.id.root_layout);
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
@@ -57,15 +64,16 @@ public class BaseActivity extends ActionBarActivity implements OnItemClickListen
  
             /** Called when a drawer has settled in a completely closed state. */
             public void onDrawerClosed(View view) {
-                //actionBar.setTitle(mTitle);
-            	//invalidateOptionsMenu();
-            	//mstartrelativelayout.bringToFront();
-            	closedrawer();
+            	super.onDrawerClosed(view);
             	
+                //actionBar.setTitle(mTitle);
+            	invalidateOptionsMenu();
             }
  
             /** Called when a drawer has settled in a completely open state. */
             public void onDrawerOpened(View drawerView) {
+            	super.onDrawerOpened(drawerView);
+            	
                 //actionBar.setTitle(mTitle);
                 invalidateOptionsMenu();
                 mDrawerLayout.bringToFront();
@@ -77,13 +85,6 @@ public class BaseActivity extends ActionBarActivity implements OnItemClickListen
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);
 	}
-	
-	@Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
  
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
@@ -98,31 +99,12 @@ public class BaseActivity extends ActionBarActivity implements OnItemClickListen
         mDrawerToggle.onConfigurationChanged(newConfig);
     }
  
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Pass the event to ActionBarDrawerToggle, if it returns
-        // true, then it has handled the app icon touch event
-        if (mDrawerToggle.onOptionsItemSelected(item)) {
-            return true;
-        }
-        // Handle your other action bar items...
- 
-        return super.onOptionsItemSelected(item);
-    }
- 
     /**
      * Swaps fragments in the main content view
      */
    private void selectItem(int position) {
-	    
-	  
-        //Fragment fragment;
-	    //Bundle argument = new Bundle();
-	    //argument.putInt(NavigationOptions.option, position);
-	    //fragment.setArguments(argument);
-	    //FragmentTransaction transaction = getFragmentManager().beginTransaction();
-	    switch(position){
-	    
+	    switch(position)
+	    {
 	    case 0:
 	    	
 	    	Intent new_task = new Intent(this,NewTaskActivity.class);
@@ -155,26 +137,31 @@ public class BaseActivity extends ActionBarActivity implements OnItemClickListen
 		    
 	    }
 	    
-	    //fragmentManager.beginTransaction().add(R.id.frame, fragment).commit();
 	    mDrawerList.setItemChecked(position,true);
-		/*setTitle(NavigationAdapter.mNavigationTitles[position]);
-		mDrawerLayout.closeDrawer(mDrawerList);*/
-        
     }
  
     @Override
-    /*public void setTitle(CharSequence title) {
-        mTitle = title;
-        getActionBar().setTitle(mTitle);
-    }*/
 	public void onItemClick(AdapterView<?> parent, View view, int position,
 			long id){
 		selectItem(position);
-		// TODO Auto-generated method stub
-		
 	}
-    public void closedrawer(){
-    
-    }
 	
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Pass the event to ActionBarDrawerToggle, if it returns
+        // true, then it has handled the app icon touch event
+        if (mDrawerToggle.onOptionsItemSelected(item)) {
+            return true;
+        }
+        // Handle your other action bar items...
+ 
+        return super.onOptionsItemSelected(item);
+    }
+    
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.base, menu);
+        return true;
+    }
 }
