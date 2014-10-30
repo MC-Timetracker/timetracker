@@ -5,21 +5,18 @@ import java.util.List;
 import iiitd.mc.timetracker.adapter.CustomArrayAdapter;
 import iiitd.mc.timetracker.context.*;
 import iiitd.mc.timetracker.data.*;
-import iiitd.mc.timetracker.data.TaskRecorderService.TaskRecorderBinder;
 import android.app.AlertDialog;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.ServiceConnection;
 import android.os.Bundle;
-import android.os.IBinder;
-import android.os.SystemClock;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AutoCompleteTextView;
-import android.widget.Button;
-import android.widget.Chronometer;
 import android.widget.RelativeLayout;
 
 
@@ -69,6 +66,21 @@ public class MainActivity extends BaseActivity {
 					((AutoCompleteTextView)view).showDropDown();
 				}
 		});
+		
+
+	    getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+		autoTv.setOnItemClickListener(new OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+			{
+				// Hide keyboard when an item is selected
+			    InputMethodManager inm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+			    View currentFocus = getCurrentFocus();
+		        if (currentFocus != null) {
+		        	inm.hideSoftInputFromWindow(currentFocus.getWindowToken(), 0);
+		        }
+			}
+		});
 	}
 	
 
@@ -112,8 +124,8 @@ public class MainActivity extends BaseActivity {
 			           public void onClick(DialogInterface dialog, int id) {
 			               // Create new task and start recording it
 			        	   Task newTask = TaskRecorderService.createTaskFromString(sTask);
+			        	   addTasksToAutoView();
 			        	   startRecording(newTask);
-					   addTasksToAutoView();
 			           }
 			       })
 			       .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {

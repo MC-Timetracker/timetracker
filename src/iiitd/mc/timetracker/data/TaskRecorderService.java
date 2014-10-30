@@ -11,6 +11,7 @@ import android.app.Notification;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Binder;
 import android.os.IBinder;
 import iiitd.mc.timetracker.ApplicationHelper;
@@ -33,8 +34,18 @@ public class TaskRecorderService extends Service
 	
 	private transient Vector<RecorderListener> listeners;
 	private Recording currentRecording = null;
+	private Recording lastRecording = null;
 	IDatabaseController db = ApplicationHelper.createDatabaseController();
 	
+	Task breakTask;
+	private static final String SETTINGS_BREAK_TASK_ID = "breakTaskId";
+	private static final String BREAK_TASK_NAME = "Break";
+	
+	
+	@Override
+	public void onCreate() {
+		super.onCreate();
+	}
 	
 	/**
      * Class used for the client Binder.  Because we know this service always
@@ -176,6 +187,8 @@ public class TaskRecorderService extends Service
 		
 		stopForeground(true);
 		
+		if(!currentRecording.getTask().equals(getBreakTask()))
+			lastRecording = currentRecording;
 		currentRecording = null;
 		
 		this.fireRecorderEvent(RecorderEventState.Stopped);
@@ -190,12 +203,53 @@ public class TaskRecorderService extends Service
 		return (this.currentRecording != null);
 	}
 	
+	/**
+	 * Get the Recording that is currently recorded.
+	 * @return The current Recording or null if not recording.
+	 */
 	public Recording getCurrentRecording()
 	{
 		return this.currentRecording;
 	}
 	
+	/**
+	 * Get the last completed Recording.
+	 * @return The Recording that was last completed or null if this TaskRecorderService instance 
+	 * 	did not finish recording anything yet.
+	 */
+	public Recording getLastRecording()
+	{
+		return this.lastRecording;
+	}
 	
+	/**
+	 * Get the Task used to represent a break taken during other tasks.
+	 * @return The Task instance representing a break.
+	 */
+	public Task getBreakTask()
+	{
+		if(breakTask == null)
+		{
+			SharedPreferences settings = getSharedPreferences(getString(R.string.app_name), 0);
+			long breakTaskId = settings.getLong(SETTINGS_BREAK_TASK_ID, -1);
+			db.open();
+			breakTask = db.getTask(breakTaskId);
+			if(breakTask == null)
+			{
+				breakTask = new Task(BREAK_TASK_NAME, null);
+				db.insertTask(breakTask);
+				breakTaskId = breakTask.getId();
+				
+				//save ID to settings
+				SharedPreferences.Editor editor = settings.edit();
+				editor.putLong(SETTINGS_BREAK_TASK_ID, breakTaskId);
+				editor.commit();
+			}
+			db.close();
+		}
+		
+		return breakTask;
+	}
 	
 	/**
 	 * Return the Task instance that corresponds to the given string describing a task path.
@@ -257,5 +311,29 @@ public class TaskRecorderService extends Service
 		db.close();
 		
 		return newTask;
+	}
+	
+	/**
+	 * Pause Recording the current task.
+	 * This will stop recording and start recording a "Break" Task.
+	 * resumeRecording() allows to restart recording the paused Task later.
+	 */
+	public void pauseRecording()
+	{
+		stopRecording();
+		startRecording(getBreakTask());
+	}
+	
+	/**
+	 * Restart recording the Task that was most recently recorded.
+	 * If no LastRecording is available in this TaskRecorderService, this call is ignored.
+	 */
+	public void resumeRecording()
+	{
+		if(lastRecording != null)
+		{
+			Task lastTask = lastRecording.getTask();
+			startRecording(lastTask);
+		}
 	}
 }
