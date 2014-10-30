@@ -71,7 +71,6 @@ public class RunningActivity extends BaseActivity {
 	{
 		chronometer.stop();
 		
-		//TODO: call TaskRecorderService to stop recording
 		if (mBound) {
 			taskRecorder.stopRecording();
 		}
@@ -81,6 +80,10 @@ public class RunningActivity extends BaseActivity {
 	
 	public void Pause(View view)
 	{
+		if (mBound) {
+			taskRecorder.pauseRecording();
+		}
+		
 		stoptime=chronometer.getBase()-SystemClock.elapsedRealtime();
 		chronometer.stop();
 		btnPause.setVisibility(View.INVISIBLE);
@@ -88,6 +91,10 @@ public class RunningActivity extends BaseActivity {
 	}
     
 	public void Resume(View view){
+		if (mBound) {
+			taskRecorder.resumeRecording();
+		}
+		
 		chronometer.setBase(SystemClock.elapsedRealtime()+stoptime);
 		chronometer.start();
 		btnPause.setVisibility(View.VISIBLE);
