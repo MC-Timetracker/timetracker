@@ -8,11 +8,17 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.ExpandableListView;
+import android.widget.ExpandableListView.OnChildClickListener;
 
+@SuppressLint("InflateParams")
 public class ListTasksActivity extends BaseActivity{
 	
 	private ExpandableListView expListView;
@@ -36,6 +42,21 @@ public class ListTasksActivity extends BaseActivity{
 		
 		listAdapter = new ExpandableListAdapter(this, listHeader, listItems);
 		expListView.setAdapter(listAdapter);
+		
+		expListView.setOnChildClickListener(new OnChildClickListener(){
+
+			@Override
+			public boolean onChildClick(ExpandableListView explview, View view,
+					int grouppos, int childpos, long id)
+			{
+				long taskId = listItems.get(listHeader.get(grouppos)).get(childpos).getId();
+				Intent intent = new Intent(ListTasksActivity.this,EditTaskActivity.class);
+				intent.putExtra("taskid", taskId);
+				startActivity(intent);
+				return false;
+			}
+			
+		});
 	}
 	
 	/**
@@ -54,6 +75,8 @@ public class ListTasksActivity extends BaseActivity{
 		List<Task> tasks = db.getTasks();
 		db.close();
 		
+		// We have to change the following implementation.
+		// Probably make some changes in the database to efficiently fetch all the tasks.
 		for(Task t: tasks)
 		{
 			if(t.getParent() == null)
@@ -62,9 +85,26 @@ public class ListTasksActivity extends BaseActivity{
 			}
 		}
 		
+		tasks.removeAll(listHeader);
+		
 		for(Task t: listHeader)
 		{
-			listItems.put(t,t.getSubtasks());
+			List<Task> templist = new ArrayList<>();
+			for(Task t2: tasks)
+			{	
+				Task temp  = t2.getParent();
+				
+				while(temp.getParent() != null){
+					temp = temp.getParent();
+				}
+				
+				if(temp.getId() == t.getId())
+				{
+					templist.add(t2);
+				}
+			}
+			listItems.put(t,templist);
+			tasks.removeAll(templist);
 		}
 		
 	}
