@@ -74,6 +74,7 @@
  	    android:layout_below="@+id/row3" >
 
  	    <EditText
+ 	        android:id="@+id/descEditText"
  	        android:layout_width="match_parent"
  	        android:layout_height="60dp"
  	        android:background="@drawable/border"
@@ -90,21 +91,23 @@
 
  	    <Button
  	        android:id="@+id/btnDone"
- 	        android:layout_width="wrap_content"
+ 	        android:layout_width="0dp"
  	        android:layout_height="wrap_content"
  	        android:layout_marginLeft="0dp"
  	        android:layout_marginTop="100dp"
+ 	        android:layout_weight="1"
  	        android:background="@drawable/roundedbutton"
  	        android:text="@string/btnDone"
  	        android:width="160dp" />
 
  	    <Button
  	        android:id="@+id/btnClear"
- 	        android:layout_width="wrap_content"
+ 	        android:layout_width="0dp"
  	        android:layout_height="wrap_content"
  	        android:layout_marginLeft="15dp"
  	        android:layout_marginRight="0dp"
  	        android:layout_marginTop="100dp"
+ 	        android:layout_weight="1"
  	        android:background="@drawable/roundedbutton"
  	        android:text="@string/btnClear"
  	        android:width="170dp" />

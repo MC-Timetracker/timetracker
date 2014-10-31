@@ -38,7 +38,7 @@
                 android:value="iiitd.mc.timetracker.BaseActivity" />
         </activity>
         <activity
-            android:name=".ListRecordingsActivity"
+            android:name="iiitd.mc.timetracker.ListRecordingsActivity"
             android:label="@string/title_activity_list_recordings" >
         </activity>
         <activity
@@ -54,6 +54,9 @@
             android:launchMode="singleTop" >
         </activity>
         <service android:name=".data.TaskRecorderService" />
-    </application>
-
+        <activity 
+            android:name="iiitd.mc.timetracker.EditTaskActivity"
+            android:label="@string/edit_task"  > 
+        </activity>
+	</application>
 </manifest>
