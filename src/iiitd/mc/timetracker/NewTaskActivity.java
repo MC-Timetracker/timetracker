@@ -4,6 +4,7 @@ import iiitd.mc.timetracker.adapter.CustomArrayAdapter;
 import iiitd.mc.timetracker.context.ITaskSuggestor;
 import iiitd.mc.timetracker.context.MainTaskSuggestor;
 import iiitd.mc.timetracker.data.Task;
+import iiitd.mc.timetracker.data.TaskRecorderService;
 import iiitd.mc.timetracker.helper.IDatabaseController;
 
 import java.util.List;
@@ -60,7 +61,7 @@ public class NewTaskActivity extends BaseActivity {
 		taskname = (EditText)findViewById(R.id.tasknameedittext);
 		description = (EditText)findViewById(R.id.descEditText);
 		
-		/*
+		
 		insert.setOnClickListener(new OnClickListener(){
 
 			@Override
@@ -70,7 +71,7 @@ public class NewTaskActivity extends BaseActivity {
 			}
 			
 		});
-		*/
+		
 		
 		clear.setOnClickListener(new OnClickListener(){
 
@@ -85,23 +86,29 @@ public class NewTaskActivity extends BaseActivity {
 		});
 	}
 	
-	/*
+	
 	void insertTask()
 	{
 		if(taskname == null){
-			Toast.makeText(this,"Task name cannot be empty", Toast.LENGTH_LONG);
+			Toast.makeText(this,"Task name cannot be empty", Toast.LENGTH_LONG).show();
 			return;
 		}
 		
+		String task = autoTv.getText().toString() + "." + taskname.getText().toString();
 		
-		IDatabaseController db = ApplicationHelper.createDatabaseController();
-		db.open();
-		db.updateTask(new Task(autoTv.getText().toString(),taskname.getText().toString()));
-		db.close();
-		Toast.makeText(this,"Task updated successfully", Toast.LENGTH_LONG).show();
-		
+		if(TaskRecorderService.getTaskFromString(task) != null)
+		{
+			Toast.makeText(this,"Task already exists",Toast.LENGTH_LONG).show();
+			return;
+		}
+		else
+		{
+			TaskRecorderService.createTaskFromString(task);
+		}
+		Toast.makeText(this,"Task added successfully", Toast.LENGTH_LONG).show();
+		addTasksToAutoView();
 	}
-	*/
+	
 	
 	/*
 	 * Adds tasks to the Auto Complete View for suggestions
