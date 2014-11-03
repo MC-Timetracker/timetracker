@@ -73,6 +73,18 @@ public class Task
 		return name;
 	}
 	/**
+	 * Get the full name describing the Task including the path of all parent tasks.
+	 * @return
+	 */
+	public String getNameFull() 
+	{
+		String p = "";
+		if (parent != null)
+			p = parent.toString() + THS;
+		
+		return p + this.name;
+	}
+	/**
 	 * Set the name describing the Task.
 	 * @param name
 	 */
@@ -135,11 +147,7 @@ public class Task
 	@Override
 	public String toString()
 	{
-		String p = "";
-		if (parent != null)
-			p = parent.toString() + THS;
-		
-		return p + this.name;
+		return getNameFull();
 	}
 	
 	@Override
