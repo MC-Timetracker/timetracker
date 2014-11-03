@@ -81,7 +81,7 @@ public class ExpandableRecAdapter extends BaseExpandableListAdapter {
 		TextView timeRange = (TextView)view.findViewById(R.id.time);
 		
 		if(taskName != null){
-			taskName.setText(i.getTask().getName());
+			taskName.setText(i.getTask().toString());
 		}
 		if(recDur != null){
 			long dur = i.getDuration(TimeUnit.MINUTES);

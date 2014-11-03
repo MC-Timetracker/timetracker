@@ -1,34 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-     android:layout_width="fill_parent"
+    android:layout_width="fill_parent"
     android:layout_height="?android:attr/listPreferredItemHeight"
+    android:paddingLeft="5dp"
+    android:paddingRight="5dp"
     android:orientation="vertical" >
-    
-    <TextView
-        android:id="@+id/taskView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:textSize="18sp"
-        android:text="@string/task_view"/>
     
     <TextView
         android:id="@+id/taskName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/taskView"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
         android:textSize="18sp"
-        android:paddingLeft="5dp"
-        android:paddingRight="5dp"/>
+        android:textStyle="bold" />
     
     <TextView
         android:id="@+id/durView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/taskView"
+        android:layout_below="@+id/taskName"
         android:layout_alignParentLeft="true"
-        android:textSize="18sp"
         android:text="@string/dur_view" />
     
     <TextView
@@ -36,7 +28,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/taskName"
-        android:textSize="18sp"
         android:paddingLeft="5dp"
         android:paddingRight="5dp"
         android:layout_toRightOf="@+id/durView" />
@@ -46,7 +37,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:textSize="18sp"
         android:layout_below="@+id/taskName"/>
     
 </RelativeLayout>
