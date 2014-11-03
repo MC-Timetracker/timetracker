@@ -1,5 +1,6 @@
 package iiitd.mc.timetracker;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -43,10 +44,8 @@ public class ListRecordingsActivity extends BaseActivity {
 	public void loadRecordingsList()
 	{
 		recHeader = new ArrayList<String>();
-		recItems = new HashMap<String,List<Recording>>();
-		
-		String temp;
-		List<Recording> rectemp;
+		recItems = new HashMap<String, List<Recording>>();
+		DateFormat formater = android.text.format.DateFormat.getDateFormat(this);
 		
 		IDatabaseController db = ApplicationHelper.createDatabaseController();
 		db.open();
@@ -55,22 +54,14 @@ public class ListRecordingsActivity extends BaseActivity {
 		
 		for(Recording r:recs)
 		{
-			temp=r.getTrimmedStartDate();
+			String temp = formater.format(r.getStart());
 			if(!recHeader.contains(temp))
-				recHeader.add(temp);
-		}
-		
-		for(String str:recHeader)
-		{
-			rectemp=new ArrayList<Recording>();
-			for(Recording r:recs)
 			{
-				if(str.equals(r.getTrimmedStartDate()))
-				{
-					rectemp.add(r);
-				}
+				recHeader.add(temp);
+				recItems.put(temp, new ArrayList<Recording>());
 			}
-			recItems.put(str, rectemp);
+			
+			recItems.get(temp).add(r);
 		}
 	}
 }
