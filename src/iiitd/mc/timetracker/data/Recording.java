@@ -140,4 +140,9 @@ public class Recording
 			eTime = dateFormatter.format(end) + " " + timeFormatter.format(end);
 		return getTask().toString() + " [" + sTime + " - " + eTime + "]";
 	}
+	
+	public String getTrimmedStartDate(){
+		DateFormat dateFormatter = android.text.format.DateFormat.getDateFormat(ApplicationHelper.getAppContext());
+		return dateFormatter.format(start);
+	}
 }

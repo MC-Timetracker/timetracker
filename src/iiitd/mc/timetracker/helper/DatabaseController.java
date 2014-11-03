@@ -168,7 +168,7 @@ public class DatabaseController implements IDatabaseController {
 	@Override
 	public List<Recording> getRecordings() {
 		List<Recording> recordings = new ArrayList<Recording>();
-		String selectRecordingQuery = "SELECT * FROM " + DatabaseHelper.TABLE_RECORDING;
+		String selectRecordingQuery = "SELECT * FROM " + DatabaseHelper.TABLE_RECORDING + " ORDER BY " + DatabaseHelper.RECORDING_STARTTIME + " DESC";
 		database=dbHelper.getReadableDatabase();
 		Cursor c = database.rawQuery(selectRecordingQuery, null);
 		if(c.moveToFirst()){
