@@ -29,7 +29,7 @@
 	        android:choiceMode="singleChoice"
 	        android:dividerHeight="2dp" 
 	        android:entries="@array/nav_drawer_items"
-	        android:background="#FF8800" 
+	        android:background="@color/AppOrange" 
 	        android:layout_marginLeft="0dp"/>
 	</android.support.v4.widget.DrawerLayout>
 
