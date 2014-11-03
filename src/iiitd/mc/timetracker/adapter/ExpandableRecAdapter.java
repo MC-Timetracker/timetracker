@@ -53,7 +53,7 @@ public class ExpandableRecAdapter extends BaseExpandableListAdapter {
 		if(convertView ==null)
 		{
 			LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			convertView = inflater.inflate(R.layout.activity_rec_group, parent,false);
+			convertView = inflater.inflate(R.layout.list_group, parent,false);
 		}
 		
 		TextView lvHeader = (TextView) convertView.findViewById(R.id.lvHeader);
@@ -73,7 +73,7 @@ public class ExpandableRecAdapter extends BaseExpandableListAdapter {
 		if(view ==null)
 		{
 			LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			view = inflater.inflate(R.layout.recording_list, parent,false);
+			view = inflater.inflate(R.layout.list_item_recording, parent,false);
 		}
 		
 		TextView taskName =(TextView)view.findViewById(R.id.taskName);

@@ -28,7 +28,7 @@ public class ListRecordingsActivity extends BaseActivity {
 		//setContentView(R.layout.activity_list_recordings);
 		// use LayoutInflater in order to keep the NavigationDrawer of BaseActivity
 		LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        this.frame.addView(inflater.inflate(R.layout.activity_list_main, null));
+        this.frame.addView(inflater.inflate(R.layout.activity_list_recordings, null)); //TODO: cleanup the other one
 		
         expRecView = (ExpandableListView) findViewById(R.id.Explv);
 		

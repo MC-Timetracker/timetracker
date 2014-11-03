@@ -33,7 +33,7 @@ public class ListTasksActivity extends BaseActivity{
 		//setContentView(R.layout.activity_list_main);
 		// use LayoutInflater in order to keep the NavigationDrawer of BaseActivity
 		LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        this.frame.addView(inflater.inflate(R.layout.activity_list_main, null));
+        this.frame.addView(inflater.inflate(R.layout.activity_list_tasks, null));
 		
 		// Get the ListView
 		expListView = (ExpandableListView) findViewById(R.id.Explv);		

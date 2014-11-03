@@ -19,7 +19,8 @@
         android:layout_height="wrap_content"
         android:layout_toRightOf="@+id/taskView"
         android:textSize="18sp"
-        android:paddingLeft="5dp"/>
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"/>
     
     <TextView
         android:id="@+id/durView"
@@ -37,6 +38,7 @@
         android:layout_below="@+id/taskName"
         android:textSize="18sp"
         android:paddingLeft="5dp"
+        android:paddingRight="5dp"
         android:layout_toRightOf="@+id/durView" />
 
     <TextView
