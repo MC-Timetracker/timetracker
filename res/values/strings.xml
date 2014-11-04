@@ -19,6 +19,7 @@
 
     <!-- Nav Drawer Menu Items -->
     <string-array name="nav_drawer_items">
+        <item>Home</item>
         <item>New Task</item>
         <item>List Task</item>
         <item>List Recordings </item>

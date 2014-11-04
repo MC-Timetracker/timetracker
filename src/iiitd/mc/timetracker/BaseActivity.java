@@ -104,37 +104,34 @@ public class BaseActivity extends ActionBarActivity implements OnItemClickListen
      */
    private void selectItem(int position) {
 	    switch(position)
-	    {
-	    case 0:
-	    	
-	    	Intent new_task = new Intent(this,NewTaskActivity.class);
-	    	mDrawerLayout.closeDrawer(mDrawerList);
-		    startActivity(new_task);
-		    break;
-		    
-	    case 1: 
-	    	
-	    	Intent list_task = new Intent(this,ListTasksActivity.class);
-	    	mDrawerLayout.closeDrawer(mDrawerList);
-		    startActivity(list_task);
-		    break;
-		    
-	    case 2: 
-		    
-	    	Intent list_recordings = new Intent(this,ListRecordingsActivity.class);
-	    	mDrawerLayout.closeDrawer(mDrawerList);
-	    	startActivity(list_recordings);
-	    	break;
-	    	
-	    case 3: 
-	    	
-	    	Intent statistics = new Intent(this, Statistics.class);
-	    	mDrawerLayout.closeDrawer(mDrawerList);
-	    	startActivity(statistics);
-	    	break;
-	    	
+		{
+		case 0:
+			Intent home_activity = new Intent(this, MainActivity.class);
+			mDrawerLayout.closeDrawer(mDrawerList);
+			startActivity(home_activity);
+			break;
+		case 1:
+			Intent new_task = new Intent(this, NewTaskActivity.class);
+			mDrawerLayout.closeDrawer(mDrawerList);
+			startActivity(new_task);
+			break;
+		case 2:
+			Intent list_task = new Intent(this, ListTasksActivity.class);
+			mDrawerLayout.closeDrawer(mDrawerList);
+			startActivity(list_task);
+			break;
+		case 3:
+			Intent list_recordings = new Intent(this,
+					ListRecordingsActivity.class);
+			mDrawerLayout.closeDrawer(mDrawerList);
+			startActivity(list_recordings);
+			break;
+		case 4:
+			Intent statistics = new Intent(this, Statistics.class);
+			mDrawerLayout.closeDrawer(mDrawerList);
+			startActivity(statistics);
+			break;
 		default:
-		    
 	    }
 	    
 	    mDrawerList.setItemChecked(position,true);
