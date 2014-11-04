@@ -9,8 +9,13 @@ import iiitd.mc.timetracker.adapter.ExpandableRecAdapter;
 import iiitd.mc.timetracker.data.Recording;
 import iiitd.mc.timetracker.helper.IDatabaseController;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
+import android.view.View;
 import android.widget.ExpandableListView;
 
 public class ListRecordingsActivity extends BaseActivity {
@@ -36,6 +41,8 @@ public class ListRecordingsActivity extends BaseActivity {
 		
 		recAdapter=new ExpandableRecAdapter(this, recHeader, recItems);
 		expRecView.setAdapter(recAdapter);
+
+		registerForContextMenu(expRecView);
 	}
 	
 	/**
@@ -63,5 +70,30 @@ public class ListRecordingsActivity extends BaseActivity {
 			
 			recItems.get(temp).add(r);
 		}
+	}
+
+	@Override
+	public void onCreateContextMenu(ContextMenu menu, View v,
+			ContextMenuInfo menuInfo)
+	{
+		super.onCreateContextMenu(menu, v, menuInfo);
+		menu.setHeaderTitle("Select The Action");
+		menu.add(0, v.getId(), 0, "Edit");
+		menu.add(1, v.getId(), 0, "Delete");
+	}
+
+	@Override
+	public boolean onContextItemSelected(MenuItem item)
+	{
+		if (item.getTitle() == "Edit")
+		{
+			Intent edit_recording = new Intent(this,
+					EditRecordingActivity.class);
+			startActivity(edit_recording);
+		} else if (item.getTitle() == "Delete")
+		{
+		} else
+			return false;
+		return true;
 	}
 }

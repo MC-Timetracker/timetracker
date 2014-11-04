@@ -44,9 +44,13 @@
     <!-- List Recordings strings -->
     <string name="task_view">Task:</string>
     <string name="dur_view">Duration:</string>
-    
+
     <!-- Edit Task name -->
     <string name="edit_task">Edit Task</string>
     <string name="btnUpdate">Update</string>
     <string name="btnCancel">Cancel</string>
+    <string name="title_activity_edit_recording">EditRecordingActivity</string>
+    <string name="starttime">Start Time: </string>
+    <string name="stoptime">Stop Time: </string>
+
 </resources>
