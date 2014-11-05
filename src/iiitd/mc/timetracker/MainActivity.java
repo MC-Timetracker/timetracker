@@ -118,7 +118,7 @@ public class MainActivity extends BaseActivity {
 		{
 			startRecording(task);
 		}
-		else
+		else if(TaskRecorderService.isValidTaskName(sTask))
 		{
 			// if task does not exist, ask the user if it should be created
 			AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -127,8 +127,11 @@ public class MainActivity extends BaseActivity {
 			           public void onClick(DialogInterface dialog, int id) {
 			               // Create new task and start recording it
 			        	   Task newTask = TaskRecorderService.createTaskFromString(sTask);
-			        	   startRecording(newTask);
-					   addTasksToAutoView();
+			        	   if(newTask != null)
+			        	   {
+				        	   startRecording(newTask);
+				        	   addTasksToAutoView();
+			        	   }
 			           }
 			       })
 			       .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {

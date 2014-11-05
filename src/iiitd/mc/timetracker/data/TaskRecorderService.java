@@ -294,6 +294,9 @@ public class TaskRecorderService extends Service
 		if(task != null)
 			return task;
 		
+		if(!isValidTaskName(taskString))
+			return null;
+		
 		// create new task for lowest part in hierarchy
 		int separator = taskString.lastIndexOf(Task.THS);
 		String taskName = taskString.substring(separator+1);
@@ -335,5 +338,18 @@ public class TaskRecorderService extends Service
 			Task lastTask = lastRecording.getTask();
 			startRecording(lastTask);
 		}
+	}
+
+	/**
+	 * Checks the given String against all constraints for new task names.
+	 * @param sTask The string to be checked if it is a valid new task name.
+	 * @return True if the string is valid as a task name.
+	 */
+	public static boolean isValidTaskName(String sTask)
+	{
+		if(sTask == null || sTask.trim().equals(""))
+			return false;
+		
+		return true;
 	}
 }
