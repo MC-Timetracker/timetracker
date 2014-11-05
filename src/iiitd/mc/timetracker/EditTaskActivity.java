@@ -46,17 +46,9 @@ public class EditTaskActivity extends BaseActivity
 		db.open();
 		task = db.getTask(intent.getLongExtra("taskid",0));
 		db.close();
-        
-		String hierarchy = "";
-		Task temp  = task.getParent();
-		hierarchy = temp.getName() + hierarchy;
 		
-		while(temp.getParent() != null){
-			temp = temp.getParent();
-			hierarchy = temp.getName() + "." + hierarchy;
-		}
-		
-		parent.setText(hierarchy);
+		if(task.getParent() != null)
+			parent.setText(task.getParent().getNameFull());
 		taskname.setText(task.getName());
 		description.setText(task.getDescription());
 		
