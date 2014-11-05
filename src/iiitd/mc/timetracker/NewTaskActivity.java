@@ -108,18 +108,21 @@ public class NewTaskActivity extends BaseActivity {
 			Toast.makeText(this,"Task name cannot be empty", Toast.LENGTH_LONG).show();
 			return;
 		}
-		
-		String task = autoTv.getText().toString() + "." + taskname.getText().toString();
-		
-		if(TaskRecorderService.getTaskFromString(task) != null)
+		if(TaskRecorderService.getTaskFromString(taskname.getText().toString()) != null)
 		{
 			Toast.makeText(this,"Task already exists",Toast.LENGTH_LONG).show();
 			return;
 		}
-		else
-		{
-			TaskRecorderService.createTaskFromString(task);
-		}
+		
+		Task parent = TaskRecorderService.createTaskFromString(autoTv.getText().toString());
+		Task task = new Task(taskname.getText().toString(), parent);
+		task.setDescription(this.description.getText().toString());
+		
+		IDatabaseController db = ApplicationHelper.createDatabaseController();
+		db.open();
+		db.insertTask(task);
+		db.close();
+		
 		Toast.makeText(this,"Task added successfully", Toast.LENGTH_LONG).show();
 		addTasksToAutoView();
 	}
