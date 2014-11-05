@@ -46,10 +46,11 @@ public class DatabaseController implements IDatabaseController {
 		contentValue_task.put(DatabaseHelper.TASK_DESCRIPTION, newTask.getDescription());
 		
 		// put parentId - if no parent is set, put -1
-		long parentId = -1;
+		//long parentId = -1;
 		if (newTask.getParent() != null)
-			parentId = newTask.getParent().getId();
-		contentValue_task.put(DatabaseHelper.TASK_PARENT, parentId);
+			contentValue_task.put(DatabaseHelper.TASK_PARENT,newTask.getParent().getId());
+		else
+			contentValue_task.putNull(DatabaseHelper.TASK_PARENT);
 		
 		long id = database.insert(DatabaseHelper.TABLE_TASK, null, contentValue_task);
 		// update Task instance with the assigned auto-increment id

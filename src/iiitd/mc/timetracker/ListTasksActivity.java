@@ -13,12 +13,17 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ExpandableListView;
+import android.widget.Toast;
+import android.widget.ExpandableListView.ExpandableListContextMenuInfo;
 import android.widget.ExpandableListView.OnChildClickListener;
 
-@SuppressLint("InflateParams")
+@SuppressLint({ "InflateParams", "ShowToast" })
 public class ListTasksActivity extends BaseActivity{
 	
 	private ExpandableListView expListView;
@@ -43,25 +48,10 @@ public class ListTasksActivity extends BaseActivity{
 		listAdapter = new ExpandableListAdapter(this, listHeader, listItems);
 		expListView.setAdapter(listAdapter);
 		
-		expListView.setOnChildClickListener(new OnChildClickListener(){
-
-			@Override
-			public boolean onChildClick(ExpandableListView explview, View view,
-					int grouppos, int childpos, long id)
-			{
-				long taskId = listItems.get(listHeader.get(grouppos)).get(childpos).getId();
-				Intent intent = new Intent(ListTasksActivity.this,EditTaskActivity.class);
-				intent.putExtra("taskid", taskId);
-				startActivity(intent);
-				return false;
-			}
-			
-		});
+		registerForContextMenu(expListView);
+	
 	}
 	
-	/**
-	 * Populate the list in the UI with the Tasks from the database.
-	 */
 	/**
 	 * Populate the list in the UI with the Tasks from the database.
 	 */
@@ -107,5 +97,58 @@ public class ListTasksActivity extends BaseActivity{
 			tasks.removeAll(templist);
 		}
 		
+	}
+	
+	public void onCreateContextMenu(ContextMenu menu, 
+			View v, ContextMenuInfo menuInfo)
+	{
+		super.onCreateContextMenu(menu, v, menuInfo);
+		menu.setHeaderTitle("Select The Action");
+		menu.add(0,v.getId(),0,"Edit");
+		menu.add(1,v.getId(),1,"Delete");
+	}
+	
+	public boolean onContextItemSelected(MenuItem item)
+	{
+		ExpandableListContextMenuInfo info = (ExpandableListContextMenuInfo)item.getMenuInfo();
+		
+		int type = ExpandableListView.getPackedPositionType(info.packedPosition);
+
+		int grouppos = ExpandableListView.getPackedPositionGroup(info.packedPosition);
+		int childpos = ExpandableListView.getPackedPositionChild(info.packedPosition);
+
+		long taskId = 0;
+		
+		if(type == ExpandableListView.PACKED_POSITION_TYPE_GROUP){
+			taskId = listHeader.get(grouppos).getId();
+		}
+		else{
+			taskId = listItems.get(listHeader.get(grouppos)).get(childpos).getId();
+		}
+		
+		if(item.getTitle() == "Edit")
+		{	
+			Intent intent = new Intent(ListTasksActivity.this,EditTaskActivity.class);
+			intent.putExtra("taskid", taskId);
+			startActivity(intent);
+		}
+		else if(item.getTitle() == "Delete")
+		{
+			IDatabaseController db = ApplicationHelper.createDatabaseController();
+			db.open();
+			db.deleteTask(taskId);
+			db.close();
+			Toast.makeText(this,"Task has been deleted", Toast.LENGTH_SHORT).show();
+			Intent intent = getIntent();
+			intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+			finish();
+			startActivity(intent);
+		}
+		else
+		{
+			return false;
+		}	
+		
+		return true;
 	}
 }

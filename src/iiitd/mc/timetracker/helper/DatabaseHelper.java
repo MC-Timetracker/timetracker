@@ -78,4 +78,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 			//  Now create new tables
 			onCreate(db);
 		}
+		
+		
+		@Override
+		public void onOpen(SQLiteDatabase db)
+		{
+			db.execSQL("PRAGMA foreign_keys=ON");
+		}
+	
 }

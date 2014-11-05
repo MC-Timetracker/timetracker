@@ -34,7 +34,7 @@ public class MainActivity extends BaseActivity {
     TaskRecorderService taskRecorder;
     boolean taskRecorderBound = false;
     
-    ITaskSuggestor suggester;
+    private ITaskSuggestor suggester;
     private CustomArrayAdapter taskListAdapter;
     private AutoCompleteTextView autoTv;
 
@@ -150,6 +150,8 @@ public class MainActivity extends BaseActivity {
 		suggester = new MainTaskSuggestor();
 		List<String> suggestedTasks = suggester.getTaskStrings();
 		taskListAdapter = new CustomArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, suggestedTasks);
-		autoTv.setAdapter(taskListAdapter);		
+		taskListAdapter.notifyDataSetChanged();
+		autoTv.setAdapter(taskListAdapter);	
 	}
+	
 }	

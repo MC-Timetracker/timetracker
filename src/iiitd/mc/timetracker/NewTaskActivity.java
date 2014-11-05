@@ -15,6 +15,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnFocusChangeListener;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -32,8 +33,7 @@ public class NewTaskActivity extends BaseActivity {
 	private EditText taskname, description;
 	private AutoCompleteTextView autoTv;
 	private ITaskSuggestor suggester;
-	private List<String> suggestedTasks;
-	private CustomArrayAdapter adapter;
+	private CustomArrayAdapter taskListAdapter;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +49,21 @@ public class NewTaskActivity extends BaseActivity {
 		addTasksToAutoView();
 		
 		autoTv.setThreshold(0);
+		
+		autoTv.setOnFocusChangeListener(new OnFocusChangeListener(){
+
+			@Override
+			public void onFocusChange(View view, boolean arg1)
+			{
+				if(arg1)
+				{
+					((AutoCompleteTextView)view).showDropDown();
+				}
+				
+			}
+			
+		});
+		
 		autoTv.setOnClickListener(new OnClickListener() {
 				public void onClick(View view)
 				{
@@ -116,8 +131,9 @@ public class NewTaskActivity extends BaseActivity {
 	private void addTasksToAutoView()
 	{
 		suggester = new MainTaskSuggestor();
-		suggestedTasks = suggester.getTaskStrings();
-		adapter = new CustomArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, suggestedTasks);
-		autoTv.setAdapter(adapter);		
+		List<String> suggestedTasks = suggester.getTaskStrings();
+		taskListAdapter = new CustomArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, suggestedTasks);
+		taskListAdapter.notifyDataSetChanged();
+		autoTv.setAdapter(taskListAdapter);		
 	}
 }

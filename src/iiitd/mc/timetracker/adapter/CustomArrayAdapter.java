@@ -66,18 +66,18 @@ public class CustomArrayAdapter extends ArrayAdapter<String> implements Filterab
 			FilterResults filteredTasks = new FilterResults();
 			
 			if(originalList == null){
-				synchronized(lock){
+				//synchronized(lock){
 					originalList = new ArrayList<String>(suggestedList);
 				}
-			}
+			//}
 			
 			if(prefix == null || prefix.length() == 0){
-				synchronized (lock){
+				//synchronized (lock){
 					ArrayList<String> list = new ArrayList<String>(originalList);
 					filteredTasks.values = list;
 					filteredTasks.count = list.size();
 				}
-			}
+			//}
 			else{
 				
 				final String prefixString = prefix.toString().toLowerCase();
