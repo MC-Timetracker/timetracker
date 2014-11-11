@@ -8,15 +8,19 @@ import java.util.List;
 import iiitd.mc.timetracker.adapter.ExpandableRecAdapter;
 import iiitd.mc.timetracker.data.Recording;
 import iiitd.mc.timetracker.helper.IDatabaseController;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ExpandableListView;
+import android.widget.ExpandableListView.ExpandableListContextMenuInfo;
 
 public class ListRecordingsActivity extends BaseActivity {
 	
@@ -77,23 +81,59 @@ public class ListRecordingsActivity extends BaseActivity {
 			ContextMenuInfo menuInfo)
 	{
 		super.onCreateContextMenu(menu, v, menuInfo);
-		menu.setHeaderTitle("Select The Action");
-		menu.add(0, v.getId(), 0, "Edit");
-		menu.add(1, v.getId(), 0, "Delete");
+		
+	    MenuInflater inflater = getMenuInflater();
+	    inflater.inflate(R.menu.context_menu, menu);
 	}
 
 	@Override
 	public boolean onContextItemSelected(MenuItem item)
 	{
-		if (item.getTitle() == "Edit")
-		{
-			Intent edit_recording = new Intent(this,
-					EditRecordingActivity.class);
-			startActivity(edit_recording);
-		} else if (item.getTitle() == "Delete")
-		{
-		} else
-			return false;
-		return true;
+		ExpandableListContextMenuInfo info = (ExpandableListContextMenuInfo) item.getMenuInfo();
+    	int groupPos = ExpandableListView.getPackedPositionGroup(info.packedPosition);
+    	int childPos = ExpandableListView.getPackedPositionChild(info.packedPosition);
+    	Recording r =(Recording) recAdapter.getChild(groupPos, childPos);
+    	
+		switch (item.getItemId()) {
+		    case R.id.action_edit:
+		        editRecording(r);
+		        return true;
+		    case R.id.action_delete:
+		        deleteRecording(r);
+		        return true;
+		    default:
+		        return super.onContextItemSelected(item);
+		}
+	}
+	
+	private void editRecording(Recording r)
+	{
+		Intent edit_recording = new Intent(this, EditRecordingActivity.class);
+		edit_recording.putExtra(EditRecordingActivity.EXTRA_RECORDING_ID, r.getRecordingId());
+		startActivity(edit_recording);
+	}
+	
+	private void deleteRecording(Recording r)
+	{
+		final long rId = r.getRecordingId();
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		AlertDialog dialog = builder.setMessage(R.string.prompt_delete_recording)
+	       .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+	           public void onClick(DialogInterface dialog, int id) {
+	               // delete Recording
+	        	   IDatabaseController db = ApplicationHelper.createDatabaseController();
+	        	   db.open();
+	        	   db.deleteRecording(rId);
+	        	   db.close();
+	        	   loadRecordingsList();
+	           }
+	       })
+	       .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+	           public void onClick(DialogInterface dialog, int id) {
+	               // Do nothing
+	           }
+	       })
+	       .create();
+		dialog.show();
 	}
 }

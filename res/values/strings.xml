@@ -53,5 +53,8 @@
     <string name="title_activity_edit_recording">EditRecordingActivity</string>
     <string name="starttime">Start Time: </string>
     <string name="stoptime">Stop Time: </string>
+    <string name="action_edit">Edit</string>
+    <string name="action_delete">Delete</string>
+    <string name="prompt_delete_recording">Do you really want to delete the recording?</string>
 
 </resources>
