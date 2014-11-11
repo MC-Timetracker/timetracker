@@ -25,8 +25,8 @@ import android.widget.ExpandableListView.ExpandableListContextMenuInfo;
 public class ListRecordingsActivity extends BaseActivity {
 	
 	private ExpandableListView expRecView;
-	private List<String> recHeader;
-	private HashMap<String, List<Recording>> recItems;
+	private List<String> recHeader = new ArrayList<String>();
+	private HashMap<String, List<Recording>> recItems = new HashMap<String, List<Recording>>();
 	private ExpandableRecAdapter recAdapter;
 	
 	
@@ -42,8 +42,6 @@ public class ListRecordingsActivity extends BaseActivity {
         expRecView = (ExpandableListView) findViewById(R.id.Explv);
 		
 		loadRecordingsList();
-		
-		recAdapter=new ExpandableRecAdapter(this, recHeader, recItems);
 		expRecView.setAdapter(recAdapter);
 
 		registerForContextMenu(expRecView);
@@ -54,8 +52,8 @@ public class ListRecordingsActivity extends BaseActivity {
 	 */
 	public void loadRecordingsList()
 	{
-		recHeader = new ArrayList<String>();
-		recItems = new HashMap<String, List<Recording>>();
+		recHeader.clear();
+		recItems.clear();
 		DateFormat formater = android.text.format.DateFormat.getDateFormat(this);
 		
 		IDatabaseController db = ApplicationHelper.createDatabaseController();
@@ -74,6 +72,10 @@ public class ListRecordingsActivity extends BaseActivity {
 			
 			recItems.get(temp).add(r);
 		}
+		
+		if(recAdapter == null)
+			recAdapter = new ExpandableRecAdapter(this, recHeader, recItems);
+		recAdapter.notifyDataSetChanged();
 	}
 
 	@Override
