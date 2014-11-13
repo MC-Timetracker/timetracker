@@ -53,6 +53,11 @@
     <string name="title_activity_edit_recording">EditRecordingActivity</string>
     <string name="starttime">Start Time: </string>
     <string name="stoptime">Stop Time: </string>
+    <string name="btnSave">Save</string>
+    <string name="toast_recording_saved">Recording was successfully saved.</string>
+    <string name="prompt_taskname_invalid">This task name is not allowed.</string>
+    <string name="autocomplete_task_hint">Select Task</string>
+    <string name="prompt_time_invalid">Invalid time format.</string>
     <string name="action_edit">Edit</string>
     <string name="action_delete">Delete</string>
     <string name="prompt_delete_recording">Do you really want to delete the recording?</string>

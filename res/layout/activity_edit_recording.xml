@@ -8,43 +8,27 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="iiitd.mc.timetracker.EditRecordingActivity" >
 
-    <TableRow
+    <LinearLayout
         android:id="@+id/row1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp" >
 
-        <TextView
-            android:id="@+id/parentnametextview"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="top|left"
-            android:text="@string/taskname" />
-        <!--
-<AutoCompleteTextView
-android:id="@+id/taskSelectionBox"
-android:layout_height="wrap_content"
-android:layout_width="wrap_content"
-android:ems="10"
-android:gravity="top|left"
-android:inputType="textAutoComplete|textAutoCorrect"/>
-        -->
-
-        <EditText
-            android:id="@+id/Taskname"
+        <AutoCompleteTextView
+            android:id="@+id/taskSelectionBoxRecording"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="10"
-            android:focusable="false"
-            android:inputType="text" />
-    </TableRow>
+            android:hint="@string/autocomplete_task_hint"
+            android:inputType="textAutoComplete|textAutoCorrect" />
+    </LinearLayout>
 
-    <TableRow
+    <LinearLayout
         android:id="@+id/row2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/row1"
-        android:layout_marginTop="40dp" >
+        android:layout_marginTop="40dp"
+        android:orientation="vertical" >
 
         <TextView
             android:id="@+id/starttimetextview"
@@ -52,20 +36,34 @@ android:inputType="textAutoComplete|textAutoCorrect"/>
             android:layout_height="wrap_content"
             android:text="@string/starttime" />
 
-        <EditText
-            android:id="@+id/tasknameedittext"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="text" />
-    </TableRow>
+            android:layout_height="wrap_content" >
 
-    <TableRow
+            <EditText
+                android:id="@+id/editTextStartRecordingDate"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:inputType="date" />
+
+            <EditText
+                android:id="@+id/editTextStartRecordingTime"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:inputType="time" />
+            
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
         android:id="@+id/row3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/row2"
-        android:layout_marginTop="40dp" >
+        android:layout_marginTop="40dp"
+        android:orientation="vertical" >
 
         <TextView
             android:id="@+id/stoptimetextview"
@@ -73,13 +71,26 @@ android:inputType="textAutoComplete|textAutoCorrect"/>
             android:layout_height="wrap_content"
             android:text="@string/stoptime" />
 
-        <EditText
-            android:id="@+id/stoptimeedittext"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="text" />
-    </TableRow>
+            android:layout_height="wrap_content" >
+
+            <EditText
+                android:id="@+id/editTextStopRecordingDate"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:inputType="date" />
+
+            <EditText
+                android:id="@+id/editTextStopRecordingTime"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:inputType="time" />
+            
+        </LinearLayout>
+    </LinearLayout>
 
     <TableRow
         android:layout_width="match_parent"
@@ -87,17 +98,18 @@ android:inputType="textAutoComplete|textAutoCorrect"/>
         android:layout_below="@+id/row4" >
 
         <Button
-            android:id="@+id/btnUpdate"
+            android:id="@+id/btnSaveRecording"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="0dp"
             android:layout_marginTop="250dp"
             android:layout_weight="1"
-            android:text="@string/btnUpdate"
+            android:onClick="onSave"
+            android:text="@string/btnSave"
             android:width="160dp" />
 
         <Button
-            android:id="@+id/btnCancel"
+            android:id="@+id/btnCancelRecording"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
@@ -105,6 +117,8 @@ android:inputType="textAutoComplete|textAutoCorrect"/>
             android:layout_marginTop="250dp"
             android:layout_weight="1"
             android:text="@string/btnCancel"
-            android:width="170dp" />
+            android:width="170dp"
+            android:onClick="onCancel" />
     </TableRow>
+
 </RelativeLayout>
