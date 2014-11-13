@@ -45,14 +45,16 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
-                android:inputType="date" />
+                android:inputType="date"
+                android:onClick="showDatePicker" />
 
             <EditText
                 android:id="@+id/editTextStartRecordingTime"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:inputType="time" />
+                android:inputType="time"
+                android:onClick="showTimePicker" />
             
         </LinearLayout>
     </LinearLayout>
@@ -80,14 +82,16 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
-                android:inputType="date" />
+                android:inputType="date"
+                android:onClick="showDatePicker" />
 
             <EditText
                 android:id="@+id/editTextStopRecordingTime"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:inputType="time" />
+                android:inputType="time"
+                android:onClick="showTimePicker" />
             
         </LinearLayout>
     </LinearLayout>
