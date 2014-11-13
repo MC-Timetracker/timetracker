@@ -24,6 +24,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnFocusChangeListener;
 import android.widget.AutoCompleteTextView;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -43,6 +44,7 @@ public class EditRecordingActivity extends BaseActivity
 	
 	EditText etStartTime, etStartDate, etStopTime, etStopDate;
 	DateFormat formatDate, formatTime;
+	Calendar calStart, calEnd;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -66,50 +68,67 @@ public class EditRecordingActivity extends BaseActivity
 		etStartDate = (EditText) findViewById(R.id.editTextStartRecordingDate);
 		etStopTime = (EditText) findViewById(R.id.editTextStopRecordingTime);
 		etStopDate = (EditText) findViewById(R.id.editTextStopRecordingDate);
-		View.OnFocusChangeListener fcDate = new View.OnFocusChangeListener() {
+		
+        etStartDate.setOnFocusChangeListener(new OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if(hasFocus)
                 {
                 	//Show your popup here
-                	showDatePicker(v);
+                	showDatePickerStart(v);
                 	//prevent keyboard to start loading, which shifts the dialog up and then down again
                 	v.clearFocus();
                 }
-                else
-                {
-                	//Hide your popup here?
-                }
             }
-        };
-        View.OnFocusChangeListener fcTime = new View.OnFocusChangeListener() {
+        });
+        etStopDate.setOnFocusChangeListener(new OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if(hasFocus)
                 {
                 	//Show your popup here
-                	showTimePicker(v);
+                	showDatePickerStop(v);
                 	//prevent keyboard to start loading, which shifts the dialog up and then down again
                 	v.clearFocus();
                 }
-                else
+            }
+        });
+        etStartTime.setOnFocusChangeListener(new OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(hasFocus)
                 {
-                	//Hide your popup here?
+                	//Show your popup here
+                	showTimePickerStart(v);
+                	//prevent keyboard to start loading, which shifts the dialog up and then down again
+                	v.clearFocus();
                 }
             }
-        };
-        etStartDate.setOnFocusChangeListener(fcDate);
-        etStopDate.setOnFocusChangeListener(fcDate);
-        etStartTime.setOnFocusChangeListener(fcTime);
-        etStopTime.setOnFocusChangeListener(fcTime);
+        });
+        etStopTime.setOnFocusChangeListener(new OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(hasFocus)
+                {
+                	//Show your popup here
+                	showTimePickerStop(v);
+                	//prevent keyboard to start loading, which shifts the dialog up and then down again
+                	v.clearFocus();
+                }
+            }
+        });
         
 		
 		formatTime = android.text.format.DateFormat.getTimeFormat(this);
 		formatDate = android.text.format.DateFormat.getDateFormat(this);
 		
-		Intent intent = getIntent();
 		recording = null;
+		calStart = Calendar.getInstance();
+		calEnd = Calendar.getInstance();
+		calEnd.add(Calendar.MINUTE, 1);
+		
 		isNewRecording = true;
+		Intent intent = getIntent();
 		if(intent.hasExtra(EXTRA_RECORDING_ID))
 		{
 			IDatabaseController db = ApplicationHelper.createDatabaseController();
@@ -121,10 +140,10 @@ public class EditRecordingActivity extends BaseActivity
 			{
 				isNewRecording = false;
 				etTaskName.setText(recording.getTask().getNameFull());
-				etStartTime.setText(formatTime.format(recording.getStart()));
-				etStartDate.setText(formatDate.format(recording.getStart()));
-				etStopTime.setText(formatTime.format(recording.getEnd()));
-				etStopDate.setText(formatDate.format(recording.getEnd()));
+				
+				calStart.setTime(recording.getStart());
+				calEnd.setTime(recording.getEnd());
+				updateTimeViews();
 			}
 		}
 		
@@ -132,6 +151,14 @@ public class EditRecordingActivity extends BaseActivity
 		{
 			recording = new Recording();
 		}
+	}
+	
+	private void updateTimeViews()
+	{
+		etStartTime.setText(formatTime.format(calStart.getTime()));
+		etStartDate.setText(formatDate.format(calStart.getTime()));
+		etStopTime.setText(formatTime.format(calEnd.getTime()));
+		etStopDate.setText(formatDate.format(calEnd.getTime()));
 	}
 	
 	public void onSave(View view)
@@ -176,28 +203,10 @@ public class EditRecordingActivity extends BaseActivity
 			return; // abort onSave(), further action is handled in dialog event handlers
 		}
 		
-		//get times
-		Date start, stop;
-		String pattern = ((SimpleDateFormat)formatDate).toPattern() + " " + ((SimpleDateFormat)formatTime).toPattern();
-		DateFormat df = new SimpleDateFormat(pattern);
-		try
-		{
-			start = df.parse(etStartDate.getText().toString()+" "+etStartTime.getText().toString());
-			stop = df.parse(etStopDate.getText().toString()+" "+etStopTime.getText().toString());
-		} catch (ParseException e)
-		{
-			AlertDialog.Builder builder = new AlertDialog.Builder(this);
-			AlertDialog dialog = builder.setMessage(R.string.prompt_time_invalid)
-					.setNeutralButton(R.string.cancel, null)
-					.create();
-			dialog.show();
-			return; //abort saving
-		}
-		
 		
 		recording.setTask(task);
-		recording.setStart(start);
-		recording.setEnd(stop);
+		recording.setStart(calStart.getTime());
+		recording.setEnd(calEnd.getTime());
 		
 		// save to database
 		IDatabaseController db = ApplicationHelper.createDatabaseController();
@@ -228,80 +237,131 @@ public class EditRecordingActivity extends BaseActivity
 		etTaskName.setAdapter(adapter);		
 	}
 	
-	public void showDatePicker(View view)
+	
+	public void showDatePickerStart(View view)
 	{
-		final EditText editTextRef =(EditText) view;
-		
-		int year = 0;
-		int month = 0;
-		int day = 0;
-		try
-		{
-			Date date = formatDate.parse(editTextRef.getText().toString());
-			Calendar cal = Calendar.getInstance();
-			cal.setTime(date);
-			year = cal.get(Calendar.YEAR);
-			month = cal.get(Calendar.MONTH);
-			day = cal.get(Calendar.DAY_OF_MONTH);
-		} catch (ParseException e)
-		{
-			// ignore
-		}
+		final Calendar cal = Calendar.getInstance();
+		cal.setTime(calStart.getTime());
 		
 		DatePickerDialog dialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener()
-			{			
-				@Override
-				public void onDateSet(DatePicker view, int year,
-						int monthOfYear, int dayOfMonth)
+		{			
+			@Override
+			public void onDateSet(DatePicker view, int year,
+					int monthOfYear, int dayOfMonth)
+			{
+				cal.set(Calendar.YEAR, year);
+				cal.set(Calendar.MONTH, monthOfYear);
+				cal.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+				
+				//check consistency: recording's start before end?
+				if(!cal.before(calEnd))
 				{
-					Calendar cal = Calendar.getInstance();
-					cal.set(Calendar.YEAR, year);
-					cal.set(Calendar.MONTH, monthOfYear);
-					cal.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+					// keep duration between start/end and change the end time accordingly
+					int duration =(int) (calEnd.getTimeInMillis() - calStart.getTimeInMillis());
 					
-					//TODO: check consistency (before/after recording's start/end
+					calEnd.setTime(cal.getTime());
+					calEnd.add(Calendar.MILLISECOND, duration);
 					
-					String date = formatDate.format(cal.getTime());
-					editTextRef.setText(date);
+					//TODO: somehow highlight the changed end time?
 				}
-			}, year, month, day);
+				calStart = cal;
+
+				updateTimeViews();
+			}
+		}, cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH));
+		dialog.show();		
+	}
+	public void showDatePickerStop(View view)
+	{
+		final Calendar cal = calEnd;
+		DatePickerDialog dialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener()
+		{			
+			@Override
+			public void onDateSet(DatePicker view, int year,
+					int monthOfYear, int dayOfMonth)
+			{
+				cal.set(Calendar.YEAR, year);
+				cal.set(Calendar.MONTH, monthOfYear);
+				cal.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+				
+				//check consistency: recording's end after start?
+				if(!calEnd.after(calStart))
+				{
+					// reset start to a date just before end
+					calStart.setTime(calEnd.getTime());
+					calStart.add(Calendar.DAY_OF_MONTH, -1); //date was changed, so difference will be 1 day
+					
+					//TODO: somehow highlight the changed start time?
+				}
+
+				updateTimeViews();
+			}
+		}, cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH));
 		dialog.show();
 	}
-	public void showTimePicker(View view)
+	
+	public void showTimePickerStart(View view)
 	{
-		final EditText editTextRef =(EditText) view;
-		
-		int hour = 0;
-		int minute = 0;
-		try
-		{
-			Date date = formatTime.parse(editTextRef.getText().toString());
-			Calendar cal = Calendar.getInstance();
-			cal.setTime(date);
-			hour = cal.get(Calendar.HOUR_OF_DAY);
-			minute = cal.get(Calendar.MINUTE);
-		} catch (ParseException e)
-		{
-			// ignore
-		}
+		final Calendar cal = Calendar.getInstance();
+		cal.setTime(calStart.getTime());
 		
 		TimePickerDialog dialog = new TimePickerDialog(this, new TimePickerDialog.OnTimeSetListener()
-			{			
-				@Override
-				public void onTimeSet(TimePicker picker, int hourOfDay, int minute)
+		{			
+			@Override
+			public void onTimeSet(TimePicker picker, int hourOfDay, int minute)
+			{
+				cal.set(Calendar.HOUR_OF_DAY, hourOfDay);
+				cal.set(Calendar.MINUTE, minute);
+				
+				//check consistency: recording's start before end?
+				if(!cal.before(calEnd))
 				{
-					Calendar cal = Calendar.getInstance();
-					cal.set(Calendar.HOUR_OF_DAY, hourOfDay);
-					cal.set(Calendar.MINUTE, minute);
+					// keep duration between start/end and change the end time accordingly
 					
-					//TODO: check consistency (before/after recording's start/end
+					int y = calEnd.get(Calendar.HOUR_OF_DAY);
+					int x = calEnd.get(Calendar.MINUTE);
 					
-					String time = formatTime.format(cal.getTime());
-					editTextRef.setText(time);
+					long duration = (calEnd.getTimeInMillis() - calStart.getTimeInMillis());
+					
+					calEnd.setTime(cal.getTime());
+					calEnd.add(Calendar.MILLISECOND, (int)duration);
+					
+					//TODO: somehow highlight the changed end time?
 				}
-			}, hour, minute, true);
+				calStart = cal;
+
+				updateTimeViews();
+			}
+		}, cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE), true);
 		dialog.show();
 	}
+	public void showTimePickerStop(View view)
+	{
+		final Calendar cal = calEnd;
+		TimePickerDialog dialog = new TimePickerDialog(this, new TimePickerDialog.OnTimeSetListener()
+		{			
+			@Override
+			public void onTimeSet(TimePicker picker, int hourOfDay, int minute)
+			{
+				cal.set(Calendar.HOUR_OF_DAY, hourOfDay);
+				cal.set(Calendar.MINUTE, minute);
+				
+				//check consistency: recording's end after start?
+				if(!calEnd.after(calStart))
+				{
+					// reset start to a time just before end
+					calStart.setTime(calEnd.getTime());
+					calStart.add(Calendar.MINUTE, -1); //time was changed, so difference will be 1 minute
+					
+					//TODO: somehow highlight the changed start time?
+				}
+
+				updateTimeViews();
+			}
+		}, cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE), true);
+		dialog.show();
+	}
+	
 	
 	public void onCancel(View view)
 	{
