@@ -84,5 +84,7 @@ public class EditTaskActivity extends BaseActivity
 		db.close();
 		Toast.makeText(this,"Task updated successfully", Toast.LENGTH_LONG).show();
 		cancel.setText("Back");
+		
+		finish();
 	}
 }
