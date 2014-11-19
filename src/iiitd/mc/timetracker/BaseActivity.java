@@ -2,6 +2,8 @@ package iiitd.mc.timetracker;
 
 import iiitd.mc.timetracker.adapter.NavigationAdapter;
 import android.app.ActionBar;
+import android.app.ActionBar.Tab;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Color;
@@ -19,7 +21,7 @@ import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 
-public class BaseActivity extends ActionBarActivity implements OnItemClickListener{
+public class BaseActivity extends ActionBarActivity implements OnItemClickListener, ActionBar.TabListener {
 	
 	DrawerLayout mDrawerLayout;
     ListView mDrawerList;
@@ -107,27 +109,37 @@ public class BaseActivity extends ActionBarActivity implements OnItemClickListen
 		{
 		case 0:
 			Intent home_activity = new Intent(this, MainActivity.class);
+			home_activity.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+			home_activity.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
 			mDrawerLayout.closeDrawer(mDrawerList);
 			startActivity(home_activity);
 			break;
 		case 1:
 			Intent new_task = new Intent(this, NewTaskActivity.class);
+			new_task.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+			new_task.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
 			mDrawerLayout.closeDrawer(mDrawerList);
 			startActivity(new_task);
 			break;
 		case 2:
 			Intent list_task = new Intent(this, ListTasksActivity.class);
+			list_task.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+			list_task.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
 			mDrawerLayout.closeDrawer(mDrawerList);
 			startActivity(list_task);
 			break;
 		case 3:
 			Intent list_recordings = new Intent(this,
 					ListRecordingsActivity.class);
+			list_recordings.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+			list_recordings.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
 			mDrawerLayout.closeDrawer(mDrawerList);
 			startActivity(list_recordings);
 			break;
 		case 4:
 			Intent statistics = new Intent(this, Statistics.class);
+			statistics.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+			statistics.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
 			mDrawerLayout.closeDrawer(mDrawerList);
 			startActivity(statistics);
 			break;
@@ -161,4 +173,25 @@ public class BaseActivity extends ActionBarActivity implements OnItemClickListen
         getMenuInflater().inflate(R.menu.base, menu);
         return true;
     }
+
+	@Override
+	public void onTabReselected(Tab tab, FragmentTransaction ft)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onTabSelected(Tab tab, FragmentTransaction ft)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onTabUnselected(Tab tab, FragmentTransaction ft)
+	{
+		// TODO Auto-generated method stub
+		
+	}
 }

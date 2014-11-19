@@ -104,7 +104,7 @@ public class ListTasksActivity extends BaseActivity{
 	{
 		super.onCreateContextMenu(menu, v, menuInfo);
 		menu.setHeaderTitle("Select The Action");
-		menu.add(0,v.getId(),0,"Edit");
+		menu.add(0,v.getId(),0,"View");
 		menu.add(1,v.getId(),1,"Delete");
 	}
 	
@@ -119,16 +119,19 @@ public class ListTasksActivity extends BaseActivity{
 
 		long taskId = 0;
 		
-		if(type == ExpandableListView.PACKED_POSITION_TYPE_GROUP){
+		if(type == ExpandableListView.PACKED_POSITION_TYPE_GROUP)
+		{
 			taskId = listHeader.get(grouppos).getId();
 		}
-		else{
+		else
+		{
 			taskId = listItems.get(listHeader.get(grouppos)).get(childpos).getId();
 		}
 		
-		if(item.getTitle() == "Edit")
+		if(item.getTitle() == "View")
 		{	
 			Intent intent = new Intent(ListTasksActivity.this,EditTaskActivity.class);
+			intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
 			intent.putExtra("taskid", taskId);
 			startActivity(intent);
 		}

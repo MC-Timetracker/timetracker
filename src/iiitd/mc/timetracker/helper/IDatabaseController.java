@@ -98,6 +98,13 @@ public interface IDatabaseController
 	public List<Recording> getRecordings();
 	
 	/**
+	 * Get a list of Recordings for a particular date
+	 * @param date
+	 * @return
+	 */
+	public List<Recording> getRecordings(long date);
+	
+	/**
 	 * Edit an existing Recording.
 	 * @param updatedRecording The Recording with its updated properties, the Recording ID has to stay unchanged.
 	 */

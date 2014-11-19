@@ -23,7 +23,7 @@ import android.widget.Toast;
 @SuppressLint("InflateParams")
 public class EditTaskActivity extends BaseActivity
 {
-	private Button update,cancel;
+	private Button update,cancel,edit;
 	private EditText parent, taskname, description;
 	private Task task;
 	
@@ -36,10 +36,16 @@ public class EditTaskActivity extends BaseActivity
         this.frame.addView(inflater.inflate(R.layout.activity_edit_task, null));
         
         update = (Button) findViewById(R.id.btnUpdate);
+        edit = (Button) findViewById(R.id.btnEdit);
         cancel = (Button) findViewById(R.id.btnCancel);
         parent = (EditText)findViewById(R.id.parentEdtitext);
         taskname = (EditText) findViewById(R.id.tasknameedittext);
         description = (EditText) findViewById(R.id.descEdittext);
+        
+        parent.setEnabled(false);
+        taskname.setEnabled(false);
+        description.setEnabled(false);
+        update.setVisibility(View.GONE);
         
         Intent intent = getIntent();
         IDatabaseController db = ApplicationHelper.createDatabaseController();
@@ -51,6 +57,20 @@ public class EditTaskActivity extends BaseActivity
 			parent.setText(task.getParent().getNameFull());
 		taskname.setText(task.getName());
 		description.setText(task.getDescription());
+		
+		edit.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View v)
+			{
+				taskname.setEnabled(true);
+				description.setEnabled(true);
+				cancel.setText("Cancel");
+				edit.setVisibility(View.GONE);
+				update.setVisibility(View.VISIBLE);
+			}
+			
+		});
 		
 		update.setOnClickListener(new OnClickListener(){
 			
@@ -83,6 +103,10 @@ public class EditTaskActivity extends BaseActivity
 		db.updateTask(task);
 		db.close();
 		Toast.makeText(this,"Task updated successfully", Toast.LENGTH_LONG).show();
+		taskname.setEnabled(false);
+		description.setEnabled(false);
+		update.setVisibility(View.GONE);
+		edit.setVisibility(View.VISIBLE);
 		cancel.setText("Back");
 	}
 }
