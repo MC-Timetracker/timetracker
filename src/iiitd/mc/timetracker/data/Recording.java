@@ -22,6 +22,7 @@ public class Recording
 	private Date start;
 	private Date end;
 	private Task task;
+	private String MacAddress;
 	
 	
 	/**
@@ -31,13 +32,15 @@ public class Recording
 	 * @param start The time when started recording.
 	 * @param end The time when finished recording.
 	 */
-	public Recording(long recordingId, Task task, Date start, Date end)
+	public Recording(long recordingId, Task task, Date start, Date end, String MacAddress)
 	{
 		setRecordingId(recordingId); //TODO: ID assigned by DatabaseController only?
 		setTask(task);
 		setStart(start);
 		setEnd(end);
+		setMacAddress(MacAddress);
 	}
+	
 	public Recording()
 	{
 		
@@ -134,6 +137,10 @@ public class Recording
 		
 	    long diffInMillies = tEnd.getTime() - start.getTime();
 	    return timeUnit.convert(diffInMillies,TimeUnit.MILLISECONDS);
+	}
+	
+	public void setMacAddress(String MacAddress){
+			this.MacAddress=MacAddress;
 	}
 	
 	

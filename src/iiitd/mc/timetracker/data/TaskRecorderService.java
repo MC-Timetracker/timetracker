@@ -10,10 +10,14 @@ import java.util.regex.Pattern;
 import android.app.Notification;
 import android.app.PendingIntent;
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
 import android.os.Binder;
 import android.os.IBinder;
+import android.widget.Toast;
 import iiitd.mc.timetracker.ApplicationHelper;
 import iiitd.mc.timetracker.RunningActivity;
 import iiitd.mc.timetracker.R;
@@ -41,10 +45,13 @@ public class TaskRecorderService extends Service
 	private static final String SETTINGS_BREAK_TASK_ID = "breakTaskId";
 	private static final String BREAK_TASK_NAME = "Break";
 	
+	WifiManager mainWifiObj;
+	
 	
 	@Override
 	public void onCreate() {
 		super.onCreate();
+		mainWifiObj = (WifiManager) getSystemService(Context.WIFI_SERVICE); 
 	}
 	
 	/**
@@ -152,10 +159,13 @@ public class TaskRecorderService extends Service
 		{
 			stopRecording();
 		}
-		
+		WifiInfo wifiInfo = mainWifiObj.getConnectionInfo();
+		String bssid = wifiInfo.getBSSID();
+		Toast.makeText(getApplicationContext(), bssid, Toast.LENGTH_SHORT).show();
 		currentRecording = new Recording();
 		currentRecording.setTask(task);
 		currentRecording.setStart(new Date());
+		currentRecording.setMacAddress(bssid);
 		
 		String notificationTitle = getText(R.string.notification_recording) + " " + task.getName();
 		Notification notification = new Notification(R.drawable.ic_stat_recording, notificationTitle,
