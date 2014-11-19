@@ -108,5 +108,7 @@ public class EditTaskActivity extends BaseActivity
 		update.setVisibility(View.GONE);
 		edit.setVisibility(View.VISIBLE);
 		cancel.setText("Back");
+		
+		finish();
 	}
 }

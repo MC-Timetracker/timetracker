@@ -16,6 +16,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnFocusChangeListener;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
@@ -78,6 +79,20 @@ public class MainActivity extends BaseActivity {
 					((AutoCompleteTextView)view).showDropDown();
 				}
 		});
+		autoTv.setOnFocusChangeListener(new OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(hasFocus)
+                {
+                	//Show your popup here
+                	((AutoCompleteTextView)v).showDropDown();
+                }
+                else
+                {
+                	//Hide your popup here?
+                }
+            }
+        });
 		
 
 	    getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);

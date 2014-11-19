@@ -68,11 +68,16 @@ public class Recording
 	}
 	/**
 	 * Set time when work on the recording was started.
-	 * @param start The new start time.
+	 * If the given time is after the end time of this recording, it is not saved.
+	 * @param start The new start time. If null, time will not be saved.
 	 */
 	public void setStart(Date start)
 	{
-		this.start = start;
+		if(start == null)
+			return;
+		
+		if(end == null || start.before(end))
+			this.start = start;
 	}
 	/**
 	 * Get time when work on the recording was stopped.
@@ -84,11 +89,16 @@ public class Recording
 	}
 	/**
 	 * Set time when work on the recording was stopped.
-	 * @param end
+	 * If the given time is before the start time of this recording, it is not saved.
+	 * @param end The new end time. If null, time will not be saved.
 	 */
 	public void setEnd(Date end)
 	{
-		this.end = end;
+		if(end == null)
+			return;
+		
+		if(start == null || end.after(start))
+			this.end = end;
 	}
 	/**
 	 * Get the task for which work was done during this recording.
