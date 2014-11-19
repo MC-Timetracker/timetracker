@@ -167,9 +167,18 @@ public class DatabaseController implements IDatabaseController {
 	}
 
 	@Override
+	public List<Recording> getRecordings(long date){
+		return getRecordingsWhere(DatabaseHelper.RECORDING_STARTTIME +" >= "+(date-86400000));
+	}
+	
+	@Override
 	public List<Recording> getRecordings() {
+		return getRecordingsWhere("1");
+	}
+	
+	public List<Recording> getRecordingsWhere(String filter){
 		List<Recording> recordings = new ArrayList<Recording>();
-		String selectRecordingQuery = "SELECT * FROM " + DatabaseHelper.TABLE_RECORDING + " ORDER BY " + DatabaseHelper.RECORDING_STARTTIME + " DESC";
+		String selectRecordingQuery = "SELECT * FROM " + DatabaseHelper.TABLE_RECORDING +" WHERE "+ filter +" ORDER BY " + DatabaseHelper.RECORDING_STARTTIME + " DESC";
 		database=dbHelper.getReadableDatabase();
 		Cursor c = database.rawQuery(selectRecordingQuery, null);
 		if(c.moveToFirst()){

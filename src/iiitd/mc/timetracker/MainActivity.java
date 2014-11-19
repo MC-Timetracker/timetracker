@@ -1,10 +1,13 @@
 package iiitd.mc.timetracker;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import iiitd.mc.timetracker.adapter.CustomArrayAdapter;
 import iiitd.mc.timetracker.context.*;
 import iiitd.mc.timetracker.data.*;
+import iiitd.mc.timetracker.helper.IDatabaseController;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -13,12 +16,16 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnFocusChangeListener;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 
 /**
@@ -37,6 +44,8 @@ public class MainActivity extends BaseActivity {
     private ITaskSuggestor suggester;
     private CustomArrayAdapter taskListAdapter;
     private AutoCompleteTextView autoTv;
+    private ListView recentAct;
+    private ArrayAdapter recentActAdapter;
 
     
 	@Override
@@ -49,6 +58,7 @@ public class MainActivity extends BaseActivity {
 		LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.frame.addView(inflater.inflate(R.layout.activity_main, null));
 		
+        initRecentActList();
 		initTaskAutocomplete();
 	}
 	
@@ -69,6 +79,20 @@ public class MainActivity extends BaseActivity {
 					((AutoCompleteTextView)view).showDropDown();
 				}
 		});
+		autoTv.setOnFocusChangeListener(new OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(hasFocus)
+                {
+                	//Show your popup here
+                	((AutoCompleteTextView)v).showDropDown();
+                }
+                else
+                {
+                	//Hide your popup here?
+                }
+            }
+        });
 		
 
 	    getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
@@ -143,6 +167,10 @@ public class MainActivity extends BaseActivity {
 			dialog.show();
 			return; // further action is handled in dialog event handlers
 		}
+		else
+		{
+			Toast.makeText(this,R.string.new_task_valid, Toast.LENGTH_SHORT).show();
+		}
 	}
 
 	/*
@@ -157,4 +185,23 @@ public class MainActivity extends BaseActivity {
 		autoTv.setAdapter(taskListAdapter);	
 	}
 	
+	public void initRecentActList()
+	{
+		recentAct = (ListView) findViewById(R.id.recentLv);
+		
+		IDatabaseController db = ApplicationHelper.createDatabaseController();
+		db.open();
+		List<Recording> records = db.getRecordings((new Date()).getTime());
+		db.close();
+		
+		List<String> recentTasks = new ArrayList<>();
+		
+		for(Recording rec: records){
+			recentTasks.add(rec.getTask().getNameFull());
+		}
+		
+		recentActAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,recentTasks);
+		
+		recentAct.setAdapter(recentActAdapter);
+	}
 }	
