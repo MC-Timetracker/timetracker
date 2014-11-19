@@ -2,13 +2,17 @@ package iiitd.mc.timetracker;
 
 import java.util.List;
 
+
 import iiitd.mc.timetracker.adapter.CustomArrayAdapter;
 import iiitd.mc.timetracker.context.*;
 import iiitd.mc.timetracker.data.*;
 import android.app.AlertDialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +23,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AutoCompleteTextView;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 
 /**
@@ -37,6 +42,8 @@ public class MainActivity extends BaseActivity {
     private ITaskSuggestor suggester;
     private CustomArrayAdapter taskListAdapter;
     private AutoCompleteTextView autoTv;
+    
+    WifiManager mainWifiObj;
 
     
 	@Override
@@ -48,7 +55,11 @@ public class MainActivity extends BaseActivity {
 		// use LayoutInflater in order to keep the NavigationDrawer of BaseActivity
 		LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.frame.addView(inflater.inflate(R.layout.activity_main, null));
-		
+        
+        mainWifiObj = (WifiManager) getSystemService(Context.WIFI_SERVICE); 
+       // WifiInfo wifiInfo = mainWifiObj.getConnectionInfo();
+		//String bssid = wifiInfo.getBSSID();
+		//Toast.makeText(getApplicationContext(), bssid, Toast.LENGTH_SHORT).show();
 		initTaskAutocomplete();
 	}
 	
@@ -96,7 +107,6 @@ public class MainActivity extends BaseActivity {
 		recorderIntent = new Intent(this, TaskRecorderService.class);
 		recorderIntent.putExtra(TaskRecorderService.EXTRA_TASK_ID, task.getId());
 		startService(recorderIntent);
-		
 		Intent running_activity = new Intent(this, RunningActivity.class);
 		startActivity(running_activity);
 	}
@@ -111,6 +121,9 @@ public class MainActivity extends BaseActivity {
 		// Get the task instance that corresponds to the String entered by the user
 		AutoCompleteTextView taskSelector = (AutoCompleteTextView) findViewById(R.id.taskSelectionBox);
 		final String sTask = taskSelector.getText().toString();
+		WifiInfo wifiInfo = mainWifiObj.getConnectionInfo();
+		String bssid = wifiInfo.getBSSID();
+		Toast.makeText(getApplicationContext(), bssid, Toast.LENGTH_SHORT).show();
 		
 		Task task = TaskRecorderService.getTaskFromString(sTask);
 		
@@ -156,5 +169,4 @@ public class MainActivity extends BaseActivity {
 		taskListAdapter.notifyDataSetChanged();
 		autoTv.setAdapter(taskListAdapter);	
 	}
-	
 }	
