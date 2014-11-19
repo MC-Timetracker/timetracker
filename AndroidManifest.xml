@@ -64,7 +64,7 @@
             android:label="@string/edit_task" >
         </activity>
         <activity
-            android:name=".EditRecordingActivity"
+            android:name="iiitd.mc.timetracker.EditRecordingActivity"
             android:label="@string/title_activity_edit_recording" >
         </activity>
     </application>

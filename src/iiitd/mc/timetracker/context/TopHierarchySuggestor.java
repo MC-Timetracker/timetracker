@@ -28,14 +28,8 @@ public class TopHierarchySuggestor
 		tasks = new ArrayList<Task>();
 		
 		db.open();
-		List<Task> temp = db.getTasks();
+		List<Task> tasks = db.getTasks();
 		db.close();
-		
-		for(Task t: temp){
-			if(t.getParent() == null){
-				tasks.add(t);
-			}
-		}
 		
 		return tasks;
 	}

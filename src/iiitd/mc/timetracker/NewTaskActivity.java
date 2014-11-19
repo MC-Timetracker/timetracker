@@ -125,6 +125,8 @@ public class NewTaskActivity extends BaseActivity {
 		
 		Toast.makeText(this,"Task added successfully", Toast.LENGTH_LONG).show();
 		addTasksToAutoView();
+		
+		finish();
 	}
 	
 	

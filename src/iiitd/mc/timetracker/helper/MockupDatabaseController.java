@@ -198,4 +198,11 @@ public class MockupDatabaseController implements IDatabaseController
 		return null;
 	}
 
+	@Override
+	public List<Recording> getRecordings(long date)
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

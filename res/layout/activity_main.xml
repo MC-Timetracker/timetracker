@@ -12,8 +12,9 @@
         android:id="@+id/root_layout"
         android:layout_width="500dp"
         android:layout_height="116dp"
-        android:layout_alignLeft="@+id/drawer_layout"
-        android:layout_centerVertical="true"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="47dp"
         android:background="@drawable/border"
         android:gravity="center_vertical"
         android:shadowColor="#F50743"
@@ -28,8 +29,8 @@
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentRight="true"
-            android:text="@string/btnStart"
-            android:onClick="Start" />
+            android:onClick="Start"
+            android:text="@string/btnStart" />
 
         <AutoCompleteTextView
             android:id="@+id/taskSelectionBox"
@@ -39,7 +40,27 @@
             android:layout_centerHorizontal="true"
             android:ems="10"
             android:imeOptions="actionDone"
-            android:inputType="textAutoComplete|textAutoCorrect" />
+            android:inputType="textAutoComplete|textAutoCorrect" >
 
+            <requestFocus />
+        </AutoCompleteTextView>
     </RelativeLayout>
+    
+    <TextView 
+        android:id="@+id/recentTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:textSize="20sp"
+        android:layout_below="@+id/root_layout"
+        android:background="@color/AppOrange"
+        android:text="@string/recentTv"/>
+    
+    <ListView 
+        android:id="@+id/recentLv"
+        android:layout_below="@+id/recentTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp" />
+
 </RelativeLayout>
