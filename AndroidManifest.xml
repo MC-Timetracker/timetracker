@@ -4,6 +4,8 @@
     android:versionCode="1"
     android:versionName="1.0" >
 
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    
     <uses-sdk
         android:minSdkVersion="14"
         android:targetSdkVersion="19" />
@@ -64,6 +66,13 @@
             android:name="iiitd.mc.timetracker.EditRecordingActivity"
             android:label="@string/title_activity_edit_recording" >
         </activity>
+        
+        <receiver
+            android:name="iiitd.mc.timetracker.BootReceiver" >
+		    <intent-filter>
+		        <action android:name="android.intent.action.BOOT_COMPLETED"></action>
+		    </intent-filter>
+		</receiver>
     </application>
 
 </manifest>

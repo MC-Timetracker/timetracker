@@ -60,6 +60,10 @@ public class MainActivity extends BaseActivity {
 		
         initRecentActList();
 		initTaskAutocomplete();
+		
+		
+		// init AutoRecorder triggers
+		BootReceiver.setupAutoRecorderTriggers(this);
 	}
 	
 	
