@@ -64,6 +64,6 @@
             android:name="iiitd.mc.timetracker.EditRecordingActivity"
             android:label="@string/title_activity_edit_recording" >
         </activity>
-    </application>
-
+        <activity android:name="org.achartengine.GraphicalActivity" />
+        </application>
 </manifest>

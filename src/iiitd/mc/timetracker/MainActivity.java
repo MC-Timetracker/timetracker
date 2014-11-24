@@ -45,7 +45,7 @@ public class MainActivity extends BaseActivity {
     private CustomArrayAdapter taskListAdapter;
     private AutoCompleteTextView autoTv;
     private ListView recentAct;
-    private ArrayAdapter recentActAdapter;
+    private ArrayAdapter<String> recentActAdapter;
 
     
 	@Override
@@ -89,7 +89,7 @@ public class MainActivity extends BaseActivity {
                 }
                 else
                 {
-                	//Hide your popup here?
+                	((AutoCompleteTextView)v).dismissDropDown();
                 }
             }
         });
@@ -203,5 +203,12 @@ public class MainActivity extends BaseActivity {
 		recentActAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,recentTasks);
 		
 		recentAct.setAdapter(recentActAdapter);
+	}
+	
+	public void onResume()
+	{
+		super.onResume();
+		
+		initRecentActList();
 	}
 }	
