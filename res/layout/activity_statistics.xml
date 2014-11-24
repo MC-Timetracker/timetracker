@@ -8,5 +8,5 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="iiitd.mc.timetracker.Statistics" 
     android:id="@+id/relativelayout_statistics" >
-
+    
 </RelativeLayout>
