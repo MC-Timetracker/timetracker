@@ -14,7 +14,7 @@ import java.util.List;
  * @author sebastian & gullal
  *
  */
-public class RecentTaskSuggestor
+public class RecentTaskSuggestor implements ITaskSuggestor
 {
 	/**
 	 * Returns all previously used tasks, most recently used task first.
@@ -28,7 +28,8 @@ public class RecentTaskSuggestor
 		db = ApplicationHelper.createDatabaseController();
 	}
 	
-	public List<Task> getRecentTasks()
+	@Override
+	public List<Task> getSuggestedTasks()
 	{
 		db.open();
 		recordings = db.getRecordings(); //TODO: Why save them in the RecentTaskSuggester instance if not reused?

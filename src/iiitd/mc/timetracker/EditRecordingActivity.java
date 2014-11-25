@@ -39,7 +39,7 @@ public class EditRecordingActivity extends BaseActivity
 	
 	private AutoCompleteTextView etTaskName;
 	private ITaskSuggestor suggester;
-	private List<String> suggestedTasks;
+	private List<Task> suggestedTasks;
 	private CustomArrayAdapter adapter;
 	
 	EditText etStartTime, etStartDate, etStopTime, etStopDate;
@@ -232,7 +232,7 @@ public class EditRecordingActivity extends BaseActivity
 	private void addTasksToAutoView()
 	{
 		suggester = new MainTaskSuggestor();
-		suggestedTasks = suggester.getTaskStrings();
+		suggestedTasks = suggester.getSuggestedTasks();
 		adapter = new CustomArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, suggestedTasks);
 		etTaskName.setAdapter(adapter);		
 	}

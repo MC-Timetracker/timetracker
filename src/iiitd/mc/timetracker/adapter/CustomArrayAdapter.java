@@ -1,5 +1,7 @@
 package iiitd.mc.timetracker.adapter;
 
+import iiitd.mc.timetracker.data.Task;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,17 +20,17 @@ import android.widget.Filterable;
  * @author gullal
  *
  */
-public class CustomArrayAdapter extends ArrayAdapter<String> implements Filterable {
+public class CustomArrayAdapter extends ArrayAdapter<Task> implements Filterable {
 	
-	private ArrayList<String> suggestedList;
-	private ArrayList<String> originalList;
+	private List<Task> suggestedList;
+	private List<Task> originalList;
 	private ArrayFilter cFilter;
 
-	public CustomArrayAdapter(Context context, int resource,List<String> suggestedTasks){
+	public CustomArrayAdapter(Context context, int resource, List<Task> suggestedTasks) {
 		
 		super(context,resource,suggestedTasks);
-		suggestedList = (ArrayList<String>)suggestedTasks;
-		originalList = new ArrayList<String>(suggestedList);
+		suggestedList = suggestedTasks;
+		originalList = new ArrayList<Task>(suggestedList);
 	}
 	
 	@Override
@@ -37,7 +39,7 @@ public class CustomArrayAdapter extends ArrayAdapter<String> implements Filterab
 	}
 	
 	@Override
-	public String getItem(int position) {
+	public Task getItem(int position) {
 		return suggestedList.get(position);
 	}
 	
@@ -67,13 +69,13 @@ public class CustomArrayAdapter extends ArrayAdapter<String> implements Filterab
 			
 			if(originalList == null){
 				//synchronized(lock){
-					originalList = new ArrayList<String>(suggestedList);
+					originalList = new ArrayList<Task>(suggestedList);
 				}
 			//}
 			
 			if(prefix == null || prefix.length() == 0){
 				//synchronized (lock){
-					ArrayList<String> list = new ArrayList<String>(originalList);
+					List<Task> list = new ArrayList<Task>(originalList);
 					filteredTasks.values = list;
 					filteredTasks.count = list.size();
 				}
@@ -82,15 +84,15 @@ public class CustomArrayAdapter extends ArrayAdapter<String> implements Filterab
 				
 				final String prefixString = prefix.toString().toLowerCase();
 				
-				ArrayList<String> values = originalList;
+				List<Task> values = originalList;
 				
 				int count = values.size();
 				
-				ArrayList<String> newValues = new ArrayList<String>(count);
+				List<Task> newValues = new ArrayList<Task>(count);
 				
 				for(int i=0;i < count; i++){
-					String item = values.get(i);
-					if(item.toLowerCase().contains("."+prefixString) || item.toLowerCase().startsWith(prefixString)){
+					Task item = values.get(i);
+					if(item.toString().toLowerCase().contains("."+prefixString) || item.toString().toLowerCase().startsWith(prefixString)){
 						newValues.add(item);
 					}
 				}
@@ -106,10 +108,10 @@ public class CustomArrayAdapter extends ArrayAdapter<String> implements Filterab
 		protected void publishResults(CharSequence arg0, FilterResults filteredTasks)
 		{
 			if(filteredTasks.values != null){
-				suggestedList = (ArrayList<String>) filteredTasks.values;
+				suggestedList = (List<Task>) filteredTasks.values;
 			}
 			else{
-				suggestedList = new ArrayList<String>();
+				suggestedList = new ArrayList<Task>();
 			}
 			
 			if(filteredTasks.count > 0){

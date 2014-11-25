@@ -12,7 +12,7 @@ import java.util.List;
  * @author gullal
  *
  */
-public class TopHierarchySuggestor
+public class TopHierarchySuggestor implements ITaskSuggestor
 {
 
 	private List<Task> tasks;
@@ -22,8 +22,9 @@ public class TopHierarchySuggestor
 	{
 		db = ApplicationHelper.createDatabaseController();
 	}
-	
-	public List<Task> getTopTasks()
+
+	@Override
+	public List<Task> getSuggestedTasks()
 	{
 		tasks = new ArrayList<Task>();
 		

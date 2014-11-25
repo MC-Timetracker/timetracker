@@ -20,12 +20,12 @@ public class MainTaskSuggestor implements ITaskSuggestor
 	
 	
 	@Override
-	public List<Task> getTaskList()
+	public List<Task> getSuggestedTasks()
 	{
 		tasks = new ArrayList<Task>();
-		List<Task> topTasks = topTasksSuggestor.getTopTasks();
+		List<Task> topTasks = topTasksSuggestor.getSuggestedTasks();
 		tasks.addAll(topTasks);
-		List<Task> recentTasks = recentTasksSuggestor.getRecentTasks();
+		List<Task> recentTasks = recentTasksSuggestor.getSuggestedTasks();
 		for(Task t: recentTasks)
 		{
 			if(!tasks.contains(t))
@@ -33,20 +33,6 @@ public class MainTaskSuggestor implements ITaskSuggestor
 		}
 		
 		return tasks;
-	}
-
-	
-	public List<String> getTaskStrings()
-	{
-		List<Task> lst = this.getTaskList();
-		
-		List<String> array = new ArrayList<String>(lst.size());
-		
-		for (Task value : lst) {
-			array.add(value.toString());
-		}
-		
-		return array;
 	}
 
 }
