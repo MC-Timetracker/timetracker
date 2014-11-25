@@ -40,7 +40,7 @@ public class BootReceiver extends BroadcastReceiver
 		// Call AutoRecorder whenever new Wifi is in range
 		WifiManager mainWifi = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
 		AutoRecorder autoRecorder = new AutoRecorder();
-		context.registerReceiver(autoRecorder, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
+		context.registerReceiver(autoRecorder, new IntentFilter(WifiManager.SUPPLICANT_STATE_CHANGED_ACTION));
 		
 		isSetup = true;
 	}
