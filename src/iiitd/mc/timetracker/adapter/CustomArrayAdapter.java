@@ -60,8 +60,6 @@ public class CustomArrayAdapter extends ArrayAdapter<Task> implements Filterable
 	@SuppressLint("DefaultLocale")
 	private class ArrayFilter extends Filter {
 
-		private Object lock;
-		
 		@Override
 		protected FilterResults performFiltering(CharSequence prefix)
 		{

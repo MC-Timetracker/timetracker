@@ -10,13 +10,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Vibrator;
 import android.support.v4.app.NotificationCompat;
-import android.widget.Toast;
 
 /**
  * Constantly checks for Tasks that are likely to be started right now
  * and potentially act automatically on this.
  */
-public class AutoRecorder extends  BroadcastReceiver
+public class AutoRecorder extends BroadcastReceiver
 {
 	public final int NOTIFICATION_ID_TASK_SUGGESTION = 2;
 	
@@ -33,6 +32,11 @@ public class AutoRecorder extends  BroadcastReceiver
 			setNotification(context, suggestedTask);
 	}
 	
+	/**
+	 * Remind the user to check the time tracker and maybe update the recording status.
+	 * @param context The application context.
+	 * @param suggestedTask Most likely Task to be recorded currently.
+	 */
 	void setNotification(Context context, Task suggestedTask)
 	{
 		NotificationCompat.Builder mBuilder =

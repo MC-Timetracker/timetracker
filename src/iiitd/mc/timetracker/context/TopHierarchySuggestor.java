@@ -4,7 +4,6 @@ import iiitd.mc.timetracker.ApplicationHelper;
 import iiitd.mc.timetracker.data.Task;
 import iiitd.mc.timetracker.helper.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -25,11 +24,9 @@ public class TopHierarchySuggestor implements ITaskSuggestor
 
 	@Override
 	public List<Task> getSuggestedTasks()
-	{
-		tasks = new ArrayList<Task>();
-		
+	{		
 		db.open();
-		List<Task> tasks = db.getTasks();
+		tasks = db.getTasks();
 		db.close();
 		
 		return tasks;
