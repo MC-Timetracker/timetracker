@@ -166,6 +166,12 @@ public class DatabaseController implements IDatabaseController {
 		return createRecordingInstance(c);
 	}
 
+	
+	public List<Recording> getRecordings(long start, long end)
+	{
+		return getRecordingsWhere(DatabaseHelper.RECORDING_STARTTIME+" BETWEEN "+start+ " AND "+end);
+	}
+	
 	@Override
 	public List<Recording> getRecordings(long date){
 		return getRecordingsWhere(DatabaseHelper.RECORDING_STARTTIME +" >= "+(date-86400000));

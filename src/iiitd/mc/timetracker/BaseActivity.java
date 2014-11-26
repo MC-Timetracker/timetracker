@@ -1,9 +1,14 @@
 package iiitd.mc.timetracker;
 
+import java.util.Calendar;
+
 import iiitd.mc.timetracker.adapter.NavigationAdapter;
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
+import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.app.FragmentTransaction;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Color;
@@ -12,17 +17,24 @@ import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.PopupMenu;
+import android.support.v7.widget.PopupMenu.OnMenuItemClickListener;
+import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 
-public class BaseActivity extends ActionBarActivity implements OnItemClickListener, ActionBar.TabListener {
+public class BaseActivity extends ActionBarActivity implements OnItemClickListener, ActionBar.TabListener, OnMenuItemClickListener {
 	
+	public static int timeRangeId = 1;
 	DrawerLayout mDrawerLayout;
     ListView mDrawerList;
     CharSequence mTitle;
@@ -163,9 +175,91 @@ public class BaseActivity extends ActionBarActivity implements OnItemClickListen
             return true;
         }
         // Handle your other action bar items...
- 
-        return super.onOptionsItemSelected(item);
+        switch(item.getItemId())
+        {
+        	case R.id.time_range:
+        		View v = findViewById(R.id.time_range);
+        		showPopUp(v);
+        		return true;
+        	default:
+        		return super.onOptionsItemSelected(item);
+        }
+        
     }
+    
+    public void showPopUp(View v)
+    {
+    	PopupMenu popup = new PopupMenu(this,v);
+    	MenuInflater inflater = popup.getMenuInflater();
+    	inflater.inflate(R.menu.time_ranges, popup.getMenu());
+    	popup.setOnMenuItemClickListener(this);
+        popup.show();
+    }
+    
+    @Override
+    public boolean onMenuItemClick(MenuItem item)
+    {
+    	switch(item.getItemId())
+    	{
+    		case R.id.today:
+    			timeRangeId = 1;
+    			return true;
+    		case R.id.yesterday:
+    			timeRangeId = 2;
+    			return true;
+    		case R.id.thisweek:
+    			timeRangeId = 3;
+    			return true;
+    		case R.id.lastweek:
+    			timeRangeId = 4;
+    			return true;
+    		case R.id.thismonth:
+    			timeRangeId = 5;
+    			return true;
+    		case R.id.lastmonth:
+    			timeRangeId = 6;
+    			return true;
+    		case R.id.custom:
+    			rangeCustomDialog();
+    			return true;
+    		default:
+    			return false;
+    	}
+    }
+    
+    
+    public void rangeCustomDialog()
+    {
+    	AlertDialog.Builder builder = new AlertDialog.Builder(this);
+    	LayoutInflater inflater = this.getLayoutInflater();
+    	
+    	builder.setTitle("Custom Range");
+    	
+    	builder.setView(inflater.inflate(R.layout.custom_dialog, null))
+    	.setPositiveButton("Done", new DialogInterface.OnClickListener()
+		{
+			
+			@Override
+			public void onClick(DialogInterface dialog, int which)
+			{
+				dialog.dismiss();
+				
+			}
+		})
+		.setNegativeButton("Cancel", new DialogInterface.OnClickListener()
+		{
+			
+			@Override
+			public void onClick(DialogInterface dialog, int which)
+			{
+				dialog.cancel();
+			}
+		});
+    	
+    	AlertDialog alertdialog = builder.create();
+    	alertdialog.show();
+    }
+    
     
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
