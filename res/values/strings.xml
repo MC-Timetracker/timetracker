@@ -65,7 +65,8 @@
     <string name="action_edit">Edit</string>
     <string name="action_delete">Delete</string>
     <string name="prompt_delete_recording">Do you really want to delete the recording?</string>
-    
+    <string name="prompt_delete_task">Do you really want to delete the task? This will also delete any recording tracking this task.</string>
+
     <string name="notification_suggestion_title">Update your time recording</string>
     <string name="notification_suggestion_text">Suggesting </string>
 
