@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+ 
+    <TextView
+        android:id="@+id/tv1"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="5sp"
+        android:textSize="20sp"
+        android:text="@string/from_date"/>
+
+    <EditText
+        android:id="@+id/from_date"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/tv1"
+        android:ems="10"
+        android:inputType="date"
+        android:paddingLeft="5sp" />
+
+    <TextView
+        android:id="@+id/tv2"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/from_date"
+        android:layout_marginTop="26dp"
+        android:paddingLeft="5sp"
+        android:text="@string/to_date"
+        android:textSize="20sp" />
+
+    <EditText
+        android:id="@+id/to_date"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/tv2"
+        android:ems="10"
+        android:inputType="date"
+        android:paddingLeft="5sp" />
+ 
+</RelativeLayout>
