@@ -19,7 +19,7 @@ public class RecentTaskSuggestor implements ITaskSuggestor
 	/**
 	 * Returns all previously used tasks, most recently used task first.
 	 */
-	private List<Task> tasks;
+	private List<SuggestedTask> tasks;
 	private List<Recording> recordings;
 	IDatabaseController db;
 	
@@ -29,13 +29,13 @@ public class RecentTaskSuggestor implements ITaskSuggestor
 	}
 	
 	@Override
-	public List<Task> getSuggestedTasks()
+	public List<SuggestedTask> getSuggestedTasks()
 	{
 		db.open();
 		recordings = db.getRecordings(); //TODO: Why save them in the RecentTaskSuggester instance if not reused?
 		db.close();
 		
-		tasks = new ArrayList<Task>();
+		tasks = new ArrayList<SuggestedTask>();
 		
 		Collections.sort(recordings,new Comparator<Recording>(){
 
@@ -48,8 +48,8 @@ public class RecentTaskSuggestor implements ITaskSuggestor
 		});
 		
 		for(Recording rec: recordings){
-			
-			Task temp = rec.getTask();
+			//TODO: calculate some meaningful probability or recent tasks?!
+			SuggestedTask temp = new SuggestedTask(rec.getTask(), 0.5);
 			if(!tasks.contains(temp)){
 				tasks.add(temp);
 			}

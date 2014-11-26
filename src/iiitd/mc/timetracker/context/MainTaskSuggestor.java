@@ -1,7 +1,5 @@
 package iiitd.mc.timetracker.context;
 
-import iiitd.mc.timetracker.data.Task;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,24 +10,36 @@ import java.util.List;
  */
 public class MainTaskSuggestor implements ITaskSuggestor
 {
-
-	private List<Task> tasks;
+	private List<SuggestedTask> tasks;
 	
 	TopHierarchySuggestor topTasksSuggestor = new TopHierarchySuggestor();
 	RecentTaskSuggestor recentTasksSuggestor = new RecentTaskSuggestor();
 	
 	
 	@Override
-	public List<Task> getSuggestedTasks()
+	public List<SuggestedTask> getSuggestedTasks()
 	{
-		tasks = new ArrayList<Task>();
-		List<Task> topTasks = topTasksSuggestor.getSuggestedTasks();
+		tasks = new ArrayList<SuggestedTask>();
+		List<SuggestedTask> topTasks = topTasksSuggestor.getSuggestedTasks();
 		tasks.addAll(topTasks);
-		List<Task> recentTasks = recentTasksSuggestor.getSuggestedTasks();
-		for(Task t: recentTasks)
+		List<SuggestedTask> recentTasks = recentTasksSuggestor.getSuggestedTasks();
+		for(SuggestedTask r : recentTasks)
 		{
-			if(!tasks.contains(t))
-				tasks.add(t);
+			boolean duplicate = false;
+			for(SuggestedTask t : tasks)
+			{
+				if(r.equals(t))
+				{
+					// don't add duplicate, instead set probability to higher value of the two SuggestedTasks
+					if(r.getProbability() < t.getProbability())
+						r.setProbability(t.getProbability());
+					
+					duplicate = true;
+				}
+			}
+			
+			if(!duplicate)
+				tasks.add(r);
 		}
 		
 		return tasks;

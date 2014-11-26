@@ -45,7 +45,7 @@ public class MainActivity extends BaseActivity {
     private CustomArrayAdapter taskListAdapter;
     private AutoCompleteTextView autoTv;
     private ListView recentAct;
-    private ArrayAdapter recentActAdapter;
+    private ArrayAdapter<SuggestedTask> recentActAdapter;
 
     
 	@Override
@@ -183,7 +183,7 @@ public class MainActivity extends BaseActivity {
 	private void addTasksToAutoView()
 	{
 		suggester = new MainTaskSuggestor();
-		List<Task> suggestedTasks = suggester.getSuggestedTasks();
+		List<SuggestedTask> suggestedTasks = suggester.getSuggestedTasks();
 		taskListAdapter = new CustomArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, suggestedTasks);
 		taskListAdapter.notifyDataSetChanged();
 		autoTv.setAdapter(taskListAdapter);	

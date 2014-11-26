@@ -8,8 +8,9 @@ import java.util.Date;
 import java.util.List;
 
 import iiitd.mc.timetracker.adapter.CustomArrayAdapter;
-import iiitd.mc.timetracker.context.ITaskSuggestor;
 import iiitd.mc.timetracker.context.MainTaskSuggestor;
+import iiitd.mc.timetracker.context.SuggestedTask;
+import iiitd.mc.timetracker.context.ITaskSuggestor;
 import iiitd.mc.timetracker.data.Recording;
 import iiitd.mc.timetracker.data.Task;
 import iiitd.mc.timetracker.data.TaskRecorderService;
@@ -39,7 +40,7 @@ public class EditRecordingActivity extends BaseActivity
 	
 	private AutoCompleteTextView etTaskName;
 	private ITaskSuggestor suggester;
-	private List<Task> suggestedTasks;
+	private List<SuggestedTask> suggestedTasks;
 	private CustomArrayAdapter adapter;
 	
 	EditText etStartTime, etStartDate, etStopTime, etStopDate;

@@ -4,6 +4,7 @@ import iiitd.mc.timetracker.ApplicationHelper;
 import iiitd.mc.timetracker.data.Task;
 import iiitd.mc.timetracker.helper.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -14,7 +15,7 @@ import java.util.List;
 public class TopHierarchySuggestor implements ITaskSuggestor
 {
 
-	private List<Task> tasks;
+	private List<SuggestedTask> tasks;
 	IDatabaseController db;
 	
 	public TopHierarchySuggestor()
@@ -23,11 +24,20 @@ public class TopHierarchySuggestor implements ITaskSuggestor
 	}
 
 	@Override
-	public List<Task> getSuggestedTasks()
-	{		
+	public List<SuggestedTask> getSuggestedTasks()
+	{
 		db.open();
-		tasks = db.getTasks();
+		List<Task> topTasks = db.getTasks();
 		db.close();
+		
+		tasks = new ArrayList<SuggestedTask>();
+		for(Task t : topTasks)
+		{
+			// wrap the Tasks in SuggestTask objects with a constant probability
+			//TODO: what probability for TopHierarchy tasks? does it matter?
+			SuggestedTask item = new SuggestedTask(t, 0.75);
+			tasks.add(item);
+		}
 		
 		return tasks;
 	}

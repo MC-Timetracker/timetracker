@@ -1,7 +1,5 @@
 package iiitd.mc.timetracker.context;
 
-import iiitd.mc.timetracker.data.Task;
-
 import java.util.List;
 
 /**
@@ -18,6 +16,6 @@ public interface ITaskSuggestor
 	 * Get an array of the suggested tasks.
 	 * @return
 	 */
-	public List<Task> getSuggestedTasks();
+	public List<SuggestedTask> getSuggestedTasks();
 
 }
