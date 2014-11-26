@@ -7,7 +7,7 @@ import iiitd.mc.timetracker.data.Task;
  * @author sebastian
  *
  */
-public class SuggestedTask
+public class SuggestedTask implements Comparable<SuggestedTask>
 {
 	private Task task;
 	private double probability = 0.5;
@@ -78,5 +78,13 @@ public class SuggestedTask
         }
 		
 		return ((SuggestedTask)o).getTask().equals(this.task);
+	}
+
+
+	@Override
+	public int compareTo(SuggestedTask another)
+	{
+		int r = Double.compare(this.getProbability(), ((SuggestedTask)another).getProbability());
+		return -r;
 	}
 }

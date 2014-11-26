@@ -29,13 +29,14 @@ public class TopHierarchySuggestor implements ITaskSuggestor
 		db.open();
 		List<Task> topTasks = db.getTasks();
 		db.close();
+		//TODO: filter to only get top hierarchy tasks?!
 		
 		tasks = new ArrayList<SuggestedTask>();
 		for(Task t : topTasks)
 		{
 			// wrap the Tasks in SuggestTask objects with a constant probability
-			//TODO: what probability for TopHierarchy tasks? does it matter?
-			SuggestedTask item = new SuggestedTask(t, 0.75);
+			//TODO: what probability for TopHierarchy tasks?
+			SuggestedTask item = new SuggestedTask(t, 0);
 			tasks.add(item);
 		}
 		

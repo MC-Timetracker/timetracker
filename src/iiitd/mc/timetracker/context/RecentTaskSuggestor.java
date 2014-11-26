@@ -73,6 +73,8 @@ public class RecentTaskSuggestor implements ITaskSuggestor
 			
 			i--;
 		}
+		
+		Collections.sort(tasks);
 		return tasks;
 	}
 }

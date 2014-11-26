@@ -1,6 +1,7 @@
 package iiitd.mc.timetracker.context;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -20,8 +21,10 @@ public class MainTaskSuggestor implements ITaskSuggestor
 	public List<SuggestedTask> getSuggestedTasks()
 	{
 		tasks = new ArrayList<SuggestedTask>();
+		
 		List<SuggestedTask> topTasks = topTasksSuggestor.getSuggestedTasks();
 		tasks.addAll(topTasks);
+		
 		List<SuggestedTask> recentTasks = recentTasksSuggestor.getSuggestedTasks();
 		for(SuggestedTask r : recentTasks)
 		{
@@ -31,10 +34,11 @@ public class MainTaskSuggestor implements ITaskSuggestor
 				if(r.equals(t))
 				{
 					// don't add duplicate, instead set probability to higher value of the two SuggestedTasks
-					if(r.getProbability() < t.getProbability())
-						r.setProbability(t.getProbability());
+					if(t.getProbability() < r.getProbability())
+						t.setProbability(r.getProbability());
 					
 					duplicate = true;
+					break;
 				}
 			}
 			
@@ -42,6 +46,7 @@ public class MainTaskSuggestor implements ITaskSuggestor
 				tasks.add(r);
 		}
 		
+		Collections.sort(tasks);
 		return tasks;
 	}
 
