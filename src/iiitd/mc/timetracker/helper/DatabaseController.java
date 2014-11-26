@@ -148,6 +148,7 @@ public class DatabaseController implements IDatabaseController {
 		contentValue_recording.put(DatabaseHelper.RECORDING_TASKID, newRecording.getTask().getId());
 		contentValue_recording.put(DatabaseHelper.RECORDING_STARTTIME, newRecording.getStart().getTime());
 		contentValue_recording.put(DatabaseHelper.RECORDING_STOPTIME, newRecording.getEnd().getTime());
+		contentValue_recording.put(DatabaseHelper.RECORDING_BSSID, newRecording.getMacAddress());
 		
 		long id = database.insert(DatabaseHelper.TABLE_RECORDING, null, contentValue_recording);
 		
@@ -216,7 +217,7 @@ public class DatabaseController implements IDatabaseController {
 		{
 			// ignore date problems
 		}
-		
+		record.setMacAddress(c.getString(c.getColumnIndex(DatabaseHelper.RECORDING_BSSID)));
 		return record;
 	}
 
@@ -226,6 +227,7 @@ public class DatabaseController implements IDatabaseController {
 		contentValue_recording.put(DatabaseHelper.RECORDING_TASKID,updatedRecording.getTask().getId());
 		contentValue_recording.put(DatabaseHelper.RECORDING_STARTTIME, updatedRecording.getStart().getTime());
 		contentValue_recording.put(DatabaseHelper.RECORDING_STOPTIME, updatedRecording.getEnd().getTime());
+		contentValue_recording.put(DatabaseHelper.RECORDING_BSSID, updatedRecording.getMacAddress());
 		database.update(DatabaseHelper.TABLE_RECORDING,contentValue_recording, DatabaseHelper.KEY_ID + " = " + updatedRecording.getRecordingId(), null);
 	}
 
