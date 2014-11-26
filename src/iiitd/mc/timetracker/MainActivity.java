@@ -45,7 +45,7 @@ public class MainActivity extends BaseActivity {
     private CustomArrayAdapter taskListAdapter;
     private AutoCompleteTextView autoTv;
     private ListView recentAct;
-    private ArrayAdapter<SuggestedTask> recentActAdapter;
+    private ArrayAdapter recentActAdapter;
 
     
 	@Override

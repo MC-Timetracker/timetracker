@@ -17,8 +17,10 @@ import java.util.List;
 public class RecentTaskSuggestor implements ITaskSuggestor
 {
 	/**
-	 * Returns all previously used tasks, most recently used task first.
+	 * How many recordings are considered.
 	 */
+	private final int recordingLimit = 5;
+	
 	private List<SuggestedTask> tasks;
 	private List<Recording> recordings;
 	IDatabaseController db;
@@ -32,6 +34,7 @@ public class RecentTaskSuggestor implements ITaskSuggestor
 	public List<SuggestedTask> getSuggestedTasks()
 	{
 		db.open();
+		//TODO: use some limit to only get the last 10 (?) recordings?
 		recordings = db.getRecordings(); //TODO: Why save them in the RecentTaskSuggester instance if not reused?
 		db.close();
 		
@@ -47,12 +50,28 @@ public class RecentTaskSuggestor implements ITaskSuggestor
 			
 		});
 		
-		for(Recording rec: recordings){
-			//TODO: calculate some meaningful probability or recent tasks?!
-			SuggestedTask temp = new SuggestedTask(rec.getTask(), 0.5);
-			if(!tasks.contains(temp)){
+		// add unique tasks to list and update their probability (ratio of occurrences)
+		int i = recordingLimit;
+		double prob = 1.0 / recordingLimit;
+		for(Recording rec : recordings)
+		{
+			if(i <= 0)
+				break;
+			
+			SuggestedTask temp = new SuggestedTask(rec.getTask(), prob);
+			int index = tasks.indexOf(temp);
+			if(index == -1)
+			{
+				// add new task
 				tasks.add(temp);
 			}
+			else
+			{
+				// add probability to existing task
+				tasks.get(index).increaseProbability(prob);
+			}
+			
+			i--;
 		}
 		return tasks;
 	}

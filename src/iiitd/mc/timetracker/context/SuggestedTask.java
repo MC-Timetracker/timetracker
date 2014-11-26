@@ -39,6 +39,14 @@ public class SuggestedTask
 		else
 			this.probability = probability;
 	}
+	/**
+	 * Add the given probability.
+	 * @param additionalProbability Probability to be added. Must be between 0 and 1, values out of this range will be set to 0 or 1 accordingly.
+	 */
+	public void increaseProbability(double additionalProbability)
+	{
+		setProbability(this.probability + additionalProbability);
+	}
 
 
 	public Task getTask()
@@ -57,5 +65,18 @@ public class SuggestedTask
 	public String toString()
 	{
 		return task.toString();
+	}
+	
+	/**
+	 * Checks whether the wrapped Tasks (!) are equal.
+	 */
+	@Override
+	public boolean equals(Object o)
+	{
+		if (!(o instanceof SuggestedTask)) {
+            return false;
+        }
+		
+		return ((SuggestedTask)o).getTask().equals(this.task);
 	}
 }
