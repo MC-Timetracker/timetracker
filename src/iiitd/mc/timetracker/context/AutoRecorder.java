@@ -1,8 +1,11 @@
 package iiitd.mc.timetracker.context;
 
+import java.util.List;
+
 import iiitd.mc.timetracker.MainActivity;
 import iiitd.mc.timetracker.R;
 import iiitd.mc.timetracker.data.Task;
+import iiitd.mc.timetracker.data.TaskRecorderService;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
@@ -19,25 +22,75 @@ public class AutoRecorder extends BroadcastReceiver
 {
 	public final int NOTIFICATION_ID_TASK_SUGGESTION = 2;
 	
+	
 	@Override
 	public void onReceive(Context context, Intent intent)
 	{
-		//TODO: implement automatic actions for likely Task
-		//if(Task t is very likely in current context)
-		//	create notification and vibrate
-		//	or start recording that automatically?
-			//TODO replace this stub with real selection of likely Task
-			Task suggestedTask = new Task("SuggestedTask");
-			// set Notification
+		ITaskSuggestor taskSuggestor = new MainTaskSuggestor();
+		List<SuggestedTask> suggestedTasks = taskSuggestor.getSuggestedTasks();
+		
+		if(suggestedTasks.isEmpty())
+			return;
+		
+		Task suggestedTask = suggestedTasks.get(0).getTask();
+		
+		SuggestionAction action = getSuggestionAction(suggestedTasks);
+		switch(action)
+		{
+		case AutoRecord:
+			startRecording(context, suggestedTask);
+			break;
+			
+		case Notify:
 			setNotification(context, suggestedTask);
+			break;
+			
+		case Ignore:
+			break;
+		}
 	}
+	
+	
+	/**
+	 * Decides what action should be taken with regard to the probabilities of the suggested tasks.
+	 * @param suggestedTasks List of suggested tasks
+	 * @return Returns the SuggestionAction how the AutoRecorder will act upon the given task suggestions.
+	 */
+	private SuggestionAction getSuggestionAction(List<SuggestedTask> suggestedTasks)
+	{
+		//TODO: proper implementation of SuggestionAction
+		// based on absolute probability of top suggested task
+		// and relative distance to the next likely suggested task?
+		return SuggestionAction.Notify;
+	}
+	
+	enum SuggestionAction
+	{
+		AutoRecord,
+		Notify,
+		Ignore
+	}
+	
+	
+	/**
+	 * Start automatically recording the given suggested Task.
+	 * @param context The application context.
+	 * @param suggestedTask The most likely Task to be recorded currently.
+	 */
+	private void startRecording(Context context, Task suggestedTask)
+	{
+		Intent recorderIntent = new Intent(context, TaskRecorderService.class);
+		recorderIntent.putExtra(TaskRecorderService.EXTRA_TASK_ID, suggestedTask.getId());
+		context.startService(recorderIntent);
+	}
+	
 	
 	/**
 	 * Remind the user to check the time tracker and maybe update the recording status.
 	 * @param context The application context.
 	 * @param suggestedTask Most likely Task to be recorded currently.
 	 */
-	void setNotification(Context context, Task suggestedTask)
+	private void setNotification(Context context, Task suggestedTask)
 	{
 		NotificationCompat.Builder mBuilder =
 			    new NotificationCompat.Builder(context)
