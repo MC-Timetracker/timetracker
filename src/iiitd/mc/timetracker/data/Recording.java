@@ -32,7 +32,7 @@ public class Recording
 	 * @param start The time when started recording.
 	 * @param end The time when finished recording.
 	 */
-	public Recording(long recordingId, Task task, Date start, Date end, String MacAddress)
+	public Recording(long recordingId, Task task, Date start, Date end)
 	{
 		setRecordingId(recordingId); //TODO: ID assigned by DatabaseController only?
 		setTask(task);

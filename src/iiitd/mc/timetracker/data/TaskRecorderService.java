@@ -1,5 +1,6 @@
 package iiitd.mc.timetracker.data;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.Iterator;
@@ -13,6 +14,8 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Binder;
@@ -21,6 +24,8 @@ import android.widget.Toast;
 import iiitd.mc.timetracker.ApplicationHelper;
 import iiitd.mc.timetracker.RunningActivity;
 import iiitd.mc.timetracker.R;
+import iiitd.mc.timetracker.context.LocationTaskSuggestor;
+import iiitd.mc.timetracker.helper.DatabaseHelper;
 import iiitd.mc.timetracker.helper.IDatabaseController;
 
 /**
@@ -39,6 +44,7 @@ public class TaskRecorderService extends Service
 	private transient Vector<RecorderListener> listeners;
 	private Recording currentRecording = null;
 	private Recording lastRecording = null;
+	LocationTaskSuggestor mac = new LocationTaskSuggestor(null);
 	IDatabaseController db = ApplicationHelper.createDatabaseController();
 	
 	Task breakTask;
@@ -46,6 +52,9 @@ public class TaskRecorderService extends Service
 	private static final String BREAK_TASK_NAME = "Break";
 	
 	WifiManager mainWifiObj;
+	
+	private DatabaseHelper dbHelper;
+	private SQLiteDatabase database;
 	
 	
 	@Override
@@ -161,12 +170,11 @@ public class TaskRecorderService extends Service
 		}
 		WifiInfo wifiInfo = mainWifiObj.getConnectionInfo();
 		String bssid = wifiInfo.getBSSID();
-		Toast.makeText(getApplicationContext(), bssid, Toast.LENGTH_SHORT).show();
-		currentRecording = new Recording();
+		//Toast.makeText(getApplicationContext(), bssid, Toast.LENGTH_SHORT).show();
+		mac.printTasks(bssid);
+		currentRecording = new Recording(); 
 		currentRecording.setTask(task);
 		currentRecording.setStart(new Date());
-		currentRecording.setMacAddress(bssid);
-		
 		String notificationTitle = getText(R.string.notification_recording) + " " + task.getName();
 		Notification notification = new Notification(R.drawable.ic_stat_recording, notificationTitle,
 		        System.currentTimeMillis());
