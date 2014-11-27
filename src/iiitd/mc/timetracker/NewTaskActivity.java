@@ -3,6 +3,7 @@ package iiitd.mc.timetracker;
 import iiitd.mc.timetracker.adapter.CustomArrayAdapter;
 import iiitd.mc.timetracker.context.ITaskSuggestor;
 import iiitd.mc.timetracker.context.MainTaskSuggestor;
+import iiitd.mc.timetracker.context.SuggestedTask;
 import iiitd.mc.timetracker.data.Task;
 import iiitd.mc.timetracker.data.TaskRecorderService;
 import iiitd.mc.timetracker.helper.IDatabaseController;
@@ -136,7 +137,7 @@ public class NewTaskActivity extends BaseActivity {
 	private void addTasksToAutoView()
 	{
 		suggester = new MainTaskSuggestor();
-		List<String> suggestedTasks = suggester.getTaskStrings();
+		List<SuggestedTask> suggestedTasks = suggester.getSuggestedTasks();
 		taskListAdapter = new CustomArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, suggestedTasks);
 		taskListAdapter.notifyDataSetChanged();
 		autoTv.setAdapter(taskListAdapter);		

@@ -12,24 +12,33 @@ import java.util.List;
  * @author gullal
  *
  */
-public class TopHierarchySuggestor
+public class TopHierarchySuggestor implements ITaskSuggestor
 {
 
-	private List<Task> tasks;
+	private List<SuggestedTask> tasks;
 	IDatabaseController db;
 	
 	public TopHierarchySuggestor()
 	{
 		db = ApplicationHelper.createDatabaseController();
 	}
-	
-	public List<Task> getTopTasks()
+
+	@Override
+	public List<SuggestedTask> getSuggestedTasks()
 	{
-		tasks = new ArrayList<Task>();
-		
 		db.open();
-		List<Task> tasks = db.getTasks();
+		List<Task> topTasks = db.getTasks();
 		db.close();
+		//TODO: filter to only get top hierarchy tasks?!
+		
+		tasks = new ArrayList<SuggestedTask>();
+		for(Task t : topTasks)
+		{
+			// wrap the Tasks in SuggestTask objects with a constant probability
+			//TODO: what probability for TopHierarchy tasks?
+			SuggestedTask item = new SuggestedTask(t, 0);
+			tasks.add(item);
+		}
 		
 		return tasks;
 	}
