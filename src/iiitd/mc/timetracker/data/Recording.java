@@ -22,7 +22,7 @@ public class Recording
 	private Date start;
 	private Date end;
 	private Task task;
-	private String MacAddress;
+	private String macAddress;
 	
 	
 	/**
@@ -32,13 +32,13 @@ public class Recording
 	 * @param start The time when started recording.
 	 * @param end The time when finished recording.
 	 */
-	public Recording(long recordingId, Task task, Date start, Date end)
+	public Recording(long recordingId, Task task, Date start, Date end, String macAddress)
 	{
 		setRecordingId(recordingId); //TODO: ID assigned by DatabaseController only?
 		setTask(task);
 		setStart(start);
 		setEnd(end);
-		setMacAddress(MacAddress);
+		setMacAddress(macAddress);
 	}
 	
 	public Recording()
@@ -121,6 +121,20 @@ public class Recording
 	}
 	
 	/**
+	 * @return the macAddress
+	 */
+	public String getMacAddress() {
+		return macAddress;
+	}
+
+	/**
+	 * @param macAddress the macAddress to set
+	 */
+	public void setMacAddress(String macAddress) {
+		this.macAddress = macAddress;
+	}
+	
+	/**
 	 * Get the Duration of this Recording in the desired unit.
 	 * from: http://stackoverflow.com/questions/1555262/calculating-the-difference-between-two-java-date-instances
 	 * @param timeUnit The time unit in which the duration should be returned.
@@ -137,10 +151,6 @@ public class Recording
 		
 	    long diffInMillies = tEnd.getTime() - start.getTime();
 	    return timeUnit.convert(diffInMillies,TimeUnit.MILLISECONDS);
-	}
-	
-	public void setMacAddress(String MacAddress){
-			this.MacAddress=MacAddress;
 	}
 	
 	
