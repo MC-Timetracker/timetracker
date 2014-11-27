@@ -12,6 +12,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
+import android.widget.Toast;
 
 /**
  * Database Helper class to perform all Database CURD operations
@@ -38,7 +40,6 @@ public class DatabaseController implements IDatabaseController {
 		dbHelper.close();
 	}
 	
-
 	@Override
 	public void insertTask(Task newTask) {
 		ContentValues contentValue_task=new ContentValues();
@@ -97,7 +98,7 @@ public class DatabaseController implements IDatabaseController {
 		return getTasksWhere(DatabaseHelper.TASK_PARENT + "='" + id + "'");
 	}
 	
-	private List<Task> getTasksWhere(String filter)
+	public List<Task> getTasksWhere(String filter)
 	{
 		List<Task> tasks=new ArrayList<Task>();
 		String selectTasksQuery="SELECT * FROM " + DatabaseHelper.TABLE_TASK + " WHERE " + filter;
