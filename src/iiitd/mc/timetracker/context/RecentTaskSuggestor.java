@@ -14,12 +14,14 @@ import java.util.List;
  * @author sebastian & gullal
  *
  */
-public class RecentTaskSuggestor
+public class RecentTaskSuggestor implements ITaskSuggestor
 {
 	/**
-	 * Returns all previously used tasks, most recently used task first.
+	 * How many recordings are considered.
 	 */
-	private List<Task> tasks;
+	private final int recordingLimit = 5;
+	
+	private List<SuggestedTask> tasks;
 	private List<Recording> recordings;
 	IDatabaseController db;
 	
@@ -28,13 +30,15 @@ public class RecentTaskSuggestor
 		db = ApplicationHelper.createDatabaseController();
 	}
 	
-	public List<Task> getRecentTasks()
+	@Override
+	public List<SuggestedTask> getSuggestedTasks()
 	{
 		db.open();
+		//TODO: use some limit to only get the last 10 (?) recordings?
 		recordings = db.getRecordings(); //TODO: Why save them in the RecentTaskSuggester instance if not reused?
 		db.close();
 		
-		tasks = new ArrayList<Task>();
+		tasks = new ArrayList<SuggestedTask>();
 		
 		Collections.sort(recordings,new Comparator<Recording>(){
 
@@ -46,13 +50,31 @@ public class RecentTaskSuggestor
 			
 		});
 		
-		for(Recording rec: recordings){
+		// add unique tasks to list and update their probability (ratio of occurrences)
+		int i = recordingLimit;
+		double prob = 1.0 / recordingLimit;
+		for(Recording rec : recordings)
+		{
+			if(i <= 0)
+				break;
 			
-			Task temp = rec.getTask();
-			if(!tasks.contains(temp)){
+			SuggestedTask temp = new SuggestedTask(rec.getTask(), prob);
+			int index = tasks.indexOf(temp);
+			if(index == -1)
+			{
+				// add new task
 				tasks.add(temp);
 			}
+			else
+			{
+				// add probability to existing task
+				tasks.get(index).increaseProbability(prob);
+			}
+			
+			i--;
 		}
+		
+		Collections.sort(tasks);
 		return tasks;
 	}
 }

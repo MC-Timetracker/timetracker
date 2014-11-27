@@ -60,6 +60,10 @@ public class MainActivity extends BaseActivity {
 		
         initRecentActList();
 		initTaskAutocomplete();
+		
+		
+		// init AutoRecorder triggers
+		BootReceiver.setupAutoRecorderTriggers(this);
 	}
 	
 	
@@ -179,7 +183,7 @@ public class MainActivity extends BaseActivity {
 	private void addTasksToAutoView()
 	{
 		suggester = new MainTaskSuggestor();
-		List<String> suggestedTasks = suggester.getTaskStrings();
+		List<SuggestedTask> suggestedTasks = suggester.getSuggestedTasks();
 		taskListAdapter = new CustomArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, suggestedTasks);
 		taskListAdapter.notifyDataSetChanged();
 		autoTv.setAdapter(taskListAdapter);	

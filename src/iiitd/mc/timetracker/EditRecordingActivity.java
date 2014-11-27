@@ -8,8 +8,9 @@ import java.util.Date;
 import java.util.List;
 
 import iiitd.mc.timetracker.adapter.CustomArrayAdapter;
-import iiitd.mc.timetracker.context.ITaskSuggestor;
 import iiitd.mc.timetracker.context.MainTaskSuggestor;
+import iiitd.mc.timetracker.context.SuggestedTask;
+import iiitd.mc.timetracker.context.ITaskSuggestor;
 import iiitd.mc.timetracker.data.Recording;
 import iiitd.mc.timetracker.data.Task;
 import iiitd.mc.timetracker.data.TaskRecorderService;
@@ -39,7 +40,7 @@ public class EditRecordingActivity extends BaseActivity
 	
 	private AutoCompleteTextView etTaskName;
 	private ITaskSuggestor suggester;
-	private List<String> suggestedTasks;
+	private List<SuggestedTask> suggestedTasks;
 	private CustomArrayAdapter adapter;
 	
 	EditText etStartTime, etStartDate, etStopTime, etStopDate;
@@ -232,7 +233,7 @@ public class EditRecordingActivity extends BaseActivity
 	private void addTasksToAutoView()
 	{
 		suggester = new MainTaskSuggestor();
-		suggestedTasks = suggester.getTaskStrings();
+		suggestedTasks = suggester.getSuggestedTasks();
 		adapter = new CustomArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, suggestedTasks);
 		etTaskName.setAdapter(adapter);		
 	}
