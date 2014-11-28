@@ -15,10 +15,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Chronometer;
+import android.widget.TextView;
 
 public class RunningActivity extends BaseActivity {
 	
 	Button btnStop,btnPause,btnResume;
+	TextView tvTask;
     Chronometer chronometer;
     long stoptime=0;
     
@@ -33,7 +35,8 @@ public class RunningActivity extends BaseActivity {
 		// use LayoutInflater in order to keep the NavigationDrawer of BaseActivity
 		LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.frame.addView(inflater.inflate(R.layout.activity_running, null));
-		
+
+		tvTask =(TextView) findViewById(R.id.tvTask);
 		btnPause =(Button) findViewById(R.id.btnPause);
 		btnResume =(Button) findViewById(R.id.btnResume);
 		
@@ -85,7 +88,7 @@ public class RunningActivity extends BaseActivity {
 		
 		stoptime=chronometer.getBase()-SystemClock.elapsedRealtime();
 		chronometer.stop();
-		btnPause.setVisibility(View.INVISIBLE);
+		btnPause.setVisibility(View.GONE);
 		btnResume.setVisibility(View.VISIBLE);
 	}
     
@@ -97,7 +100,7 @@ public class RunningActivity extends BaseActivity {
 		chronometer.setBase(SystemClock.elapsedRealtime()+stoptime);
 		chronometer.start();
 		btnPause.setVisibility(View.VISIBLE);
-		btnResume.setVisibility(View.INVISIBLE);
+		btnResume.setVisibility(View.GONE);
 	}
 	
 	/** Defines callbacks for service binding, passed to bindService() */
@@ -121,7 +124,7 @@ public class RunningActivity extends BaseActivity {
 	            //update view & timer based on actual recording time
 	            chronometer.setBase(SystemClock.elapsedRealtime()-taskRecorder.getCurrentRecording().getDuration(TimeUnit.MILLISECONDS));
 	    		chronometer.start();
-	    		//TODO set task name: taskRecorder.getCurrentRecording().toString();
+	    		tvTask.setText(taskRecorder.getCurrentRecording().getTask().toString());
             }
         }
 

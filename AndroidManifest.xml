@@ -55,7 +55,7 @@
         </activity>
         <activity
             android:name=".RunningActivity"
-            android:label="@string/title_activity_running" >
+            android:label="@string/title_activity_running"
             android:launchMode="singleTop" >
         </activity>
 
