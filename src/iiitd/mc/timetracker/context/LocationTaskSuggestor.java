@@ -6,52 +6,91 @@ import java.util.List;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.widget.Toast;
 import iiitd.mc.timetracker.ApplicationHelper;
+import iiitd.mc.timetracker.BootReceiver;
 import iiitd.mc.timetracker.data.Recording;
 import iiitd.mc.timetracker.data.Task;
+import iiitd.mc.timetracker.data.TaskRecorderService;
 import iiitd.mc.timetracker.helper.DatabaseController;
 import iiitd.mc.timetracker.helper.DatabaseHelper;
 import iiitd.mc.timetracker.helper.IDatabaseController;
 
-public class LocationTaskSuggestor {
+public class LocationTaskSuggestor implements ITaskSuggestor{
 
 	
-	/**
-	 * @param args
-	 */
-	/*public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
-	}*/
-	
-	private List<Task> tasks;
 	IDatabaseController db;
-	private DatabaseHelper dbHelper;
 	private Context appContext;
-	private SQLiteDatabase database;
+	DatabaseController mac = new DatabaseController(null);
+	WifiManager mainWifiObj;
+	private List<SuggestedTask> tasks;
 	
-	public LocationTaskSuggestor(Context context)
-	{
-		appContext = context;
+	public LocationTaskSuggestor(Context context){
+		
+		appContext = context.getApplicationContext();  
 		db = ApplicationHelper.createDatabaseController();
+		
 	}
 	
-	/*public List<Task> getRecentTasks()
-	{
-		db.open();
-		//recordings = db.p; //TODO: Why save them in the RecentTaskSuggester instance if not reused?
-		db.close();
+	/**
+	 * tracks the mac address of the current location
+	 * @param context application context
+	 * @return mac address
+	 */
+	public String trackbssidfrombootreceiver(Context context){
 		
-		tasks = new ArrayList<Task>();
+		WifiManager mainWifi = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+		WifiInfo wifiInfo = mainWifi.getConnectionInfo();
+		String bssid = wifiInfo.getBSSID();
+		
+		return bssid;
+	}
 
-	}*/
+	@Override
+	public List<SuggestedTask> getSuggestedTasks() {
+		
+		String bssid = trackbssidfrombootreceiver(appContext);
+		tasks = setcurrentbssid(appContext, bssid);
+		
+		return tasks;	
+	}
 	
-	public void printTasks(String bssid){
-		//dbHelper = new DatabaseHelper(appContext);
-		//Toast.makeText(appContext, "hello", Toast.LENGTH_SHORT).show();
+	/**
+	 * compares the current mac address to the mac address saved in all the recordings
+	 * @param context
+	 * @param bssid mac address
+	 * @return
+	 */
+	public List<SuggestedTask> setcurrentbssid(Context context,String bssid){
+		
+		Toast.makeText(context, bssid, Toast.LENGTH_SHORT).show();
 		db.open();
+		List<Recording> recordings= db.getRecordings();
 		db.close();
+		double prob = 1.0;
+		tasks = new ArrayList<SuggestedTask>();
+		int i=0;
+		for(Recording rec : recordings)
+		{
+			
+			if(bssid.compareTo(rec.getMacAddress())==0){
+				
+				SuggestedTask temp = new SuggestedTask(rec.getTask(), prob);
+				tasks.add(temp);
+				i++;
+			}
+
+		}
+		for(int j=0;j<i ;j++){
+			
+			Toast.makeText(appContext, tasks.get(j).getTask().getNameFull(), Toast.LENGTH_SHORT).show();
+		}
+		
+		return tasks;
 	}
 	
 }

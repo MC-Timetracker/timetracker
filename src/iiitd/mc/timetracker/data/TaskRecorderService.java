@@ -44,7 +44,6 @@ public class TaskRecorderService extends Service
 	private transient Vector<RecorderListener> listeners;
 	private Recording currentRecording = null;
 	private Recording lastRecording = null;
-	LocationTaskSuggestor mac = new LocationTaskSuggestor(null);
 	IDatabaseController db = ApplicationHelper.createDatabaseController();
 	
 	Task breakTask;
@@ -170,11 +169,10 @@ public class TaskRecorderService extends Service
 		}
 		WifiInfo wifiInfo = mainWifiObj.getConnectionInfo();
 		String bssid = wifiInfo.getBSSID();
-		//Toast.makeText(getApplicationContext(), bssid, Toast.LENGTH_SHORT).show();
-		mac.printTasks(bssid);
 		currentRecording = new Recording(); 
 		currentRecording.setTask(task);
 		currentRecording.setStart(new Date());
+		currentRecording.setMacAddress(bssid);
 		String notificationTitle = getText(R.string.notification_recording) + " " + task.getName();
 		Notification notification = new Notification(R.drawable.ic_stat_recording, notificationTitle,
 		        System.currentTimeMillis());

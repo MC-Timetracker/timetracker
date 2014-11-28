@@ -27,6 +27,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -62,11 +63,7 @@ public class MainActivity extends BaseActivity {
 		// use LayoutInflater in order to keep the NavigationDrawer of BaseActivity
 		LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.frame.addView(inflater.inflate(R.layout.activity_main, null));
-        
-        //mainWifiObj = (WifiManager) getSystemService(Context.WIFI_SERVICE); 
-       // WifiInfo wifiInfo = mainWifiObj.getConnectionInfo();
-		//String bssid = wifiInfo.getBSSID();
-		//Toast.makeText(getApplicationContext(), bssid, Toast.LENGTH_SHORT).show();
+       
 		
         initRecentActList();
 		initTaskAutocomplete();
@@ -74,7 +71,21 @@ public class MainActivity extends BaseActivity {
 		
 		// init AutoRecorder triggers
 		BootReceiver.setupAutoRecorderTriggers(this);
+		
+		Button button = (Button) findViewById(R.id.wifi_task);
 	}
+	
+	/**
+	 * added for testing the wifi access points
+	 * @param v view
+	 */
+	public void wifi_task_suggestor(View v){
+		
+		ITaskSuggestor taskSuggest = new LocationTaskSuggestor(this);
+		List<SuggestedTask> suggestTask = taskSuggest.getSuggestedTasks();
+		
+	}
+	
 	
 	
 	/**

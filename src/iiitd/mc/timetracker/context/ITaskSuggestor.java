@@ -2,6 +2,9 @@ package iiitd.mc.timetracker.context;
 
 import java.util.List;
 
+import android.content.Context;
+import android.net.wifi.WifiManager;
+
 /**
  * Interface for any class implementing filtering or ranking of tasks.
  * The list of tasks processed in this way can then be suggested to the user
@@ -16,6 +19,7 @@ public interface ITaskSuggestor
 	 * Get an array of the suggested tasks.
 	 * @return
 	 */
+		
 	public List<SuggestedTask> getSuggestedTasks();
 
 }

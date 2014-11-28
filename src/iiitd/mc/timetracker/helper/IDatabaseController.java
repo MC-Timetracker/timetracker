@@ -45,6 +45,7 @@ public interface IDatabaseController
 	 * Returns a list of all tasks.
 	 * @return A list of all tasks.
 	 */
+	
 	public List<Task> getTasks();
 	
 	/**
