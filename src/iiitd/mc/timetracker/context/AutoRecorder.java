@@ -11,11 +11,8 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.net.wifi.WifiInfo;
-import android.net.wifi.WifiManager;
 import android.os.Vibrator;
 import android.support.v4.app.NotificationCompat;
-import android.widget.Toast;
 
 /**
  * Constantly checks for Tasks that are likely to be started right now
@@ -49,6 +46,7 @@ public class AutoRecorder extends BroadcastReceiver
 			
 		case Notify:
 			setNotification(context, suggestedTask);
+			//TODO: pre-select that suggested task in the autocomplete dropdown
 			break;
 			
 		case Ignore:
