@@ -34,6 +34,8 @@ public class AutoRecorder extends BroadcastReceiver
 		
 		Task suggestedTask = suggestedTasks.get(0).getTask();
 		
+		//TODO: if this suggestedTask is already currently being recorded, abort further autoRecorder actions
+		
 		SuggestionAction action = getSuggestionAction(suggestedTasks);
 		switch(action)
 		{

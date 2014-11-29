@@ -2,7 +2,6 @@ package iiitd.mc.timetracker.context;
 
 import iiitd.mc.timetracker.ApplicationHelper;
 import iiitd.mc.timetracker.data.Recording;
-import iiitd.mc.timetracker.data.Task;
 import iiitd.mc.timetracker.helper.IDatabaseController;
 
 import java.util.ArrayList;
