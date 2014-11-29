@@ -120,7 +120,7 @@ public class AutoRecorder extends BroadcastReceiver
 		
 		
 		// vibrate
-		long pattern[]={0,200,500,100,100,100}; //The first value indicates the number of milliseconds to wait before turning the vibrator ON. The next value indicates the number of milliseconds for which to keep the vibrator on before turning it off. Subsequent values, alternates between ON and OFF.
+		long pattern[]={0,150,600,150,600,150}; //The first value indicates the number of milliseconds to wait before turning the vibrator ON. The next value indicates the number of milliseconds for which to keep the vibrator on before turning it off. Subsequent values, alternates between ON and OFF.
 		Vibrator vibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
 		vibrator.vibrate(pattern, -1);
 	}
