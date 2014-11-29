@@ -1,32 +1,19 @@
 package iiitd.mc.timetracker;
 
 import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-
-import iiitd.mc.timetracker.adapter.CustomArrayAdapter;
-import iiitd.mc.timetracker.context.MainTaskSuggestor;
-import iiitd.mc.timetracker.context.SuggestedTask;
-import iiitd.mc.timetracker.context.ITaskSuggestor;
 import iiitd.mc.timetracker.data.Recording;
 import iiitd.mc.timetracker.data.Task;
-import iiitd.mc.timetracker.data.TaskRecorderService;
 import iiitd.mc.timetracker.helper.IDatabaseController;
-import android.app.AlertDialog;
+import iiitd.mc.timetracker.view.TaskAutoCompleteTextView;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
-import android.widget.AutoCompleteTextView;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TimePicker;
@@ -38,10 +25,7 @@ public class EditRecordingActivity extends BaseActivity
 	Recording recording;
 	boolean isNewRecording;
 	
-	private AutoCompleteTextView etTaskName;
-	private ITaskSuggestor suggester;
-	private List<SuggestedTask> suggestedTasks;
-	private CustomArrayAdapter adapter;
+	private TaskAutoCompleteTextView etTaskName;
 	
 	EditText etStartTime, etStartDate, etStopTime, etStopDate;
 	DateFormat formatDate, formatTime;
@@ -55,16 +39,7 @@ public class EditRecordingActivity extends BaseActivity
 		LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.frame.addView(inflater.inflate(R.layout.activity_edit_recording, null));
 		
-        etTaskName = (AutoCompleteTextView) findViewById(R.id.taskSelectionBoxRecording);
-		addTasksToAutoView();
-		etTaskName.setThreshold(0);
-		etTaskName.setOnClickListener(new OnClickListener() {
-				public void onClick(View view)
-				{
-					((AutoCompleteTextView)view).showDropDown();
-				}
-		});
-        
+        etTaskName = (TaskAutoCompleteTextView) findViewById(R.id.taskSelectionBoxRecording);
 		etStartTime = (EditText) findViewById(R.id.editTextStartRecordingTime);
 		etStartDate = (EditText) findViewById(R.id.editTextStartRecordingDate);
 		etStopTime = (EditText) findViewById(R.id.editTextStopRecordingTime);
@@ -164,47 +139,20 @@ public class EditRecordingActivity extends BaseActivity
 	
 	public void onSave(View view)
 	{
-		// get data from UI
-		
-		// Get the task instance that corresponds to the String entered by the user
-		final String sTask = etTaskName.getText().toString();
-		Task task = TaskRecorderService.getTaskFromString(sTask);
-		if (task == null)
-		{
-			AlertDialog.Builder builder = new AlertDialog.Builder(this);
-			if(!TaskRecorderService.isValidTaskName(sTask))
+		// Get the task instance that corresponds to the String entered by the user and save it
+		etTaskName.createTask(new TaskAutoCompleteTextView.OnTaskCreatedListener() 
 			{
-				AlertDialog dialog = builder.setMessage(R.string.prompt_taskname_invalid)
-			       .create();
-				dialog.show();
-			}
-			else
-			{
-				// task does not exist, ask the user if it should be created
-				AlertDialog dialog = builder.setMessage(R.string.promptCreateNewTask)
-			       .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-			           public void onClick(DialogInterface dialog, int id) {
-			               // Create new task and start recording it
-			        	   Task newTask = TaskRecorderService.createTaskFromString(sTask);
-			        	   if(newTask != null)
-			        	   {
-				        	   addTasksToAutoView();
-				        	   onSave(null);
-			        	   }
-			           }
-			       })
-			       .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-			           public void onClick(DialogInterface dialog, int id) {
-			               // Do nothing
-			           }
-			       })
-			       .create();
-				dialog.show();
-			}
-			return; // abort onSave(), further action is handled in dialog event handlers
-		}
-		
-		
+				@Override
+				public void onTaskCreated(Task newTask)
+				{
+					save(newTask);
+				}
+			}, 
+			null);
+	}
+	
+	private void save(Task task)
+	{
 		recording.setTask(task);
 		recording.setStart(calStart.getTime());
 		recording.setEnd(calEnd.getTime());
@@ -225,17 +173,6 @@ public class EditRecordingActivity extends BaseActivity
 		// close Activity
 		Toast.makeText(this, R.string.toast_recording_saved, Toast.LENGTH_LONG).show();
 		finish();
-	}
-	
-	/*
-	 * Adds tasks to the Auto Complete View for suggestions
-	 */
-	private void addTasksToAutoView()
-	{
-		suggester = new MainTaskSuggestor();
-		suggestedTasks = suggester.getSuggestedTasks();
-		adapter = new CustomArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, suggestedTasks);
-		etTaskName.setAdapter(adapter);		
 	}
 	
 	
@@ -318,10 +255,6 @@ public class EditRecordingActivity extends BaseActivity
 				if(!cal.before(calEnd))
 				{
 					// keep duration between start/end and change the end time accordingly
-					
-					int y = calEnd.get(Calendar.HOUR_OF_DAY);
-					int x = calEnd.get(Calendar.MINUTE);
-					
 					long duration = (calEnd.getTimeInMillis() - calStart.getTimeInMillis());
 					
 					calEnd.setTime(cal.getTime());

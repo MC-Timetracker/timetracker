@@ -32,7 +32,7 @@
             android:onClick="Start"
             android:text="@string/btnStart" />
 
-        <AutoCompleteTextView
+        <iiitd.mc.timetracker.view.TaskAutoCompleteTextView
             android:id="@+id/taskSelectionBox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -40,10 +40,7 @@
             android:layout_centerHorizontal="true"
             android:ems="10"
             android:imeOptions="actionDone"
-            android:inputType="textAutoComplete|textAutoCorrect" >
-
-            <requestFocus />
-        </AutoCompleteTextView>
+            android:inputType="textAutoComplete|textAutoCorrect" />
     </RelativeLayout>
     
     <TextView 
