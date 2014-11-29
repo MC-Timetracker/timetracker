@@ -101,6 +101,7 @@ public class MainActivity extends BaseActivity {
 		autoTv.setOnClickListener(new OnClickListener() {
 				public void onClick(View view)
 				{
+					addTasksToAutoView();
 					((AutoCompleteTextView)view).showDropDown();
 				}
 		});
@@ -110,6 +111,7 @@ public class MainActivity extends BaseActivity {
                 if(hasFocus)
                 {
                 	//Show your popup here
+                	addTasksToAutoView();
                 	((AutoCompleteTextView)v).showDropDown();
                 }
                 else
@@ -206,7 +208,9 @@ public class MainActivity extends BaseActivity {
 	 */
 	private void addTasksToAutoView()
 	{
-		suggester = new MainTaskSuggestor();
+		if(suggester == null)
+			suggester = new MainTaskSuggestor();
+		
 		List<SuggestedTask> suggestedTasks = suggester.getSuggestedTasks();
 		taskListAdapter = new CustomArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, suggestedTasks);
 		taskListAdapter.notifyDataSetChanged();
