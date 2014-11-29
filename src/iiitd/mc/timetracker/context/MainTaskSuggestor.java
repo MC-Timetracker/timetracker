@@ -49,5 +49,27 @@ public class MainTaskSuggestor implements ITaskSuggestor
 		Collections.sort(tasks);
 		return tasks;
 	}
+	
+	/**
+	 * Helper function to add a task to the list of suggestions.
+	 * Avoids adding duplicate tasks and increases the probability of the task instead.
+	 * @param list The list of suggestions to be extended.
+	 * @param suggestedTask The task to be added to the list.
+	 */
+	public static void addSuggestionToList(List<SuggestedTask> list, SuggestedTask suggestedTask)
+	{
+		for(SuggestedTask l : list)
+		{
+			if(l.equals(suggestedTask))
+			{
+				// don't add duplicate, instead increase probability of suggested task
+				l.increaseProbability(suggestedTask.getProbability());
+				return;
+			}
+		}
+		
+		// task was not in the list yet
+		list.add(suggestedTask);
+	}
 
 }

@@ -58,8 +58,8 @@ public class TimeTaskSuggestor implements ITaskSuggestor
 			//TODO: only count one instance of the task per day per bucket
 			//	(don't increase probability for repeatedly starting and stopping the same task with very short durations)
 			SuggestedTask s = new SuggestedTask(rec.getTask(), PROBABILITY);
-			addSuggestion(times.get(bucket1), s);
-			addSuggestion(times.get(bucket2), s);
+			MainTaskSuggestor.addSuggestionToList(times.get(bucket1), s);
+			MainTaskSuggestor.addSuggestionToList(times.get(bucket2), s);
 		}
 		
 		
@@ -71,7 +71,7 @@ public class TimeTaskSuggestor implements ITaskSuggestor
 		tasks.addAll(times.get(bucket1));
 		for(SuggestedTask s : times.get(bucket2))
 		{
-			addSuggestion(tasks, s);
+			MainTaskSuggestor.addSuggestionToList(tasks, s);
 		}
 		
 		Collections.sort(tasks);
@@ -107,28 +107,6 @@ public class TimeTaskSuggestor implements ITaskSuggestor
 			r = BUCKET_COUNT - 1;
 		
 		return r;
-	}
-	
-	/**
-	 * Helper function to add a task to the list of suggestions.
-	 * Avoids adding duplicate tasks and increases the probability of the task instead.
-	 * @param list The list of suggestions to be extended.
-	 * @param suggestedTask The task to be added to the list.
-	 */
-	private void addSuggestion(List<SuggestedTask> list, SuggestedTask suggestedTask)
-	{
-		for(SuggestedTask l : list)
-		{
-			if(l.equals(suggestedTask))
-			{
-				// don't add duplicate, instead increase probability of suggested task
-				l.increaseProbability(suggestedTask.getProbability());
-				return;
-			}
-		}
-		
-		// task was not in the list yet
-		list.add(suggestedTask);
 	}
 
 }
