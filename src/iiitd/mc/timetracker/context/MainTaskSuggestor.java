@@ -11,39 +11,35 @@ import java.util.List;
  */
 public class MainTaskSuggestor implements ITaskSuggestor
 {
-	private List<SuggestedTask> tasks;
-	
-	TopHierarchySuggestor topTasksSuggestor = new TopHierarchySuggestor();
-	RecentTaskSuggestor recentTasksSuggestor = new RecentTaskSuggestor();
+	ITaskSuggestor[] suggestors = new ITaskSuggestor[] { 
+			new TopHierarchySuggestor(),
+			new RecentTaskSuggestor(),
+			new TimeTaskSuggestor(),
+	};
+	double[] suggestorWeights = new double[] {
+			0,		// top hierarchy
+			0.3,	// recent tasks
+			0.7,	// time
+	};
 	
 	
 	@Override
 	public List<SuggestedTask> getSuggestedTasks()
 	{
-		tasks = new ArrayList<SuggestedTask>();
+		List<SuggestedTask> tasks = new ArrayList<SuggestedTask>();
 		
-		List<SuggestedTask> topTasks = topTasksSuggestor.getSuggestedTasks();
-		tasks.addAll(topTasks);
-		
-		List<SuggestedTask> recentTasks = recentTasksSuggestor.getSuggestedTasks();
-		for(SuggestedTask r : recentTasks)
+		for(int i = 0; i < suggestors.length; i++)
 		{
-			boolean duplicate = false;
-			for(SuggestedTask t : tasks)
-			{
-				if(r.equals(t))
-				{
-					// don't add duplicate, instead set probability to higher value of the two SuggestedTasks
-					if(t.getProbability() < r.getProbability())
-						t.setProbability(r.getProbability());
-					
-					duplicate = true;
-					break;
-				}
-			}
+			ITaskSuggestor suggestor = suggestors[i];
 			
-			if(!duplicate)
-				tasks.add(r);
+			for(SuggestedTask s : suggestor.getSuggestedTasks())
+			{
+				// scale probability according to weight
+				double prob = s.getProbability() * suggestorWeights[i];
+				s.setProbability(prob);
+				
+				addSuggestionToList(tasks, s);
+			}
 		}
 		
 		Collections.sort(tasks);
