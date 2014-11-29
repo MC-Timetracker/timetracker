@@ -4,9 +4,11 @@
     android:versionCode="1"
     android:versionName="1.0" >
 
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
-    <uses-permission android:name="android.permission.VIBRATE"/>
-    
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
     <uses-sdk
         android:minSdkVersion="14"
         android:targetSdkVersion="19" />
@@ -64,16 +66,16 @@
             android:label="@string/edit_task" >
         </activity>
         <activity
-            android:name="iiitd.mc.timetracker.EditRecordingActivity"
+            android:name=".EditRecordingActivity"
             android:label="@string/title_activity_edit_recording" >
         </activity>
-        
-        <receiver
-            android:name="iiitd.mc.timetracker.BootReceiver" >
-		    <intent-filter>
-		        <action android:name="android.intent.action.BOOT_COMPLETED"></action>
-		    </intent-filter>
-		</receiver>
+
+        <receiver android:name=".BootReceiver" >
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" >
+                </action>
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

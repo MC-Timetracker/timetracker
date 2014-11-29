@@ -22,6 +22,7 @@ public class Recording
 	private Date start;
 	private Date end;
 	private Task task;
+	private String macAddress;
 	
 	
 	/**
@@ -31,13 +32,15 @@ public class Recording
 	 * @param start The time when started recording.
 	 * @param end The time when finished recording.
 	 */
-	public Recording(long recordingId, Task task, Date start, Date end)
+	public Recording(long recordingId, Task task, Date start, Date end, String macAddress)
 	{
 		setRecordingId(recordingId); //TODO: ID assigned by DatabaseController only?
 		setTask(task);
 		setStart(start);
 		setEnd(end);
+		setMacAddress(macAddress);
 	}
+	
 	public Recording()
 	{
 		
@@ -115,6 +118,20 @@ public class Recording
 	public void setTask(Task task)
 	{
 		this.task = task;
+	}
+	
+	/**
+	 * @return the macAddress
+	 */
+	public String getMacAddress() {
+		return macAddress;
+	}
+
+	/**
+	 * @param macAddress the macAddress to set
+	 */
+	public void setMacAddress(String macAddress) {
+		this.macAddress = macAddress;
 	}
 	
 	/**

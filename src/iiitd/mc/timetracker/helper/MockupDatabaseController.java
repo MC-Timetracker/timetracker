@@ -47,11 +47,11 @@ public class MockupDatabaseController implements IDatabaseController
 			Task t8 = new Task("Cricket",t6);
 		
 		long date = 200000;
-		Recording r1 = new Recording(1,t2,new Date(date+200),new Date(date+1000));
-		Recording r2 = new Recording(2,t3,new Date(date-600),new Date(date));
-		Recording r3 = new Recording(3,t4,new Date(date+1100),new Date(date+2000));
-		Recording r4 = new Recording(4,t7,new Date(date-2000),new Date(date-1000));
-		Recording r5 = new Recording(5,t8,new Date(date+2100),new Date(date+3000));
+		Recording r1 = new Recording(1,t2,new Date(date+200),new Date(date+1000),"temp");
+		Recording r2 = new Recording(2,t3,new Date(date-600),new Date(date),"");
+		Recording r3 = new Recording(3,t4,new Date(date+1100),new Date(date+2000),"");
+		Recording r4 = new Recording(4,t7,new Date(date-2000),new Date(date-1000),"");
+		Recording r5 = new Recording(5,t8,new Date(date+2100),new Date(date+3000),"");
 		
 		insertTask(t1);
 		insertTask(t2);

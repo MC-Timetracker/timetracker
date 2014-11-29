@@ -18,6 +18,7 @@
     <string name="btnResume">Resume</string>
     <string name="new_task_valid">Task name is not valid</string>
     <string name="recentTv">Recent Activities</string>
+    <string name="Wifi_Task">Wifi_Task</string>
 
     <!-- Nav Drawer Menu Items -->
     <string-array name="nav_drawer_items">
@@ -66,8 +67,8 @@
     <string name="action_delete">Delete</string>
     <string name="prompt_delete_recording">Do you really want to delete the recording?</string>
     <string name="prompt_delete_task">Do you really want to delete the task? This will also delete any recording tracking this task.</string>
-
     <string name="notification_suggestion_title">Update your time recording</string>
     <string name="notification_suggestion_text">Suggesting </string>
+   
 
 </resources>

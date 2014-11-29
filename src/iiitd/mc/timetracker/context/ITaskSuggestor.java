@@ -16,6 +16,7 @@ public interface ITaskSuggestor
 	 * Get an array of the suggested tasks.
 	 * @return
 	 */
+		
 	public List<SuggestedTask> getSuggestedTasks();
 
 }

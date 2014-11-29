@@ -1,5 +1,6 @@
 package iiitd.mc.timetracker.data;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.Iterator;
@@ -10,13 +11,21 @@ import java.util.regex.Pattern;
 import android.app.Notification;
 import android.app.PendingIntent;
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
 import android.os.Binder;
 import android.os.IBinder;
+import android.widget.Toast;
 import iiitd.mc.timetracker.ApplicationHelper;
 import iiitd.mc.timetracker.RunningActivity;
 import iiitd.mc.timetracker.R;
+import iiitd.mc.timetracker.context.LocationTaskSuggestor;
+import iiitd.mc.timetracker.helper.DatabaseHelper;
 import iiitd.mc.timetracker.helper.IDatabaseController;
 
 /**
@@ -41,10 +50,16 @@ public class TaskRecorderService extends Service
 	private static final String SETTINGS_BREAK_TASK_ID = "breakTaskId";
 	private static final String BREAK_TASK_NAME = "Break";
 	
+	WifiManager mainWifiObj;
+	
+	private DatabaseHelper dbHelper;
+	private SQLiteDatabase database;
+	
 	
 	@Override
 	public void onCreate() {
 		super.onCreate();
+		mainWifiObj = (WifiManager) getSystemService(Context.WIFI_SERVICE); 
 	}
 	
 	/**
@@ -152,11 +167,12 @@ public class TaskRecorderService extends Service
 		{
 			stopRecording();
 		}
-		
-		currentRecording = new Recording();
+		WifiInfo wifiInfo = mainWifiObj.getConnectionInfo();
+		String bssid = wifiInfo.getBSSID();
+		currentRecording = new Recording(); 
 		currentRecording.setTask(task);
 		currentRecording.setStart(new Date());
-		
+		currentRecording.setMacAddress(bssid);
 		String notificationTitle = getText(R.string.notification_recording) + " " + task.getName();
 		Notification notification = new Notification(R.drawable.ic_stat_recording, notificationTitle,
 		        System.currentTimeMillis());

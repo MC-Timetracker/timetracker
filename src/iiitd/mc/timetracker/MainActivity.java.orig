@@ -27,7 +27,6 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -49,9 +48,13 @@ public class MainActivity extends BaseActivity {
     private ITaskSuggestor suggester;
     private CustomArrayAdapter taskListAdapter;
     private AutoCompleteTextView autoTv;
+<<<<<<< HEAD
+    
+    WifiManager mainWifiObj;
+=======
     private ListView recentAct;
     private ArrayAdapter recentActAdapter;
-    //WifiManager mainWifiObj;
+>>>>>>> 3a1834c5a842b656a7e02f599ef3c1adda3ab7aa
 
     
 	@Override
@@ -63,29 +66,18 @@ public class MainActivity extends BaseActivity {
 		// use LayoutInflater in order to keep the NavigationDrawer of BaseActivity
 		LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.frame.addView(inflater.inflate(R.layout.activity_main, null));
-       
+<<<<<<< HEAD
+        
+        mainWifiObj = (WifiManager) getSystemService(Context.WIFI_SERVICE); 
+       // WifiInfo wifiInfo = mainWifiObj.getConnectionInfo();
+		//String bssid = wifiInfo.getBSSID();
+		//Toast.makeText(getApplicationContext(), bssid, Toast.LENGTH_SHORT).show();
+=======
 		
         initRecentActList();
+>>>>>>> 3a1834c5a842b656a7e02f599ef3c1adda3ab7aa
 		initTaskAutocomplete();
-		
-		
-		// init AutoRecorder triggers
-		BootReceiver.setupAutoRecorderTriggers(this);
-		
-		Button button = (Button) findViewById(R.id.wifi_task);
 	}
-	
-	/**
-	 * added for testing the wifi access points
-	 * @param v view
-	 */
-	public void wifi_task_suggestor(View v){
-		
-		ITaskSuggestor taskSuggest = new LocationTaskSuggestor(this);
-		List<SuggestedTask> suggestTask = taskSuggest.getSuggestedTasks();
-		
-	}
-	
 	
 	
 	/**
@@ -145,7 +137,6 @@ public class MainActivity extends BaseActivity {
 		recorderIntent = new Intent(this, TaskRecorderService.class);
 		recorderIntent.putExtra(TaskRecorderService.EXTRA_TASK_ID, task.getId());
 		startService(recorderIntent);
-		
 		Intent running_activity = new Intent(this, RunningActivity.class);
 		startActivity(running_activity);
 	}
@@ -160,9 +151,9 @@ public class MainActivity extends BaseActivity {
 		// Get the task instance that corresponds to the String entered by the user
 		AutoCompleteTextView taskSelector = (AutoCompleteTextView) findViewById(R.id.taskSelectionBox);
 		final String sTask = taskSelector.getText().toString();
-		//WifiInfo wifiInfo = mainWifiObj.getConnectionInfo();
-		//String bssid = wifiInfo.getBSSID();
-		//Toast.makeText(getApplicationContext(), bssid, Toast.LENGTH_SHORT).show();
+		WifiInfo wifiInfo = mainWifiObj.getConnectionInfo();
+		String bssid = wifiInfo.getBSSID();
+		Toast.makeText(getApplicationContext(), bssid, Toast.LENGTH_SHORT).show();
 		
 		Task task = TaskRecorderService.getTaskFromString(sTask);
 		
@@ -207,11 +198,13 @@ public class MainActivity extends BaseActivity {
 	private void addTasksToAutoView()
 	{
 		suggester = new MainTaskSuggestor();
-		List<SuggestedTask> suggestedTasks = suggester.getSuggestedTasks();
+		List<String> suggestedTasks = suggester.getTaskStrings();
 		taskListAdapter = new CustomArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, suggestedTasks);
 		taskListAdapter.notifyDataSetChanged();
 		autoTv.setAdapter(taskListAdapter);	
 	}
+<<<<<<< HEAD
+=======
 	
 	public void initRecentActList()
 	{
@@ -232,4 +225,5 @@ public class MainActivity extends BaseActivity {
 		
 		recentAct.setAdapter(recentActAdapter);
 	}
+>>>>>>> 3a1834c5a842b656a7e02f599ef3c1adda3ab7aa
 }	

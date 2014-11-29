@@ -1,6 +1,7 @@
 package iiitd.mc.timetracker.context;
 
 import iiitd.mc.timetracker.data.Task;
+import iiitd.mc.timetracker.helper.DatabaseController;
 
 /**
  * Extends the basic Task model with a probability field for fuzzy recommendations.
@@ -11,6 +12,7 @@ public class SuggestedTask implements Comparable<SuggestedTask>
 {
 	private Task task;
 	private double probability = 0.5;
+	DatabaseController dc_obj = new DatabaseController(null);
 	
 	
 	public SuggestedTask(Task task, double probability)
@@ -51,6 +53,7 @@ public class SuggestedTask implements Comparable<SuggestedTask>
 
 	public Task getTask()
 	{
+		
 		return task;
 	}
 

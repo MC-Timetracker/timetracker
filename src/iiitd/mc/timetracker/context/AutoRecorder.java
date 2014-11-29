@@ -11,8 +11,11 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
 import android.os.Vibrator;
 import android.support.v4.app.NotificationCompat;
+import android.widget.Toast;
 
 /**
  * Constantly checks for Tasks that are likely to be started right now
@@ -25,9 +28,13 @@ public class AutoRecorder extends BroadcastReceiver
 	
 	@Override
 	public void onReceive(Context context, Intent intent)
-	{
+	{	
+		
 		ITaskSuggestor taskSuggestor = new MainTaskSuggestor();
 		List<SuggestedTask> suggestedTasks = taskSuggestor.getSuggestedTasks();
+		
+		ITaskSuggestor taskSuggest = new LocationTaskSuggestor(context);
+		List<SuggestedTask> suggestTask = taskSuggest.getSuggestedTasks();
 		
 		if(suggestedTasks.isEmpty())
 			return;

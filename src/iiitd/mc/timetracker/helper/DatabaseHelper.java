@@ -40,6 +40,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		public static final String RECORDING_TASKID = "taskid";
 		public static final String RECORDING_STARTTIME = "starttime";
 		public static final String RECORDING_STOPTIME = "stoptime";
+		public static final String RECORDING_BSSID = "bssid";
 		
 		//Table Create Statements
 		//Task Table Create Statement
@@ -55,7 +56,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 				+ KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
 				+ RECORDING_TASKID + " INTEGER REFERENCES " + TABLE_TASK + "(" + KEY_ID + ") ON DELETE CASCADE, "
 				+ RECORDING_STARTTIME + " INTEGER, " 
-				+ RECORDING_STOPTIME + " INTEGER "
+				+ RECORDING_STOPTIME + " INTEGER, "
+				+ RECORDING_BSSID + " TEXT "
 				+ ");";
 		
 		public DatabaseHelper(Context context){
