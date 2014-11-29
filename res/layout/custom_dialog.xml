@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent" >
+    android:layout_height="fill_parent">
  
     <TextView
         android:id="@+id/tv1"
@@ -10,7 +10,7 @@
         android:paddingLeft="5sp"
         android:textSize="20sp"
         android:text="@string/from_date"/>
-
+	
     <EditText
         android:id="@+id/from_date"
         android:layout_width="fill_parent"
@@ -31,7 +31,7 @@
         android:paddingLeft="5sp"
         android:text="@string/to_date"
         android:textSize="20sp" />
-
+    
     <EditText
         android:id="@+id/to_date"
         android:layout_width="fill_parent"

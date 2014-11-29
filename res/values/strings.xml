@@ -65,7 +65,7 @@
     <string name="action_edit">Edit</string>
     <string name="action_delete">Delete</string>
     <string name="prompt_delete_recording">Do you really want to delete the recording?</string>
-    
+
     <!-- Statistics names -->
     <string name="str1">Today</string>
     <string name="str2">Yesterday</string>
@@ -74,9 +74,12 @@
     <string name="str5">Current Month</string>
     <string name="str6">Last Month</string>
     <string name="str7">Custom</string>
-    
+
     <!-- Custom Range Dialog names -->
     <string name="from_date">From</string>
     <string name="to_date">To</string>
+    <string name="title_activity_task_wise_stats">TaskWiseStats</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
 
 </resources>

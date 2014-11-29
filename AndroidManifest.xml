@@ -3,7 +3,7 @@
     package="iiitd.mc.timetracker"
     android:versionCode="1"
     android:versionName="1.0" >
-    
+
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
@@ -45,7 +45,7 @@
             android:label="@string/title_activity_list_recordings" >
         </activity>
         <activity
-            android:name=".Statistics"
+            android:name=".OverallStats"
             android:label="@string/title_activity_statistics" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -64,9 +64,13 @@
             android:label="@string/edit_task" >
         </activity>
         <activity
-            android:name="iiitd.mc.timetracker.EditRecordingActivity"
+            android:name=".EditRecordingActivity"
             android:label="@string/title_activity_edit_recording" >
         </activity>
-        <activity android:name="org.achartengine.GraphicalActivity" />
-        </application>
+        <activity
+            android:name=".TaskWiseStats"
+            android:label="@string/title_activity_task_wise_stats" >
+        </activity>
+    </application>
+
 </manifest>
