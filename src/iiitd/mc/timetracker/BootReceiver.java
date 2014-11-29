@@ -35,7 +35,7 @@ public class BootReceiver extends BroadcastReceiver
 		PendingIntent alarmIntent = PendingIntent.getBroadcast(context, 0, handlerIntent, 0);
 		
 		alarmMgr.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,
-		        0, AlarmManager.INTERVAL_FIFTEEN_MINUTES, alarmIntent);
+				AlarmManager.INTERVAL_FIFTEEN_MINUTES, AlarmManager.INTERVAL_FIFTEEN_MINUTES, alarmIntent);
 		
 		// Call AutoRecorder whenever new Wifi is in range
 		WifiManager mainWifi = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
