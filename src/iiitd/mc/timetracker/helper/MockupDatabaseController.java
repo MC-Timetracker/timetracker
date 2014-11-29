@@ -211,4 +211,11 @@ public class MockupDatabaseController implements IDatabaseController
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public List<Recording> getRecordings(long taskid, long start, long end)
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
