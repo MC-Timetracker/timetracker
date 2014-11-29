@@ -16,16 +16,13 @@ public class TimeTaskSuggestor implements ITaskSuggestor
 	private final int BUCKET_COUNT = 24*60 * 2 / INTERVAL; // 24*60 (minutes/day) * 2 (overlap of buckets) / interval
 	private final double PROBABILITY = 0.1; // if a task occurs 5 times in the time period it will have full probability (recordings counted twice if within INTERVAL/2 of point in time, once if within INTERVAL only
 	
+	private final int CACHE_TIME = 60 * 60*1000; // cache the timeBuckets model for 60 minutes
+	private long timestamp;
+	private List<List<SuggestedTask>> timeBuckets;
+	
 	@Override
 	public List<SuggestedTask> getSuggestedTasks()
 	{
-		IDatabaseController db = ApplicationHelper.createDatabaseController();
-		db.open();
-		//TODO: use some limit to only get the recordings of the last 30 (?) days?
-		List<Recording> recordings = db.getRecordings();
-		db.close();
-		
-		
 		/*
 		 * Prediction is based on 1 hour buckets, overlapping by 0.5 hour each:
 		 * 		00:00 - 01:00
@@ -38,12 +35,40 @@ public class TimeTaskSuggestor implements ITaskSuggestor
 		 * SuggestedTask.probability is higher for tasks that occur repeatedly in these relevant buckets.
 		 */
 		
-		//TODO: store this "model" and don't count buckets every time anew
-		List<List<SuggestedTask>> times = new ArrayList<List<SuggestedTask>>(BUCKET_COUNT);
+		Calendar now = new GregorianCalendar();
+		if((now.getTimeInMillis() - timestamp) > CACHE_TIME)
+		{
+			updateTimeBuckets();
+			timestamp = now.getTimeInMillis();
+		}
+		
+		List<SuggestedTask> tasks = new ArrayList<SuggestedTask>();
+		int bucket1 = getPrimaryBucket(now);
+		int bucket2 = getSecondaryBucket(bucket1);
+		
+		tasks.addAll(timeBuckets.get(bucket1));
+		for(SuggestedTask s : timeBuckets.get(bucket2))
+		{
+			MainTaskSuggestor.addSuggestionToList(tasks, s);
+		}
+		
+		Collections.sort(tasks);
+		return tasks;
+	}
+	
+	private void updateTimeBuckets()
+	{
+		IDatabaseController db = ApplicationHelper.createDatabaseController();
+		db.open();
+		//TODO: use some limit to only get the recordings of the last 30 (?) days?
+		List<Recording> recordings = db.getRecordings();
+		db.close();
+		
+		timeBuckets = new ArrayList<List<SuggestedTask>>(BUCKET_COUNT);
 		for(int i = 0; i < 48; i++)
 		{
 			// init bucket
-			times.add(i, new ArrayList<SuggestedTask>());
+			timeBuckets.add(i, new ArrayList<SuggestedTask>());
 		}
 		
 		// add recordings to buckets
@@ -57,26 +82,11 @@ public class TimeTaskSuggestor implements ITaskSuggestor
 			//TODO: only count one instance of the task per day per bucket
 			//	(don't increase probability for repeatedly starting and stopping the same task with very short durations)
 			SuggestedTask s = new SuggestedTask(rec.getTask(), PROBABILITY);
-			MainTaskSuggestor.addSuggestionToList(times.get(bucket1), s);
-			MainTaskSuggestor.addSuggestionToList(times.get(bucket2), s);
+			MainTaskSuggestor.addSuggestionToList(timeBuckets.get(bucket1), s);
+			MainTaskSuggestor.addSuggestionToList(timeBuckets.get(bucket2), s);
 		}
-		
-		
-		List<SuggestedTask> tasks = new ArrayList<SuggestedTask>();
-		Calendar now = new GregorianCalendar();
-		int bucket1 = getPrimaryBucket(now);
-		int bucket2 = getSecondaryBucket(bucket1);
-		
-		tasks.addAll(times.get(bucket1));
-		for(SuggestedTask s : times.get(bucket2))
-		{
-			MainTaskSuggestor.addSuggestionToList(tasks, s);
-		}
-		
-		Collections.sort(tasks);
-		return tasks;
 	}
-	
+
 	/**
 	 * Get the primary bucket index based on a point in time.
 	 * @param time The time to be mapped to a bucket, the date portion is ignored.
