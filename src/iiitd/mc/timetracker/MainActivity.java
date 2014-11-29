@@ -81,7 +81,7 @@ public class MainActivity extends BaseActivity {
 	 */
 	public void wifi_task_suggestor(View v){
 		
-		ITaskSuggestor taskSuggest = new LocationTaskSuggestor(this);
+		ITaskSuggestor taskSuggest = new LocationTaskSuggestor();
 		List<SuggestedTask> suggestTask = taskSuggest.getSuggestedTasks();
 		
 	}

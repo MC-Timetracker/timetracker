@@ -33,9 +33,6 @@ public class AutoRecorder extends BroadcastReceiver
 		ITaskSuggestor taskSuggestor = new MainTaskSuggestor();
 		List<SuggestedTask> suggestedTasks = taskSuggestor.getSuggestedTasks();
 		
-		ITaskSuggestor taskSuggest = new LocationTaskSuggestor(context);
-		List<SuggestedTask> suggestTask = taskSuggest.getSuggestedTasks();
-		
 		if(suggestedTasks.isEmpty())
 			return;
 		

@@ -29,9 +29,9 @@ public class LocationTaskSuggestor implements ITaskSuggestor{
 	WifiManager mainWifiObj;
 	private List<SuggestedTask> tasks;
 	
-	public LocationTaskSuggestor(Context context){
-		
-		appContext = context.getApplicationContext();  
+	public LocationTaskSuggestor()
+	{
+		appContext = ApplicationHelper.getAppContext(); 
 		db = ApplicationHelper.createDatabaseController();
 		
 	}

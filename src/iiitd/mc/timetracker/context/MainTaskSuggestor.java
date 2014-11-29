@@ -15,11 +15,13 @@ public class MainTaskSuggestor implements ITaskSuggestor
 			new TopHierarchySuggestor(),
 			new RecentTaskSuggestor(),
 			new TimeTaskSuggestor(),
+			new LocationTaskSuggestor(),
 	};
 	double[] suggestorWeights = new double[] {
 			0,		// top hierarchy
-			0.3,	// recent tasks
-			0.7,	// time
+			0.1,	// recent tasks
+			0.4,	// time
+			0.5,	// location
 	};
 	
 	
