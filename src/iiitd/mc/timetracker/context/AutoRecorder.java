@@ -1,18 +1,24 @@
 package iiitd.mc.timetracker.context;
 
 import java.util.List;
-
+import iiitd.mc.timetracker.ApplicationHelper;
 import iiitd.mc.timetracker.MainActivity;
 import iiitd.mc.timetracker.R;
+import iiitd.mc.timetracker.data.Recording;
 import iiitd.mc.timetracker.data.Task;
 import iiitd.mc.timetracker.data.TaskRecorderService;
+import iiitd.mc.timetracker.data.TaskRecorderService.TaskRecorderBinder;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
+import android.os.IBinder;
 import android.os.Vibrator;
 import android.support.v4.app.NotificationCompat;
+import android.util.Log;
 
 /**
  * Constantly checks for Tasks that are likely to be started right now
@@ -21,21 +27,51 @@ import android.support.v4.app.NotificationCompat;
 public class AutoRecorder extends BroadcastReceiver
 {
 	public final int NOTIFICATION_ID_TASK_SUGGESTION = 2;
+	private static final String TAG = "AutoRecorder";
 	
+	TaskRecorderService taskRecorder;
+    boolean mBound = false;
+	
+    ITaskSuggestor taskSuggestor;
+    
 	
 	@Override
 	public void onReceive(Context context, Intent intent)
 	{	
+		if(taskSuggestor == null)
+			taskSuggestor = new MainTaskSuggestor();
 		
-		ITaskSuggestor taskSuggestor = new MainTaskSuggestor();
+		if(mBound)
+		{
+			action();
+		}
+		else
+		{
+			// need to connect TaskRecorderService first
+			bindTaskRecorderService(context);
+		}
+	}
+	
+	
+	private void action()
+	{
+		if(!mBound || taskRecorder == null)
+		{
+			Log.w(TAG, "Not bound to TaskRecorderService when attempted action().");
+			return;
+		}
+		
+		Context context = ApplicationHelper.getAppContext();
 		List<SuggestedTask> suggestedTasks = taskSuggestor.getSuggestedTasks();
-		
 		if(suggestedTasks.isEmpty())
 			return;
 		
 		Task suggestedTask = suggestedTasks.get(0).getTask();
 		
-		//TODO: if this suggestedTask is already currently being recorded, abort further autoRecorder actions
+		//if this suggestedTask is already currently being recorded, abort further autoRecorder actions
+		Recording currentRec = taskRecorder.getCurrentRecording();
+		if(currentRec != null && currentRec.getTask().equals(suggestedTask))
+			return;
 		
 		SuggestionAction action = getSuggestionAction(suggestedTasks);
 		switch(action)
@@ -124,4 +160,35 @@ public class AutoRecorder extends BroadcastReceiver
 		Vibrator vibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
 		vibrator.vibrate(pattern, -1);
 	}
+	
+	
+	
+	
+	
+	private void bindTaskRecorderService(Context context)
+	{
+        Intent intent = new Intent(context, TaskRecorderService.class);
+        context.bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
+	}
+	
+	/** Defines callbacks for service binding, passed to bindService() */
+    private ServiceConnection mConnection = new ServiceConnection()
+    {
+        @Override
+        public void onServiceConnected(ComponentName className, IBinder service)
+        {
+            // We've bound to LocalService, cast the IBinder and get LocalService instance
+        	TaskRecorderBinder binder = (TaskRecorderBinder) service;
+            taskRecorder = binder.getService();
+            mBound = true;
+            
+            //use the TaskRecorderService
+            action();
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName arg0) {
+            mBound = false;
+        }
+    };
 }
