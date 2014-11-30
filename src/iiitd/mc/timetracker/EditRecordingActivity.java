@@ -2,6 +2,9 @@ package iiitd.mc.timetracker;
 
 import java.text.DateFormat;
 import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.List;
+
 import iiitd.mc.timetracker.data.Recording;
 import iiitd.mc.timetracker.data.Task;
 import iiitd.mc.timetracker.helper.IDatabaseController;
@@ -125,6 +128,20 @@ public class EditRecordingActivity extends BaseActivity
 		
 		if(isNewRecording)
 		{
+			//set start time to end time of last recording
+			IDatabaseController db = ApplicationHelper.createDatabaseController();
+			db.open();
+			List<Recording> recordings = db.getRecordings(1);
+			db.close();
+			if(!recordings.isEmpty())
+			{
+				Recording last = recordings.get(0);
+				calStart.setTime(last.getEnd());
+				Calendar now = new GregorianCalendar();
+				calEnd.setTime(now.getTime());
+				updateTimeViews();
+			}
+			
 			recording = new Recording();
 		}
 	}
