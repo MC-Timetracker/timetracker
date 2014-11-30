@@ -88,7 +88,7 @@ public class DatabaseController implements IDatabaseController {
 	@Override
 	public List<Task> getTasks(String name)
 	{
-		return getTasksWhere(DatabaseHelper.TASK_NAME + "='" + name + "'");
+		return getTasksWhere("UPPER(" + DatabaseHelper.TASK_NAME + ")='" + name.toUpperCase() + "'");
 	}
 	
 	@Override
