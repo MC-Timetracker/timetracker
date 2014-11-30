@@ -171,6 +171,16 @@ public class MockupDatabaseController implements IDatabaseController
 		open();
 		return recordsList;
 	}
+	
+	@Override
+	public List<Recording> getRecordings(int limit)
+	{
+		open();
+		int end = limit;
+		if(end > recordsList.size())
+			end = recordsList.size();
+		return recordsList.subList(0, end);
+	}
 
 	@Override
 	public void updateRecording(Recording updatedRecording)
