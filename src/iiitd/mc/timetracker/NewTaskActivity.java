@@ -1,14 +1,9 @@
 package iiitd.mc.timetracker;
 
-import iiitd.mc.timetracker.adapter.CustomArrayAdapter;
-import iiitd.mc.timetracker.context.ITaskSuggestor;
-import iiitd.mc.timetracker.context.MainTaskSuggestor;
-import iiitd.mc.timetracker.context.SuggestedTask;
 import iiitd.mc.timetracker.data.Task;
 import iiitd.mc.timetracker.data.TaskRecorderService;
 import iiitd.mc.timetracker.helper.IDatabaseController;
-
-import java.util.List;
+import iiitd.mc.timetracker.view.TaskAutoCompleteTextView;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -16,8 +11,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.View.OnFocusChangeListener;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -32,9 +25,7 @@ public class NewTaskActivity extends BaseActivity {
 
 	private Button insert, clear;
 	private EditText taskname, description;
-	private AutoCompleteTextView autoTv;
-	private ITaskSuggestor suggester;
-	private CustomArrayAdapter taskListAdapter;
+	private TaskAutoCompleteTextView autoTv;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -45,33 +36,7 @@ public class NewTaskActivity extends BaseActivity {
 		LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.frame.addView(inflater.inflate(R.layout.activity_new_task, null));
 		
-		autoTv = (AutoCompleteTextView) findViewById(R.id.taskSelectionBox);
-		
-		addTasksToAutoView();
-		
-		autoTv.setThreshold(0);
-		
-		autoTv.setOnFocusChangeListener(new OnFocusChangeListener(){
-
-			@Override
-			public void onFocusChange(View view, boolean arg1)
-			{
-				if(arg1)
-				{
-					((AutoCompleteTextView)view).showDropDown();
-				}
-				
-			}
-			
-		});
-		
-		autoTv.setOnClickListener(new OnClickListener() {
-				public void onClick(View view)
-				{
-					((AutoCompleteTextView)view).showDropDown();
-				}
-		});
-		
+		autoTv = (TaskAutoCompleteTextView) findViewById(R.id.taskSelectionBox);
 		insert = (Button)findViewById(R.id.btnDone);
 		clear = (Button)findViewById(R.id.btnClear);
 		taskname = (EditText)findViewById(R.id.tasknameedittext);
@@ -115,7 +80,29 @@ public class NewTaskActivity extends BaseActivity {
 			return;
 		}
 		
-		Task parent = TaskRecorderService.createTaskFromString(autoTv.getText().toString());
+		Task parent = null;
+		if(!autoTv.getText().toString().isEmpty())
+		{
+			// parent name not empty - get/create parent task
+			parent = autoTv.getTask();
+			if(parent == null)
+			{
+				autoTv.createTask(new TaskAutoCompleteTextView.OnTaskCreatedListener() 
+				{
+					@Override
+					public void onTaskCreated(Task newTask)
+					{
+						// restart insertTask, parent will exist now
+						insertTask();
+					}
+				}, 
+				null);
+				
+				// abort for now, will be continued when callback returns
+				return;
+			}
+		}
+		
 		Task task = new Task(taskname.getText().toString(), parent);
 		task.setDescription(this.description.getText().toString());
 		
@@ -125,21 +112,7 @@ public class NewTaskActivity extends BaseActivity {
 		db.close();
 		
 		Toast.makeText(this,"Task added successfully", Toast.LENGTH_LONG).show();
-		addTasksToAutoView();
 		
 		finish();
-	}
-	
-	
-	/*
-	 * Adds tasks to the Auto Complete View for suggestions
-	 */
-	private void addTasksToAutoView()
-	{
-		suggester = new MainTaskSuggestor();
-		List<SuggestedTask> suggestedTasks = suggester.getSuggestedTasks();
-		taskListAdapter = new CustomArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, suggestedTasks);
-		taskListAdapter.notifyDataSetChanged();
-		autoTv.setAdapter(taskListAdapter);		
 	}
 }

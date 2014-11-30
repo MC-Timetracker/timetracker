@@ -27,7 +27,7 @@
 	 		    android:gravity="top|left"
 	 		    android:text="@string/parentname" />
 	
-			<AutoCompleteTextView
+			<iiitd.mc.timetracker.view.TaskAutoCompleteTextView
 				android:id="@+id/taskSelectionBox"
 				android:layout_height="wrap_content"
 				android:layout_width="wrap_content"

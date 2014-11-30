@@ -16,7 +16,6 @@
     <string name="btnStop">Stop</string>
     <string name="btnPause">Pause</string>
     <string name="btnResume">Resume</string>
-    <string name="new_task_valid">Task name is not valid</string>
     <string name="recentTv">Recent Activities</string>
     <string name="Wifi_Task">Wifi_Task</string>
 

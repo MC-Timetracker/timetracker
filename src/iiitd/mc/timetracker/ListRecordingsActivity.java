@@ -81,13 +81,19 @@ public class ListRecordingsActivity extends BaseActivity {
 	}
 
 	@Override
-	public void onCreateContextMenu(ContextMenu menu, View v,
-			ContextMenuInfo menuInfo)
+	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo)
 	{
 		super.onCreateContextMenu(menu, v, menuInfo);
 		
-	    MenuInflater inflater = getMenuInflater();
-	    inflater.inflate(R.menu.context_menu, menu);
+		ExpandableListView.ExpandableListContextMenuInfo info = (ExpandableListView.ExpandableListContextMenuInfo) menuInfo;
+		
+		//only show context menu for child items (recordings not dates)
+		int type = ExpandableListView.getPackedPositionType(info.packedPosition);
+		if(type == ExpandableListView.PACKED_POSITION_TYPE_CHILD)		
+		{
+		    MenuInflater inflater = getMenuInflater();
+		    inflater.inflate(R.menu.context_menu, menu);
+		}
 	}
 
 	@Override

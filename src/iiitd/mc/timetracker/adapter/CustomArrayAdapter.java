@@ -7,8 +7,6 @@ import java.util.List;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
@@ -30,7 +28,7 @@ public class CustomArrayAdapter extends ArrayAdapter<SuggestedTask> implements F
 		
 		super(context,resource,suggestedTasks);
 		suggestedList = suggestedTasks;
-		originalList = new ArrayList<SuggestedTask>(suggestedList);
+		originalList = suggestedTasks;
 	}
 	
 	@Override
@@ -41,11 +39,6 @@ public class CustomArrayAdapter extends ArrayAdapter<SuggestedTask> implements F
 	@Override
 	public SuggestedTask getItem(int position) {
 		return suggestedList.get(position);
-	}
-	
-	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
-		return super.getView(position, convertView, parent);
 	}
 	
 	@Override
@@ -65,32 +58,22 @@ public class CustomArrayAdapter extends ArrayAdapter<SuggestedTask> implements F
 		{
 			FilterResults filteredTasks = new FilterResults();
 			
-			if(originalList == null){
-				//synchronized(lock){
-					originalList = new ArrayList<SuggestedTask>(suggestedList);
-				}
-			//}
-			
-			if(prefix == null || prefix.length() == 0){
-				//synchronized (lock){
-					List<SuggestedTask> list = new ArrayList<SuggestedTask>(originalList);
-					filteredTasks.values = list;
-					filteredTasks.count = list.size();
-				}
-			//}
-			else{
+			if(prefix == null || prefix.length() == 0)
+			{
+				List<SuggestedTask> list = new ArrayList<SuggestedTask>(originalList);
+				filteredTasks.values = list;
+				filteredTasks.count = list.size();
+			}
+			else
+			{
 				
 				final String prefixString = prefix.toString().toLowerCase();
 				
-				List<SuggestedTask> values = originalList;
-				
-				int count = values.size();
-				
-				List<SuggestedTask> newValues = new ArrayList<SuggestedTask>(count);
-				
-				for(int i=0;i < count; i++){
-					SuggestedTask item = values.get(i);
-					if(item.toString().toLowerCase().contains("."+prefixString) || item.toString().toLowerCase().startsWith(prefixString)){
+				List<SuggestedTask> newValues = new ArrayList<SuggestedTask>(originalList.size());
+				for(SuggestedTask item : originalList)
+				{
+					if(item.toString().toLowerCase().contains("."+prefixString) || item.toString().toLowerCase().startsWith(prefixString))
+					{
 						newValues.add(item);
 					}
 				}

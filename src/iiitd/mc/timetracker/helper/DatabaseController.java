@@ -12,8 +12,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
-import android.widget.Toast;
 
 /**
  * Database Helper class to perform all Database CURD operations
@@ -78,6 +76,7 @@ public class DatabaseController implements IDatabaseController {
 			task.setParent(parent);
 		}
 		
+		c.close();
 		return task;
 	}
 
@@ -122,6 +121,8 @@ public class DatabaseController implements IDatabaseController {
 				tasks.add(task);
 			}while(c.moveToNext());
 		}
+		
+		c.close();
 		return tasks;
 	}
 
@@ -165,7 +166,10 @@ public class DatabaseController implements IDatabaseController {
 		if(c == null || !c.moveToFirst())
 			return null;
 		
-		return createRecordingInstance(c);
+		Recording r = createRecordingInstance(c);
+		
+		c.close();
+		return r;
 	}
 
 	@Override
@@ -189,6 +193,8 @@ public class DatabaseController implements IDatabaseController {
 				recordings.add(r);
 			}while(c.moveToNext());
 		}
+		
+		c.close();
 		return recordings;
 	}
 	
