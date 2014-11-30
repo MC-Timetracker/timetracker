@@ -27,8 +27,9 @@ public class LocationTaskSuggestor implements ITaskSuggestor{
 	private Context appContext;
 	DatabaseController mac = new DatabaseController(null);
 	WifiManager mainWifiObj;
-	private List<SuggestedTask> tasks;
-	
+	private List<SuggestedTask> tasks = null;
+	public static final String WIFI_SCAN_AVAILABLE = "wifi_scan_available";
+
 	public LocationTaskSuggestor()
 	{
 		appContext = ApplicationHelper.getAppContext(); 
@@ -41,11 +42,21 @@ public class LocationTaskSuggestor implements ITaskSuggestor{
 	 * @param context application context
 	 * @return mac address
 	 */
-	public String trackbssidfrombootreceiver(Context context){
+	public String trackbssid(Context context){
+		
+		String bssid = "";
 		
 		WifiManager mainWifi = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
 		WifiInfo wifiInfo = mainWifi.getConnectionInfo();
-		String bssid = wifiInfo.getBSSID();
+			
+		if (wifiInfo.getBSSID()!=null){
+			
+			bssid = wifiInfo.getBSSID();
+		}
+		else if(wifiInfo.getBSSID()== null){
+			
+			bssid = "00:00:00:00:00";
+		}
 		
 		return bssid;
 	}
@@ -53,7 +64,7 @@ public class LocationTaskSuggestor implements ITaskSuggestor{
 	@Override
 	public List<SuggestedTask> getSuggestedTasks() {
 		
-		String bssid = trackbssidfrombootreceiver(appContext);
+		String bssid = trackbssid(appContext);
 		tasks = setcurrentbssid(appContext, bssid);
 		
 		return tasks;	
@@ -77,12 +88,18 @@ public class LocationTaskSuggestor implements ITaskSuggestor{
 		for(Recording rec : recordings)
 		{
 			
-			if(bssid.compareTo(rec.getMacAddress())==0){
+			if(bssid == "00:00:00:00:00"){
+				
+				Toast.makeText(appContext, "No Wifi Connection", Toast.LENGTH_SHORT).show();
+			}
+			
+			else if(bssid.compareTo(rec.getMacAddress())==0){
 				
 				SuggestedTask temp = new SuggestedTask(rec.getTask(), prob);
 				tasks.add(temp);
 				i++;
 			}
+			
 
 		}
 		for(int j=0;j<i ;j++){

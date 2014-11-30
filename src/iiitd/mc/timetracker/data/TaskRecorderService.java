@@ -169,6 +169,8 @@ public class TaskRecorderService extends Service
 		}
 		WifiInfo wifiInfo = mainWifiObj.getConnectionInfo();
 		String bssid = wifiInfo.getBSSID();
+		if(bssid == null)
+			bssid = "00:00:00:00:00";
 		currentRecording = new Recording(); 
 		currentRecording.setTask(task);
 		currentRecording.setStart(new Date());
