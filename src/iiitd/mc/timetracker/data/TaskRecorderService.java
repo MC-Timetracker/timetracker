@@ -107,13 +107,13 @@ public class TaskRecorderService extends Service
 		{
 			stopRecording();
 		}
-		
+		WifiInfo wifiInfo = mainWifiObj.getConnectionInfo();
+		String bssid = wifiInfo.getBSSID();
+		if(bssid == null)
+			bssid = "00:00:00:00:00";
 		currentRecording = new Recording(); 
 		currentRecording.setTask(task);
 		currentRecording.setStart(new Date());
-
-		WifiInfo wifiInfo = mainWifiObj.getConnectionInfo();
-		String bssid = wifiInfo.getBSSID();
 		currentRecording.setMacAddress(bssid);
 		
 		String notificationTitle = getText(R.string.notification_recording) + " " + task.getName();
