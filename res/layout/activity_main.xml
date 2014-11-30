@@ -15,6 +15,7 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="47dp"
+        android:padding="10dp"
         android:background="@drawable/border"
         android:gravity="center_vertical"
         android:shadowColor="#F50743"
@@ -34,7 +35,7 @@
 
         <iiitd.mc.timetracker.view.TaskAutoCompleteTextView
             android:id="@+id/taskSelectionBox"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"

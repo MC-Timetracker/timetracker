@@ -13,7 +13,10 @@ import iiitd.mc.timetracker.data.TaskRecorderService;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.support.v4.view.GestureDetectorCompat;
 import android.util.AttributeSet;
+import android.view.GestureDetector.OnGestureListener;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
@@ -21,13 +24,15 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 
-public class TaskAutoCompleteTextView extends AutoCompleteTextView
+public class TaskAutoCompleteTextView extends AutoCompleteTextView implements OnGestureListener
 {
 	private ITaskSuggestor suggestor;
     private CustomArrayAdapter taskListAdapter;
     private List<SuggestedTask> suggestedTasks = new ArrayList<SuggestedTask>();
     
     private Context context;
+    
+    private GestureDetectorCompat mDetector; 
     
     
 	public TaskAutoCompleteTextView(Context context)
@@ -67,6 +72,11 @@ public class TaskAutoCompleteTextView extends AutoCompleteTextView
 	 */
 	public void initTaskAutocomplete()
 	{
+		mDetector = new GestureDetectorCompat(context, this);
+        //mDetector.setOnDoubleTapListener(this);
+
+		
+		
 		taskListAdapter = new CustomArrayAdapter(context, android.R.layout.simple_dropdown_item_1line, suggestedTasks);
 		this.setAdapter(taskListAdapter);
 		
@@ -192,4 +202,66 @@ public class TaskAutoCompleteTextView extends AutoCompleteTextView
     {
         public void onTaskCreated(Task newTask);
     }
+	
+	
+	
+	@Override 
+    public boolean onTouchEvent(MotionEvent event)
+	{ 
+        this.mDetector.onTouchEvent(event);
+        return super.onTouchEvent(event);
+    }
+	@Override
+	public boolean onDown(MotionEvent e)
+	{
+		return false;
+	}
+	@Override
+	public void onShowPress(MotionEvent e)
+	{
+		
+	}
+	@Override
+	public boolean onSingleTapUp(MotionEvent e)
+	{
+		return false;
+	}
+	@Override
+	public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX,
+			float distanceY)
+	{
+		return false;
+	}
+	@Override
+	public void onLongPress(MotionEvent e)
+	{
+		
+	}
+	private static final int SWIPE_MIN_DISTANCE = 50;
+    private static final int SWIPE_MAX_OFF_PATH = 250;
+    private static final int SWIPE_THRESHOLD_VELOCITY = 100;
+	@Override
+	public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY)
+	{
+		try 
+		{
+            if (Math.abs(e1.getY() - e2.getY()) > SWIPE_MAX_OFF_PATH)
+                return false;
+
+            if(e1.getX() - e2.getX() > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY)
+            {
+                //left swipe
+            	this.setText("");
+            }
+            else if (e2.getX() - e1.getX() > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY)
+            {
+                //right swipe
+            	SuggestedTask s = this.taskListAdapter.getItem(0);
+            	this.setText(s.getTask().toString());
+            }
+        } catch (Exception e) {
+            // nothing
+        }
+        return false;
+	}
 }
