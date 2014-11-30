@@ -8,7 +8,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.wifi.WifiManager;
-import android.widget.Toast;
 
 public class BootReceiver extends BroadcastReceiver
 {
@@ -38,7 +37,6 @@ public class BootReceiver extends BroadcastReceiver
 				AlarmManager.INTERVAL_FIFTEEN_MINUTES, AlarmManager.INTERVAL_FIFTEEN_MINUTES, alarmIntent);
 		
 		// Call AutoRecorder whenever new Wifi is in range
-		WifiManager mainWifi = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
 		AutoRecorder autoRecorder = new AutoRecorder();
 		context.registerReceiver(autoRecorder, new IntentFilter(WifiManager.SUPPLICANT_STATE_CHANGED_ACTION));
 		
