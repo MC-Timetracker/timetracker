@@ -16,6 +16,7 @@ import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -79,7 +80,9 @@ public class ListRecordingsActivity extends BaseActivity {
 		if(recAdapter.getGroupCount() > 0)
 			expRecView.expandGroup(0);
 	}
-
+	
+	
+	
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo)
 	{
@@ -116,10 +119,37 @@ public class ListRecordingsActivity extends BaseActivity {
 		}
 	}
 	
+	
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+	    // Inflate the menu items for use in the action bar
+	    MenuInflater inflater = getMenuInflater();
+	    inflater.inflate(R.menu.list_recordings_actions, menu);
+	    
+	    return super.onCreateOptionsMenu(menu);
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+	    // Handle presses on the action bar items
+	    switch (item.getItemId()) {
+	        case R.id.action_new_recording:
+	        	editRecording(null);
+	            return true;
+	        default:
+	            return super.onOptionsItemSelected(item);
+	    }
+	}
+	
+	
+	
+	
 	private void editRecording(Recording r)
 	{
 		Intent edit_recording = new Intent(this, EditRecordingActivity.class);
-		edit_recording.putExtra(EditRecordingActivity.EXTRA_RECORDING_ID, r.getRecordingId());
+		if(r != null)
+			edit_recording.putExtra(EditRecordingActivity.EXTRA_RECORDING_ID, r.getRecordingId());
 		startActivity(edit_recording);
 	}
 	
