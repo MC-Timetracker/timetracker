@@ -22,7 +22,7 @@ public class Recording
 	private Date start;
 	private Date end;
 	private Task task;
-	private String macAddress;
+	private String macAddress = "";
 	
 	
 	/**
@@ -131,7 +131,10 @@ public class Recording
 	 * @param macAddress the macAddress to set
 	 */
 	public void setMacAddress(String macAddress) {
-		this.macAddress = macAddress;
+		if(macAddress == null)
+			this.macAddress = "";
+		else
+			this.macAddress = macAddress;
 	}
 	
 	/**
