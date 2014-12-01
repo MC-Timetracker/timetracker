@@ -3,6 +3,8 @@ package iiitd.mc.timetracker;
 
 import java.text.DateFormat;
 import java.util.Calendar;
+import java.util.Random;
+
 import iiitd.mc.timetracker.adapter.NavigationAdapter;
 import android.app.ActionBar;
 import android.app.AlertDialog;
@@ -36,8 +38,7 @@ import android.widget.RelativeLayout;
 public class BaseActivity extends ActionBarActivity implements OnItemClickListener, OnMenuItemClickListener {
 	
 	static int timeRangeId = 1;
-	int colors[] = { Color.BLUE, Color.MAGENTA, Color.GREEN, Color.CYAN, Color.RED,
-            Color.YELLOW };
+	int colors[] = {Color.BLUE, Color.CYAN, Color.DKGRAY, Color.GRAY, Color.GREEN, Color.MAGENTA, Color.RED, Color.YELLOW};
 	static Calendar startDate;
 	static Calendar endDate;
 	EditText from_date;

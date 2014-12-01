@@ -195,7 +195,7 @@ public class TaskWiseStats extends BaseActivity
 	        DefaultRenderer defaultRenderer  = new DefaultRenderer();
 	        for(int i = 0 ;i<pierec.size();i++){
 	            SimpleSeriesRenderer seriesRenderer = new SimpleSeriesRenderer();
-	            seriesRenderer.setColor(colors[i]);
+	            seriesRenderer.setColor(colors[i%8]);
 	            seriesRenderer.setDisplayChartValues(true);
 	            // Adding a renderer for a slice
 	            defaultRenderer.addSeriesRenderer(seriesRenderer);
