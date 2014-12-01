@@ -29,11 +29,9 @@ import android.graphics.Color;
 import android.graphics.Paint.Align;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 
 public class TaskWiseStats extends BaseActivity
@@ -44,8 +42,6 @@ public class TaskWiseStats extends BaseActivity
 	private LayoutInflater inflater;
 	private HashMap<String,Long> pierec;
 	private HashMap<String, Float> barrec;
-	//private List<View> graphList;
-	//private ListView list_graph;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -58,13 +54,7 @@ public class TaskWiseStats extends BaseActivity
 				
 		rangeTv = (TextView) findViewById(R.id.timeRangeTv);
 		
-		//graphList = new ArrayList<>();
 		initTimeRanges();
-		//graphList.add(drawBarChart());
-		//graphList.add(drawPieChart());
-		//customGraphList adapter = new customGraphList(this,R.layout.list_graphs,graphList);
-		//list_graph = (ListView) findViewById(R.id.list_graph);
-		//list_graph.setAdapter(adapter);
 		drawBarChart();
 		drawPieChart();
 		
@@ -98,10 +88,10 @@ public class TaskWiseStats extends BaseActivity
 		}
 		
 		XYSeries timeDurationseries;
-		XYSeriesRenderer timeDurationRenderer;
+   		XYSeriesRenderer timeDurationRenderer;
 		XYMultipleSeriesRenderer multiRenderer;
 		XYMultipleSeriesDataset dataset;
-		//View mChart;
+		
 		NumberFormat numformat=NumberFormat.getInstance();
 		numformat.setMaximumFractionDigits(2);
 		
@@ -128,7 +118,8 @@ public class TaskWiseStats extends BaseActivity
 				
 		multiRenderer = new XYMultipleSeriesRenderer();
 		multiRenderer.setXLabels(0);
-		multiRenderer.setChartTitle(task.getName()+" stats");
+		String name = task.getName();
+		multiRenderer.setChartTitle(name.substring(0,1).toUpperCase()+name.substring(1,name.length())+" and Sub Activities");
 		multiRenderer.setXTitle("Day");
 		multiRenderer.setYTitle("Time Spent");
 		multiRenderer.setXAxisMin(-0.5);
@@ -191,7 +182,8 @@ public class TaskWiseStats extends BaseActivity
 		if(!pierec.isEmpty())
 		{
 			TextView tv = (TextView) findViewById(R.id.textView2);
-			tv.setText(task.getName()+" and sub activities proportion");
+			String name = task.getName();
+			tv.setText(name.substring(0,1).toUpperCase()+name.substring(1,name.length())+" and Sub Activities Proportion");
 			CategorySeries distributionSeries = new CategorySeries("Subjects Studied Over Time");
 	        
 	        for(Map.Entry<String, Long> entry:pierec.entrySet()){

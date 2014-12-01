@@ -1,5 +1,7 @@
-package iiitd.mc.timetracker;
+ package iiitd.mc.timetracker;
 
+import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -161,7 +163,7 @@ public class OverallStats extends BaseActivity {
 		todrec.put("Others", todrec.get("Others")-utilTime);			
 		
 		no_data = (TextView) findViewById(R.id.no_data1);
-		if(!todrec.isEmpty())
+		if(todrec.size() > 1)
 		{
 			CategorySeries distributionSeries = new CategorySeries("Overall Comparison of Parent Tasks");
 	        
