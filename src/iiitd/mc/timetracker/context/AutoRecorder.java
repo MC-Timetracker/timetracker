@@ -1,6 +1,8 @@
 package iiitd.mc.timetracker.context;
 
+import java.util.GregorianCalendar;
 import java.util.List;
+
 import iiitd.mc.timetracker.ApplicationHelper;
 import iiitd.mc.timetracker.MainActivity;
 import iiitd.mc.timetracker.R;
@@ -15,6 +17,8 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.net.wifi.SupplicantState;
+import android.net.wifi.WifiManager;
 import android.os.IBinder;
 import android.os.Vibrator;
 import android.support.v4.app.NotificationCompat;
@@ -33,11 +37,30 @@ public class AutoRecorder extends BroadcastReceiver
     boolean mBound = false;
 	
     ITaskSuggestor taskSuggestor;
+    long lastActionTimestamp;
+    private static final int SILENCE_INTERVAL = 10 * 60*1000; // minimum time between active notification of the user; in ms (minutes*60*1000)
     
 	
 	@Override
 	public void onReceive(Context context, Intent intent)
-	{	
+	{
+		// abort if intent signifies only an intermediate step while connecting
+		if (intent.getAction().equals(WifiManager.SUPPLICANT_STATE_CHANGED_ACTION))
+		{
+			SupplicantState state = (SupplicantState) intent.getParcelableExtra(WifiManager.EXTRA_NEW_STATE);
+			switch(state)
+			{
+			case COMPLETED:
+			case DISCONNECTED:
+				// continue
+				break;
+			default:
+				// don't act on any other events
+				return;
+			}
+		}
+		
+		
 		if(taskSuggestor == null)
 			taskSuggestor = new MainTaskSuggestor();
 		
@@ -67,12 +90,7 @@ public class AutoRecorder extends BroadcastReceiver
 			return;
 		
 		Task suggestedTask = suggestedTasks.get(0).getTask();
-		
-		//if this suggestedTask is already currently being recorded, abort further autoRecorder actions
-		Recording currentRec = taskRecorder.getCurrentRecording();
-		if(currentRec != null && currentRec.getTask().equals(suggestedTask))
-			return;
-		
+
 		SuggestionAction action = getSuggestionAction(suggestedTasks);
 		switch(action)
 		{
@@ -81,6 +99,8 @@ public class AutoRecorder extends BroadcastReceiver
 			break;
 			
 		case Notify:
+			vibrate(context);
+		case NotifySilently:
 			setNotification(context, suggestedTask);
 			//TODO: pre-select that suggested task in the autocomplete dropdown
 			break;
@@ -101,13 +121,41 @@ public class AutoRecorder extends BroadcastReceiver
 		//TODO: proper implementation of SuggestionAction
 		// based on absolute probability of top suggested task
 		// and relative distance to the next likely suggested task?
+		
+		//if this suggestedTask is already currently being recorded, abort further autoRecorder actions
+		Recording currentRec = taskRecorder.getCurrentRecording();
+		if(currentRec != null && currentRec.getTask().equals(suggestedTasks.get(0).getTask()))
+			return SuggestionAction.Ignore;
+		
+		// don't annoy user by repeated vibrating
+		long now = new GregorianCalendar().getTimeInMillis();
+		if((now - lastActionTimestamp) < SILENCE_INTERVAL)
+			return SuggestionAction.NotifySilently;
+		
+		lastActionTimestamp = now;
 		return SuggestionAction.Notify;
 	}
 	
 	enum SuggestionAction
 	{
+		/**
+		 * Start recording the suggested task automatically without user interaction.
+		 */
 		AutoRecord,
+		
+		/**
+		 * Notify the user about the new suggestion.
+		 */
 		Notify,
+		
+		/**
+		 * Set/Update a Notification but do not actively inform the user e.g. by vibrating.
+		 */
+		NotifySilently,
+		
+		/**
+		 * Ignore the suggestion completely.
+		 */
 		Ignore
 	}
 	
@@ -153,9 +201,10 @@ public class AutoRecorder extends BroadcastReceiver
 		        (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 		// Builds the notification and issues it.
 		mNotifyMgr.notify(NOTIFICATION_ID_TASK_SUGGESTION, mBuilder.build());
-		
-		
-		// vibrate
+	}
+	
+	private void vibrate(Context context)
+	{
 		long pattern[]={0,150,600,150,600,150}; //The first value indicates the number of milliseconds to wait before turning the vibrator ON. The next value indicates the number of milliseconds for which to keep the vibrator on before turning it off. Subsequent values, alternates between ON and OFF.
 		Vibrator vibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
 		vibrator.vibrate(pattern, -1);
