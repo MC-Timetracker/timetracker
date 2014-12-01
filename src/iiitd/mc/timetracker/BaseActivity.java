@@ -7,7 +7,6 @@ import java.util.Calendar;
 import iiitd.mc.timetracker.adapter.NavigationAdapter;
 import android.app.ActionBar;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.DatePickerDialog.OnDateSetListener;
@@ -20,6 +19,7 @@ import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
 
+import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.PopupMenu.OnMenuItemClickListener;
 import android.view.LayoutInflater;
@@ -37,7 +37,7 @@ import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 
-public class BaseActivity extends Activity implements OnItemClickListener, OnMenuItemClickListener {
+public class BaseActivity extends ActionBarActivity implements OnItemClickListener, OnMenuItemClickListener {
 
 	
 	static int timeRangeId = 1;
