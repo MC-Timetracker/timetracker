@@ -4,31 +4,37 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
 
-import iiitd.mc.timetracker.charts.OverallPieChart;
 import iiitd.mc.timetracker.data.Recording;
 import iiitd.mc.timetracker.helper.IDatabaseController;
 
 import org.achartengine.ChartFactory;
 import org.achartengine.GraphicalView;
 import org.achartengine.model.CategorySeries;
+import org.achartengine.model.XYMultipleSeriesDataset;
+import org.achartengine.model.XYSeries;
 import org.achartengine.renderer.DefaultRenderer;
 import org.achartengine.renderer.SimpleSeriesRenderer;
+import org.achartengine.renderer.XYMultipleSeriesRenderer;
+import org.achartengine.renderer.XYSeriesRenderer;
 
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.FragmentTransaction;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.graphics.Paint.Align;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -37,6 +43,9 @@ public class Statistics extends BaseActivity {
 	public static final String PREFS_NAME = "Tab_Pref";
 	public int mDisplayMode;
 	private LayoutInflater inflater;
+	Map<String, Long> todrec;
+	Map<String, Float> taskrec;
+	SimpleDateFormat sdf = new SimpleDateFormat("EE");
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -68,7 +77,8 @@ public class Statistics extends BaseActivity {
 		mDisplayMode = tab.getPosition();
 		int colors[] = { Color.BLUE, Color.MAGENTA, Color.GREEN, Color.CYAN, Color.RED,
 	            Color.YELLOW };
-		Map<String, Long> todrec = new HashMap<>();
+		todrec=new HashMap<>();
+		taskrec=new LinkedHashMap<>();
 		List<Recording> recs = new ArrayList<>();
 		
 		if(mDisplayMode == 0)
@@ -200,14 +210,163 @@ public class Statistics extends BaseActivity {
 	        chartContainer.addView(mChart);
 	        
 		}
+		
 		else
 		{
-			this.frame.removeAllViews();
+			//this.frame.removeAllViews();
 			this.frame.addView(inflater.inflate(R.layout.taskwise_stats, null));
-		}
-		
-		
+			TextView tv = (TextView) findViewById(R.id.timeRangeTv);
+			String tname="Study.AC";					//name of task whose stats are to be displayed
+			XYSeries timeDurationseries;
+			XYSeriesRenderer timeDurationRenderer;
+			XYMultipleSeriesRenderer multiRenderer;
+			XYMultipleSeriesDataset dataset;
+			View mChart;
+			NumberFormat numformat=NumberFormat.getInstance();
+			numformat.setMaximumFractionDigits(2);
+			
+			timeDurationseries = new XYSeries("Duration(in hrs)");
+			initializeMapforBarGraph();
+			
+			if(timeRangeId == 1)
+			{
+				tv.setText("Today");
+	
+				IDatabaseController db = ApplicationHelper.createDatabaseController();
+				db.open();
+				
+				Date today = new Date();
+				recs = db.getRecordings(getStartOfDay(today), getEndOfDay(today));
+				
+				db.close();
+			}
+			
+			else if(timeRangeId == 2)
+			{
+				tv.setText("Yesterday");
+				
+				IDatabaseController db = ApplicationHelper.createDatabaseController();
+				db.open();
+				
+				recs = db.getRecordings(getYesterdayStart(), getYesterdayEnd());
+				
+				db.close();
+			}
+			
+			else if(timeRangeId == 3)
+			{
+				tv.setText("This Week");
+				
+				IDatabaseController db = ApplicationHelper.createDatabaseController();
+				db.open();
+				
+				recs = db.getRecordings(getWeekStart(), getWeekEnd());
+				
+				db.close();
+			}
+			
+			else if(timeRangeId == 4)
+			{
+				tv.setText("Last Week");
+				
+				IDatabaseController db = ApplicationHelper.createDatabaseController();
+				db.open();
+				
+				recs = db.getRecordings(getLastWeekStart(), getLastWeekEnd());
+				
+				db.close();
+			}
+			
+			else if(timeRangeId == 5)
+			{
+				tv.setText("Current Month");
+				
+				IDatabaseController db = ApplicationHelper.createDatabaseController();
+				db.open();
+				
+				recs = db.getRecordings(getMonthStart(), getMonthEnd());
+				
+				db.close();
+			}
+			
+			else if(timeRangeId == 6)
+			{
+				tv.setText("Last Month");
+				
+				IDatabaseController db = ApplicationHelper.createDatabaseController();
+				db.open();
+				
+				recs = db.getRecordings(getLastMonthStart(), getLastMonthEnd());
+				
+				db.close();
+			}
+			
+			List<String> lblTasks=new ArrayList<String>();
+			int i=0;
+			
+			for(Recording r: recs)
+			{
+				if(tname.equals(r.getTask().getNameFull()))
+				{
+					String tday=sdf.format(r.getStart());
+					float dur_hrs = 0f;
+					if(taskrec.containsKey(tday))
+					{
+						dur_hrs = (float) (taskrec.get(tday)+(r.getDuration(TimeUnit.MINUTES)/60.0));
+						taskrec.put(tday, dur_hrs);
+					}
+				}
+			}
+					
+			
+			for(Map.Entry<String, Float> entry:taskrec.entrySet())
+			{
+				timeDurationseries.add(i, entry.getValue());
+				lblTasks.add(i, entry.getKey());
+				i++;
+			}
+					
+			dataset=new XYMultipleSeriesDataset();
+			dataset.addSeries(timeDurationseries);
+					
+			timeDurationRenderer = new XYSeriesRenderer();
+			timeDurationRenderer.setColor(Color.rgb(220, 80, 80));
+			timeDurationRenderer.setFillPoints(true);
+			timeDurationRenderer.setLineWidth(2);
+			timeDurationRenderer.setDisplayChartValues(true);
+					
+			multiRenderer = new XYMultipleSeriesRenderer();
+			multiRenderer.setXLabels(0);
+			multiRenderer.setChartTitle("Task Stats");
+			multiRenderer.setXTitle("Day");
+			multiRenderer.setYTitle("Time Spent");
+			multiRenderer.setXAxisMin(-0.5);
+			multiRenderer.setXAxisMax(6.5);
+			multiRenderer.setBarSpacing(0.5);
+			multiRenderer.setYAxisMin(-0.5);
+			multiRenderer.setLabelFormat(numformat);
+			timeDurationRenderer.setChartValuesFormat(numformat);
+			timeDurationRenderer.setChartValuesTextAlign(Align.CENTER);
+			
+			if(timeRangeId==5||timeRangeId==6)
+				multiRenderer.setYAxisMax(210);
+			else
+				multiRenderer.setYAxisMax(24);
+			multiRenderer.setYLabelsAlign(Align.RIGHT, 0);
+			multiRenderer.setShowGrid(true);
+			multiRenderer.setGridColor(Color.GRAY);
+			multiRenderer.setZoomButtonsVisible(true);
+			for(int j=0; j < lblTasks.size(); j++)
+				multiRenderer.addXTextLabel(j, lblTasks.get(j));
+			multiRenderer.addSeriesRenderer(timeDurationRenderer);
+			
+			LinearLayout chartContainer = (LinearLayout) findViewById(R.id.chart);
+			chartContainer.removeAllViews();
+			mChart = ChartFactory.getBarChartView(Statistics.this, dataset, multiRenderer, org.achartengine.chart.BarChart.Type.DEFAULT);
+			chartContainer.addView(mChart);
+		}		
 	}
+		
 	
 	public long getLastMonthEnd()
 	{
@@ -343,5 +502,16 @@ public class Statistics extends BaseActivity {
         calendar.set(Calendar.SECOND, 59);
         calendar.set(Calendar.MILLISECOND, 999);
         return calendar.getTimeInMillis();
+	}
+	
+	public void initializeMapforBarGraph()
+	{
+		taskrec.put("Mon",(float)0 );
+		taskrec.put("Tue",(float)0 );
+		taskrec.put("Wed",(float)0 );
+		taskrec.put("Thu",(float)0 );
+		taskrec.put("Fri",(float)0 );
+		taskrec.put("Sat",(float)0 );
+		taskrec.put("Sun",(float)0 );
 	}
 }

@@ -244,4 +244,5 @@ public class DatabaseController implements IDatabaseController {
 	public void deleteRecording(Recording removedRecording) {
 		database.delete(DatabaseHelper.TABLE_RECORDING, DatabaseHelper.KEY_ID + " = " + removedRecording.getRecordingId(), null);
 	}
+
 }

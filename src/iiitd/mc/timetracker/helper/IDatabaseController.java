@@ -105,7 +105,7 @@ public interface IDatabaseController
 	public List<Recording> getRecordings(long date);
 	
 	public List<Recording> getRecordings(long start, long end);
-	
+		
 	/**
 	 * Edit an existing Recording.
 	 * @param updatedRecording The Recording with its updated properties, the Recording ID has to stay unchanged.
