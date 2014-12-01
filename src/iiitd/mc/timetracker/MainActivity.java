@@ -52,6 +52,7 @@ public class MainActivity extends BaseActivity {
 		
 		// init AutoRecorder triggers
 		BootReceiver.setupAutoRecorderTriggers(this);
+		getActionBar().setIcon(R.drawable.ic_launchertimeturner);
 	}
 	
 

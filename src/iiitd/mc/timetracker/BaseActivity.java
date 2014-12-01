@@ -36,7 +36,7 @@ public class BaseActivity extends Activity implements OnItemClickListener, Actio
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_base);
 		frame = (FrameLayout) findViewById(R.id.frame);
-		
+		getActionBar().setIcon(R.drawable.ic_launchertimeturner);
 		navigationDisplay();
 	}
 	

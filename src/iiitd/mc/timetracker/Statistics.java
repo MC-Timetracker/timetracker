@@ -37,7 +37,7 @@ public class Statistics extends BaseActivity {
         bar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
         
         bar.selectTab(bar.getTabAt(mDisplayMode));
-        
+        getActionBar().setIcon(R.drawable.ic_launchertimeturner);
         
         
         

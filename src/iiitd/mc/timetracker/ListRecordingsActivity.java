@@ -47,6 +47,7 @@ public class ListRecordingsActivity extends BaseActivity {
 		loadRecordingsList();
 
 		registerForContextMenu(expRecView);
+		getActionBar().setIcon(R.drawable.ic_launchertimeturner);
 	}
 	
 	/**

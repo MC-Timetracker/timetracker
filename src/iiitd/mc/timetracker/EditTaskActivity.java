@@ -91,6 +91,7 @@ public class EditTaskActivity extends BaseActivity
 			}
 			
 		});
+		getActionBar().setIcon(R.drawable.ic_launchertimeturner);
 	}
 	
 	public void updateTask()

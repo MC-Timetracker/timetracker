@@ -47,7 +47,9 @@
                 android:layout_height="wrap_content"
                 android:onClick="Pause"
                 android:padding="10dp"
+                android:layout_marginRight="20dp"
                 android:text="@string/btnPause"
+                android:background="@drawable/orangebutton"
                 android:visibility="visible" />
 
             <Button
@@ -56,7 +58,9 @@
                 android:layout_height="wrap_content"
                 android:onClick="Resume"
                 android:padding="10dp"
+                android:layout_marginRight="20dp"
                 android:text="@string/btnResume"
+                android:background="@drawable/greenstartbutton"
                 android:visibility="gone" />
 
             <Button
@@ -65,7 +69,8 @@
                 android:layout_height="wrap_content"
                 android:padding="10dp"
                 android:onClick="Stop"
-                android:text="@string/btnStop" />
+                android:text="@string/btnStop"
+                android:background="@drawable/redpausebutton" />
         </LinearLayout>
 
     </LinearLayout>

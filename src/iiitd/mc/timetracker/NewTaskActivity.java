@@ -65,6 +65,7 @@ public class NewTaskActivity extends BaseActivity {
 			}
 			
 		});
+		getActionBar().setIcon(R.drawable.ic_launchertimeturner);
 	}
 	
 	

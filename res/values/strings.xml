@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Time Tracker</string>
+    <string name="app_name">TimeTurner</string>
     <string name="new_task"></string>
     <string name="list_task"></string>
     <string name="list_recordings"></string>
@@ -54,7 +54,7 @@
     <string name="btnEdit">Edit</string>
     <string name="btnUpdate">Update</string>
     <string name="btnCancel">Cancel</string>
-    <string name="title_activity_edit_recording">EditRecordingActivity</string>
+    <string name="title_activity_edit_recording">Edit Recordings</string>
     <string name="starttime">Start Time: </string>
     <string name="stoptime">Stop Time: </string>
     <string name="btnSave">Save</string>

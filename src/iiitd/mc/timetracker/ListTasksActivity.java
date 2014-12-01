@@ -50,6 +50,7 @@ public class ListTasksActivity extends BaseActivity{
 		expListView.setAdapter(listAdapter);
 		
 		registerForContextMenu(expListView);
+		getActionBar().setIcon(R.drawable.ic_launchertimeturner);
 	
 	}
 	
