@@ -1,12 +1,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:context="iiitd.mc.timetracker.BaseActivity" >
+    xmlns:tools="http://schemas.android.com/tools">
 
     <item
         android:id="@+id/time_range"
         android:icon="@drawable/ic_time_range"
         android:title="@string/time_range"
-        app:showAsAction="always"/>
+        android:showAsAction="always"/>
 
 </menu>
