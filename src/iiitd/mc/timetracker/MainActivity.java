@@ -1,5 +1,6 @@
 package iiitd.mc.timetracker;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -32,8 +33,9 @@ public class MainActivity extends BaseActivity {
     
     private TaskAutoCompleteTextView tvTask;
     private ListView recentAct;
-    private ArrayAdapter recentActAdapter;
-    //WifiManager mainWifiObj;
+
+    private ArrayAdapter<String> recentActAdapter;
+
 
     
 	@Override
@@ -49,7 +51,7 @@ public class MainActivity extends BaseActivity {
         tvTask = (TaskAutoCompleteTextView) findViewById(R.id.taskSelectionBox);
         
         initRecentActList();
-		
+	
 		// init AutoRecorder triggers
 		BootReceiver.setupAutoRecorderTriggers(this);
 	}
@@ -100,12 +102,21 @@ public class MainActivity extends BaseActivity {
 		
 		List<String> recentTasks = new ArrayList<>();
 		
+		SimpleDateFormat dformat = new SimpleDateFormat("HH:mm");
 		for(Recording rec: records){
-			recentTasks.add(rec.getTask().getNameFull());
+			String fullrec = rec.getTask().getNameFull()+ "\n("+dformat.format(rec.getStart())+" - "+dformat.format(rec.getEnd())+")";
+			recentTasks.add(fullrec);
 		}
 		
 		recentActAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,recentTasks);
 		
 		recentAct.setAdapter(recentActAdapter);
+	}
+	
+	public void onResume()
+	{
+		super.onResume();
+		
+		initRecentActList();
 	}
 }	

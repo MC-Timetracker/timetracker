@@ -47,7 +47,7 @@
             android:label="@string/title_activity_list_recordings" >
         </activity>
         <activity
-            android:name=".Statistics"
+            android:name=".OverallStats"
             android:label="@string/title_activity_statistics" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -70,12 +70,19 @@
             android:label="@string/title_activity_edit_recording" >
         </activity>
 
+        <activity
+            android:name=".TaskWiseStats"
+            android:label="@string/title_activity_task_wise_stats" >
+        </activity>
+
+
         <receiver android:name=".BootReceiver" >
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" >
                 </action>
             </intent-filter>
         </receiver>
+
     </application>
 
 </manifest>
