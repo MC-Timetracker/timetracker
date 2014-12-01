@@ -24,7 +24,7 @@ public interface IDatabaseController
 	 */
 	public void close();
 	
-	
+	//public void printTasks(String abc);
 	
 	// Tasks
 	
@@ -96,6 +96,13 @@ public interface IDatabaseController
 	 * @return A list of all Recordings.
 	 */
 	public List<Recording> getRecordings();
+	
+	/**
+	 * Get a list of all Recordings.
+	 * @param limit The maximum number of recordings to be returned.
+	 * @return A list of all Recordings.
+	 */
+	public List<Recording> getRecordings(int limit);
 	
 	/**
 	 * Get a list of Recordings for a particular date

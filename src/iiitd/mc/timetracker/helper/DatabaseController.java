@@ -38,7 +38,6 @@ public class DatabaseController implements IDatabaseController {
 		dbHelper.close();
 	}
 	
-
 	@Override
 	public void insertTask(Task newTask) {
 		ContentValues contentValue_task=new ContentValues();
@@ -77,6 +76,7 @@ public class DatabaseController implements IDatabaseController {
 			task.setParent(parent);
 		}
 		
+		c.close();
 		return task;
 	}
 
@@ -88,7 +88,7 @@ public class DatabaseController implements IDatabaseController {
 	@Override
 	public List<Task> getTasks(String name)
 	{
-		return getTasksWhere(DatabaseHelper.TASK_NAME + "='" + name + "'");
+		return getTasksWhere("UPPER(" + DatabaseHelper.TASK_NAME + ")='" + name.toUpperCase() + "'");
 	}
 	
 	@Override
@@ -97,7 +97,7 @@ public class DatabaseController implements IDatabaseController {
 		return getTasksWhere(DatabaseHelper.TASK_PARENT + "='" + id + "'");
 	}
 	
-	private List<Task> getTasksWhere(String filter)
+	public List<Task> getTasksWhere(String filter)
 	{
 		List<Task> tasks=new ArrayList<Task>();
 		String selectTasksQuery="SELECT * FROM " + DatabaseHelper.TABLE_TASK + " WHERE " + filter;
@@ -121,6 +121,8 @@ public class DatabaseController implements IDatabaseController {
 				tasks.add(task);
 			}while(c.moveToNext());
 		}
+		
+		c.close();
 		return tasks;
 	}
 
@@ -148,6 +150,7 @@ public class DatabaseController implements IDatabaseController {
 		contentValue_recording.put(DatabaseHelper.RECORDING_TASKID, newRecording.getTask().getId());
 		contentValue_recording.put(DatabaseHelper.RECORDING_STARTTIME, newRecording.getStart().getTime());
 		contentValue_recording.put(DatabaseHelper.RECORDING_STOPTIME, newRecording.getEnd().getTime());
+		contentValue_recording.put(DatabaseHelper.RECORDING_BSSID, newRecording.getMacAddress());
 		
 		long id = database.insert(DatabaseHelper.TABLE_RECORDING, null, contentValue_recording);
 		
@@ -163,35 +166,47 @@ public class DatabaseController implements IDatabaseController {
 		if(c == null || !c.moveToFirst())
 			return null;
 		
-		return createRecordingInstance(c);
+		Recording r = createRecordingInstance(c);
+		
+		c.close();
+		return r;
 	}
 
 	
 	public List<Recording> getRecordings(long start, long end)
 	{
-		return getRecordingsWhere(DatabaseHelper.RECORDING_STARTTIME+" BETWEEN "+start+ " AND "+end);
+		return getRecordingsWhere(DatabaseHelper.RECORDING_STARTTIME+" BETWEEN "+start+ " AND "+end,-1);
 	}
 	
 	@Override
 	public List<Recording> getRecordings(long date){
-		return getRecordingsWhere(DatabaseHelper.RECORDING_STARTTIME +" >= "+(date-86400000));
+		return getRecordingsWhere(DatabaseHelper.RECORDING_STARTTIME +" >= "+(date-86400000), -1);
 	}
 	
 	@Override
 	public List<Recording> getRecordings(long taskid, long start, long end)
 	{
 		return getRecordingsWhere(DatabaseHelper.RECORDING_TASKID+" = "+taskid+" AND "+
-				DatabaseHelper.RECORDING_STARTTIME+" BETWEEN "+start+" AND "+end);
+				DatabaseHelper.RECORDING_STARTTIME+" BETWEEN "+start+" AND "+end, -1);
 	}
 	
 	@Override
 	public List<Recording> getRecordings() {
-		return getRecordingsWhere("1");
+		return getRecordingsWhere("1", -1);
 	}
 	
-	public List<Recording> getRecordingsWhere(String filter){
+	@Override
+	public List<Recording> getRecordings(int limit) {
+		return getRecordingsWhere("1", limit);
+	}
+	
+	public List<Recording> getRecordingsWhere(String filter, int limit){
 		List<Recording> recordings = new ArrayList<Recording>();
-		String selectRecordingQuery = "SELECT * FROM " + DatabaseHelper.TABLE_RECORDING +" WHERE "+ filter +" ORDER BY " + DatabaseHelper.RECORDING_STARTTIME + " DESC";
+		String selectRecordingQuery = "SELECT * FROM " + DatabaseHelper.TABLE_RECORDING +" WHERE "+ filter 
+				+ " ORDER BY " + DatabaseHelper.RECORDING_STARTTIME + " DESC";
+		if(limit > 0)
+			selectRecordingQuery += " LIMIT " + limit;
+		
 		database=dbHelper.getReadableDatabase();
 		Cursor c = database.rawQuery(selectRecordingQuery, null);
 		if(c.moveToFirst()){
@@ -200,6 +215,8 @@ public class DatabaseController implements IDatabaseController {
 				recordings.add(r);
 			}while(c.moveToNext());
 		}
+		
+		c.close();
 		return recordings;
 	}
 	
@@ -229,7 +246,7 @@ public class DatabaseController implements IDatabaseController {
 		{
 			// ignore date problems
 		}
-		
+		record.setMacAddress(c.getString(c.getColumnIndex(DatabaseHelper.RECORDING_BSSID)));
 		return record;
 	}
 
@@ -239,6 +256,7 @@ public class DatabaseController implements IDatabaseController {
 		contentValue_recording.put(DatabaseHelper.RECORDING_TASKID,updatedRecording.getTask().getId());
 		contentValue_recording.put(DatabaseHelper.RECORDING_STARTTIME, updatedRecording.getStart().getTime());
 		contentValue_recording.put(DatabaseHelper.RECORDING_STOPTIME, updatedRecording.getEnd().getTime());
+		contentValue_recording.put(DatabaseHelper.RECORDING_BSSID, updatedRecording.getMacAddress());
 		database.update(DatabaseHelper.TABLE_RECORDING,contentValue_recording, DatabaseHelper.KEY_ID + " = " + updatedRecording.getRecordingId(), null);
 	}
 

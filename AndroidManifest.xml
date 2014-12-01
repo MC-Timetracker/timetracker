@@ -4,6 +4,8 @@
     android:versionCode="1"
     android:versionName="1.0" >
 
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
@@ -53,7 +55,7 @@
         </activity>
         <activity
             android:name=".RunningActivity"
-            android:label="@string/title_activity_running" >
+            android:label="@string/title_activity_running"
             android:launchMode="singleTop" >
         </activity>
 
@@ -67,10 +69,20 @@
             android:name=".EditRecordingActivity"
             android:label="@string/title_activity_edit_recording" >
         </activity>
+
         <activity
             android:name=".TaskWiseStats"
             android:label="@string/title_activity_task_wise_stats" >
         </activity>
+
+
+        <receiver android:name=".BootReceiver" >
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" >
+                </action>
+            </intent-filter>
+        </receiver>
+
     </application>
 
 </manifest>

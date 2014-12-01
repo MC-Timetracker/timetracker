@@ -1,8 +1,7 @@
 package iiitd.mc.timetracker.context;
 
-import iiitd.mc.timetracker.data.Task;
-
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -12,41 +11,63 @@ import java.util.List;
  */
 public class MainTaskSuggestor implements ITaskSuggestor
 {
-
-	private List<Task> tasks;
-	
-	TopHierarchySuggestor topTasksSuggestor = new TopHierarchySuggestor();
-	RecentTaskSuggestor recentTasksSuggestor = new RecentTaskSuggestor();
+	ITaskSuggestor[] suggestors = new ITaskSuggestor[] { 
+			new TopHierarchySuggestor(),
+			new RecentTaskSuggestor(),
+			new TimeTaskSuggestor(),
+			new LocationTaskSuggestor(),
+	};
+	double[] suggestorWeights = new double[] {
+			0,		// top hierarchy
+			0.1,	// recent tasks
+			0.4,	// time
+			0.5,	// location
+	};
 	
 	
 	@Override
-	public List<Task> getTaskList()
+	public List<SuggestedTask> getSuggestedTasks()
 	{
-		tasks = new ArrayList<Task>();
-		List<Task> topTasks = topTasksSuggestor.getTopTasks();
-		tasks.addAll(topTasks);
-		List<Task> recentTasks = recentTasksSuggestor.getRecentTasks();
-		for(Task t: recentTasks)
+		List<SuggestedTask> tasks = new ArrayList<SuggestedTask>();
+		
+		for(int i = 0; i < suggestors.length; i++)
 		{
-			if(!tasks.contains(t))
-				tasks.add(t);
+			ITaskSuggestor suggestor = suggestors[i];
+			
+			for(SuggestedTask s : suggestor.getSuggestedTasks())
+			{
+				// scale probability according to weight
+				double prob = s.getProbability() * suggestorWeights[i];
+				s.setProbability(prob);
+				
+				addSuggestionToList(tasks, s);
+			}
 		}
 		
+		Collections.sort(tasks);
 		return tasks;
 	}
-
 	
-	public List<String> getTaskStrings()
+	/**
+	 * Helper function to add a task to the list of suggestions.
+	 * Avoids adding duplicate tasks and increases the probability of the task instead.
+	 * @param list The list of suggestions to be extended.
+	 * @param suggestedTask The task to be added to the list.
+	 */
+	public static void addSuggestionToList(List<SuggestedTask> list, SuggestedTask suggestedTask)
 	{
-		List<Task> lst = this.getTaskList();
-		
-		List<String> array = new ArrayList<String>(lst.size());
-		
-		for (Task value : lst) {
-			array.add(value.toString());
+		for(SuggestedTask l : list)
+		{
+			if(l.equals(suggestedTask))
+			{
+				// don't add duplicate, instead increase probability of suggested task
+				l.increaseProbability(suggestedTask.getProbability());
+				return;
+			}
 		}
 		
-		return array;
+		// task was not in the list yet
+		list.add(suggestedTask);
 	}
 
 }

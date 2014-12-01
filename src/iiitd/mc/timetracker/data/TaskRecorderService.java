@@ -1,19 +1,20 @@
 package iiitd.mc.timetracker.data;
 
 import java.util.Date;
-import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Vector;
 import java.util.regex.Pattern;
 
-import android.app.Notification;
 import android.app.PendingIntent;
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
 import android.os.Binder;
 import android.os.IBinder;
+import android.support.v4.app.NotificationCompat;
 import iiitd.mc.timetracker.ApplicationHelper;
 import iiitd.mc.timetracker.RunningActivity;
 import iiitd.mc.timetracker.R;
@@ -32,7 +33,6 @@ public class TaskRecorderService extends Service
 	
 	public final int ONGOING_NOTIFICATION_ID = 1;
 	
-	private transient Vector<RecorderListener> listeners;
 	private Recording currentRecording = null;
 	private Recording lastRecording = null;
 	IDatabaseController db = ApplicationHelper.createDatabaseController();
@@ -41,10 +41,13 @@ public class TaskRecorderService extends Service
 	private static final String SETTINGS_BREAK_TASK_ID = "breakTaskId";
 	private static final String BREAK_TASK_NAME = "Break";
 	
+	WifiManager mainWifiObj;
+	
 	
 	@Override
 	public void onCreate() {
 		super.onCreate();
+		mainWifiObj = (WifiManager) getSystemService(Context.WIFI_SERVICE); 
 	}
 	
 	/**
@@ -89,54 +92,6 @@ public class TaskRecorderService extends Service
 	
 	
 	/**
-	 * Add a listener for events of the TaskRecorder.
-	 * @param l
-	 */
-	synchronized public void addListener(RecorderListener l) {
-		if (listeners == null)
-			listeners = new Vector<>();
-		listeners.addElement(l);
-	}  
-
-	/**
-	 * Remove a listener for events of the TaskRecorder.
-	 * @param l
-	 */
-	synchronized public void removeListener(RecorderListener l) {
-		if (listeners == null)
-			listeners = new Vector<>();
-		listeners.removeElement(l);
-	}
-
-	/**
-	 * Send an event to all listeners announcing a state change.
-	 * @param state
-	 */
-	protected void fireRecorderEvent(RecorderEventState state) {
-		// if we have no listeners, do nothing...
-		if (listeners != null && !listeners.isEmpty()) {
-			// create the event object to send
-			RecorderEvent event = new RecorderEvent(this, state);
-
-			// make a copy of the listener list in case
-			//   anyone adds/removes listeners
-			Vector<RecorderListener> targets;
-			synchronized (this) {
-				targets = (Vector<RecorderListener>) listeners.clone();
-			}
-
-			// walk through the listener list and
-			//   call the sunMoved method in each
-			Enumeration<RecorderListener> e = targets.elements();
-			while (e.hasMoreElements()) {
-				RecorderListener l = (RecorderListener) e.nextElement();
-				l.onRecorderStateChanged(event);
-			}
-		}
-	}
-	
-	
-	/**
 	 * Start recording the given Task.
 	 * If another task is currently recorded that Recording is stopped.
 	 * The state of current recordings is held in this instance of the class.
@@ -152,21 +107,27 @@ public class TaskRecorderService extends Service
 		{
 			stopRecording();
 		}
-		
-		currentRecording = new Recording();
+		WifiInfo wifiInfo = mainWifiObj.getConnectionInfo();
+		String bssid = wifiInfo.getBSSID();
+		if(bssid == null)
+			bssid = "00:00:00:00:00";
+		currentRecording = new Recording(); 
 		currentRecording.setTask(task);
 		currentRecording.setStart(new Date());
+		currentRecording.setMacAddress(bssid);
 		
 		String notificationTitle = getText(R.string.notification_recording) + " " + task.getName();
-		Notification notification = new Notification(R.drawable.ic_stat_recording, notificationTitle,
-		        System.currentTimeMillis());
+		NotificationCompat.Builder mBuilder =
+			    new NotificationCompat.Builder(this)
+			    .setSmallIcon(R.drawable.ic_stat_recording)
+			    .setContentTitle(notificationTitle)
+			    .setContentText(task.toString())
+			    .setWhen(System.currentTimeMillis());
 		Intent notificationIntent = new Intent(this, RunningActivity.class);
 		PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
-		notification.setLatestEventInfo(this, notificationTitle,
-		        task.toString(), pendingIntent);
-		startForeground(ONGOING_NOTIFICATION_ID, notification);
+		mBuilder.setContentIntent(pendingIntent);
 		
-		this.fireRecorderEvent(RecorderEventState.Started);
+		startForeground(ONGOING_NOTIFICATION_ID, mBuilder.build());
 	}
 	
 	
@@ -182,7 +143,7 @@ public class TaskRecorderService extends Service
 		
 		// save Recording to database
 		db.open();
-		db.insertRecording(currentRecording); //TODO: check result of DB operation?
+		db.insertRecording(currentRecording);
 		db.close();
 		
 		stopForeground(true);
@@ -190,8 +151,6 @@ public class TaskRecorderService extends Service
 		if(!currentRecording.getTask().equals(getBreakTask()))
 			lastRecording = currentRecording;
 		currentRecording = null;
-		
-		this.fireRecorderEvent(RecorderEventState.Stopped);
 	}
 	
 	/**
