@@ -3,15 +3,13 @@ package iiitd.mc.timetracker;
 import iiitd.mc.timetracker.adapter.NavigationAdapter;
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
+import android.app.Activity;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,7 +19,7 @@ import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 
-public class BaseActivity extends ActionBarActivity implements OnItemClickListener, ActionBar.TabListener {
+public class BaseActivity extends Activity implements OnItemClickListener, ActionBar.TabListener {
 	
 	DrawerLayout mDrawerLayout;
     ListView mDrawerList;
@@ -45,7 +43,6 @@ public class BaseActivity extends ActionBarActivity implements OnItemClickListen
 	private void navigationDisplay()
 	{
 		actionBar = getActionBar();
-		actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#697848")));
 		actionBar.setIcon(R.drawable.ic_launcher);
 		mTitle = getString(R.string.app_name);
 		

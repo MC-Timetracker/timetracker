@@ -45,7 +45,6 @@ public interface IDatabaseController
 	 * Returns a list of all tasks.
 	 * @return A list of all tasks.
 	 */
-	
 	public List<Task> getTasks();
 	
 	/**
@@ -97,6 +96,13 @@ public interface IDatabaseController
 	 * @return A list of all Recordings.
 	 */
 	public List<Recording> getRecordings();
+	
+	/**
+	 * Get a list of all Recordings.
+	 * @param limit The maximum number of recordings to be returned.
+	 * @return A list of all Recordings.
+	 */
+	public List<Recording> getRecordings(int limit);
 	
 	/**
 	 * Get a list of Recordings for a particular date

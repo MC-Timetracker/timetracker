@@ -90,13 +90,13 @@ if (this.isRecording())
 {
 stopRecording();
 }
-currentRecording = new Recording();
-currentRecording.setTask(task);
-currentRecording.setStart(new Date());
 WifiInfo wifiInfo = mainWifiObj.getConnectionInfo();
 String bssid = wifiInfo.getBSSID();
 if(bssid == null)
-	bssid = "00:00:00:00:00";
+bssid = "00:00:00:00:00";
+currentRecording = new Recording();
+currentRecording.setTask(task);
+currentRecording.setStart(new Date());
 currentRecording.setMacAddress(bssid);
 String notificationTitle = getText(R.string.notification_recording) + " " + task.getName();
 NotificationCompat.Builder mBuilder =
@@ -268,4 +268,5 @@ return false;
 return true;
 }
 }
+
 

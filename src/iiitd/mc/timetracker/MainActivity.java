@@ -4,33 +4,17 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import iiitd.mc.timetracker.adapter.CustomArrayAdapter;
-import iiitd.mc.timetracker.context.*;
 import iiitd.mc.timetracker.data.*;
 import iiitd.mc.timetracker.helper.IDatabaseController;
 import iiitd.mc.timetracker.view.TaskAutoCompleteTextView;
-import android.app.AlertDialog;
-import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.wifi.WifiInfo;
-import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.View.OnFocusChangeListener;
-import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 
 /**
@@ -68,19 +52,6 @@ public class MainActivity extends BaseActivity {
 		
 		// init AutoRecorder triggers
 		BootReceiver.setupAutoRecorderTriggers(this);
-		
-		Button button = (Button) findViewById(R.id.wifi_task);
-	}
-	
-	/**
-	 * added for testing the wifi access points
-	 * @param v view
-	 */
-	public void wifi_task_suggestor(View v){
-		
-		ITaskSuggestor taskSuggest = new LocationTaskSuggestor();
-		List<SuggestedTask> suggestTask = taskSuggest.getSuggestedTasks();
-		
 	}
 	
 

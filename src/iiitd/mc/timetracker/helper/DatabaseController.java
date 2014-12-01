@@ -88,7 +88,7 @@ public class DatabaseController implements IDatabaseController {
 	@Override
 	public List<Task> getTasks(String name)
 	{
-		return getTasksWhere(DatabaseHelper.TASK_NAME + "='" + name + "'");
+		return getTasksWhere("UPPER(" + DatabaseHelper.TASK_NAME + ")='" + name.toUpperCase() + "'");
 	}
 	
 	@Override
@@ -174,17 +174,26 @@ public class DatabaseController implements IDatabaseController {
 
 	@Override
 	public List<Recording> getRecordings(long date){
-		return getRecordingsWhere(DatabaseHelper.RECORDING_STARTTIME +" >= "+(date-86400000));
+		return getRecordingsWhere(DatabaseHelper.RECORDING_STARTTIME +" >= "+(date-86400000), -1);
 	}
 	
 	@Override
 	public List<Recording> getRecordings() {
-		return getRecordingsWhere("1");
+		return getRecordingsWhere("1", -1);
 	}
 	
-	public List<Recording> getRecordingsWhere(String filter){
+	@Override
+	public List<Recording> getRecordings(int limit) {
+		return getRecordingsWhere("1", limit);
+	}
+	
+	public List<Recording> getRecordingsWhere(String filter, int limit){
 		List<Recording> recordings = new ArrayList<Recording>();
-		String selectRecordingQuery = "SELECT * FROM " + DatabaseHelper.TABLE_RECORDING +" WHERE "+ filter +" ORDER BY " + DatabaseHelper.RECORDING_STARTTIME + " DESC";
+		String selectRecordingQuery = "SELECT * FROM " + DatabaseHelper.TABLE_RECORDING +" WHERE "+ filter 
+				+ " ORDER BY " + DatabaseHelper.RECORDING_STARTTIME + " DESC";
+		if(limit > 0)
+			selectRecordingQuery += " LIMIT " + limit;
+		
 		database=dbHelper.getReadableDatabase();
 		Cursor c = database.rawQuery(selectRecordingQuery, null);
 		if(c.moveToFirst()){
