@@ -41,9 +41,10 @@ public class ListRecordingsActivity extends BaseActivity {
         this.frame.addView(inflater.inflate(R.layout.activity_list_recordings, null)); //TODO: cleanup the other one
 		
         expRecView = (ExpandableListView) findViewById(R.id.Explv);
-		
-		loadRecordingsList();
+        
+        recAdapter = new ExpandableRecAdapter(this, recHeader, recItems);
 		expRecView.setAdapter(recAdapter);
+		loadRecordingsList();
 
 		registerForContextMenu(expRecView);
 	}
@@ -74,9 +75,10 @@ public class ListRecordingsActivity extends BaseActivity {
 			recItems.get(temp).add(r);
 		}
 		
-		if(recAdapter == null)
-			recAdapter = new ExpandableRecAdapter(this, recHeader, recItems);
 		recAdapter.notifyDataSetChanged();
+		
+		if(recAdapter.getGroupCount() > 0)
+			expRecView.expandGroup(0);
 	}
 
 	@Override

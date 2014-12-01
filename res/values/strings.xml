@@ -65,6 +65,7 @@
     <string name="action_edit">Edit</string>
     <string name="action_delete">Delete</string>
     <string name="prompt_delete_recording">Do you really want to delete the recording?</string>
+    <string name="prompt_delete_task">Do you really want to delete the task? This will also delete any recording tracking this task.</string>
 
     <!-- Statistics names -->
     <string name="str1">Today</string>

@@ -9,7 +9,9 @@ import java.util.HashMap;
 import java.util.List;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -19,7 +21,6 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ExpandableListView;
-import android.widget.Toast;
 import android.widget.ExpandableListView.ExpandableListContextMenuInfo;
 import android.widget.ExpandableListView.OnChildClickListener;
 
@@ -138,15 +139,7 @@ public class ListTasksActivity extends BaseActivity{
 		}
 		else if(item.getTitle() == "Delete")
 		{
-			IDatabaseController db = ApplicationHelper.createDatabaseController();
-			db.open();
-			db.deleteTask(taskId);
-			db.close();
-			Toast.makeText(this,"Task has been deleted", Toast.LENGTH_SHORT).show();
-			Intent intent = getIntent();
-			intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-			finish();
-			startActivity(intent);
+			deleteTask(taskId);
 		}
 		else if(item.getTitle() == "Statistics")
 		{
@@ -159,5 +152,32 @@ public class ListTasksActivity extends BaseActivity{
 			return false;
 		
 		return true;
+	}
+	
+	private void deleteTask(final long taskId)
+	{
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		AlertDialog dialog = builder.setMessage(R.string.prompt_delete_task)
+	       .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+	           public void onClick(DialogInterface dialog, int id) {
+        	   		// delete Task
+					IDatabaseController db = ApplicationHelper.createDatabaseController();
+					db.open();
+					db.deleteTask(taskId);
+					db.close();
+					
+					Intent intent = getIntent();
+					intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+					finish();
+					startActivity(intent);
+	           }
+	       })
+	       .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+	           public void onClick(DialogInterface dialog, int id) {
+	               // Do nothing
+	           }
+	       })
+	       .create();
+		dialog.show();
 	}
 }
