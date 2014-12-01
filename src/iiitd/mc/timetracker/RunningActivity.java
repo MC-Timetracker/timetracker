@@ -44,6 +44,7 @@ public class RunningActivity extends BaseActivity {
 		chronometer=(Chronometer) findViewById(R.id.chronometer);
 		chronometer.setBase(SystemClock.elapsedRealtime());
 		chronometer.start();
+		getActionBar().setIcon(R.drawable.ic_launchertimeturner);
 	}
 	
 	@Override

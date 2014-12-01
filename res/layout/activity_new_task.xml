@@ -30,7 +30,7 @@
 			<iiitd.mc.timetracker.view.TaskAutoCompleteTextView
 				android:id="@+id/taskSelectionBox"
 				android:layout_height="wrap_content"
-				android:layout_width="wrap_content"
+				android:layout_width="match_parent"
 				android:ems="10"
 				android:gravity="top|left"
 				android:inputType="textAutoComplete|textAutoCorrect"/>
@@ -42,7 +42,7 @@
 	 	    android:layout_width="match_parent"
 	 	    android:layout_height="wrap_content"
 	 	    android:layout_below="@+id/row1"
-	 	    android:layout_marginTop="40dp" >
+	 	    android:layout_marginTop="30dp" >
 	
 	 	    <TextView
 	 	        android:id="@+id/tasknametextview"
@@ -63,7 +63,7 @@
 	 	    android:layout_width="match_parent"
 	 	    android:layout_height="wrap_content"
 	 	    android:layout_below="@+id/row2"
-	 	    android:layout_marginTop="60dp" >
+	 	    android:layout_marginTop="50dp" >
 	
 	 	    <TextView
 	 	        android:id="@+id/description"
@@ -86,7 +86,7 @@
 	 	        android:ems="10"
 	 	        android:inputType="textMultiLine"
 	 	        android:maxLines="10"
-	 	        android:scrollbars="vertical" />
+	 	        android:scrollbars="vertical"/>
 	 	</TableRow>
 	
 	 	<TableRow
@@ -99,9 +99,9 @@
 	 	        android:layout_width="0dp"
 	 	        android:layout_height="wrap_content"
 	 	        android:layout_marginLeft="0dp"
-	 	        android:layout_marginTop="100dp"
+	 	        android:layout_marginTop="70dp"
 	 	        android:layout_weight="1"
-	 	        android:background="@drawable/roundedbutton"
+	 	        android:background="@drawable/orangebutton"
 	 	        android:text="@string/btnDone"
 	 	        android:width="160dp" />
 	
@@ -111,9 +111,9 @@
 	 	        android:layout_height="wrap_content"
 	 	        android:layout_marginLeft="15dp"
 	 	        android:layout_marginRight="0dp"
-	 	        android:layout_marginTop="100dp"
+	 	        android:layout_marginTop="70dp"
 	 	        android:layout_weight="1"
-	 	        android:background="@drawable/roundedbutton"
+	 	        android:background="@drawable/orangebutton"
 	 	        android:text="@string/btnClear"
 	 	        android:width="170dp" />
 	 	</TableRow>

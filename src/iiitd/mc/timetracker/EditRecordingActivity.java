@@ -144,6 +144,7 @@ public class EditRecordingActivity extends BaseActivity
 			
 			recording = new Recording();
 		}
+		getActionBar().setIcon(R.drawable.ic_launchertimeturner);
 	}
 	
 	private void updateTimeViews()

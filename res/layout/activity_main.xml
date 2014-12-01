@@ -31,6 +31,7 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentRight="true"
             android:onClick="Start"
+            android:background="@drawable/greenstartbutton"
             android:text="@string/btnStart" />
 
         <iiitd.mc.timetracker.view.TaskAutoCompleteTextView
@@ -50,8 +51,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:textSize="20sp"
+        android:textAllCaps="true"
+        android:textStyle="bold"
         android:layout_below="@+id/root_layout"
-        android:background="@color/AppOrange"
         android:text="@string/recentTv"/>
     
     <ListView 

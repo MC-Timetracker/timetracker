@@ -13,7 +13,6 @@
     <!-- ActionBar styles -->
     <style name="CustomActionBar"
            parent="@android:style/Widget.Holo.Light.ActionBar.Solid.Inverse">
-        <item name="android:background">@color/AppBlue</item>
     </style>
     
 

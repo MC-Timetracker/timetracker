@@ -64,6 +64,7 @@ public class BaseActivity extends Activity implements OnItemClickListener, OnMen
 		setContentView(R.layout.activity_base);
 		frame = (FrameLayout) findViewById(R.id.frame);
 		format = android.text.format.DateFormat.getDateFormat(this);
+		getActionBar().setIcon(R.drawable.ic_launchertimeturner);
 		navigationDisplay();
 	}
 	
