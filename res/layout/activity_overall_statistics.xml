@@ -36,6 +36,12 @@
 				android:id="@+id/chart"			
 				android:layout_gravity="center_horizontal"			
 				android:background="@android:color/transparent">
+				
+		        <TextView
+		        android:layout_width="match_parent"
+		        android:layout_height="match_parent"
+		        android:gravity="center"
+		        android:id="@+id/no_data1"/>
 		        
 		    </LinearLayout>
 
