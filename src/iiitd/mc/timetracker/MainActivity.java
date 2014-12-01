@@ -1,5 +1,6 @@
 package iiitd.mc.timetracker;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -196,8 +197,10 @@ public class MainActivity extends BaseActivity {
 		
 		List<String> recentTasks = new ArrayList<>();
 		
+		SimpleDateFormat dformat = new SimpleDateFormat("HH:mm");
 		for(Recording rec: records){
-			recentTasks.add(rec.getTask().getNameFull());
+			String fullrec = rec.getTask().getNameFull()+ "\n("+dformat.format(rec.getStart())+" - "+dformat.format(rec.getEnd())+")";
+			recentTasks.add(fullrec);
 		}
 		
 		recentActAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,recentTasks);
@@ -210,5 +213,6 @@ public class MainActivity extends BaseActivity {
 		super.onResume();
 		
 		initRecentActList();
+		addTasksToAutoView();
 	}
 }	

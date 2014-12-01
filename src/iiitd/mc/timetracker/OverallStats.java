@@ -8,9 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
-import iiitd.mc.timetracker.adapter.CustomArrayAdapter;
 import iiitd.mc.timetracker.data.Recording;
-import iiitd.mc.timetracker.data.Task;
 import iiitd.mc.timetracker.helper.IDatabaseController;
 
 import org.achartengine.ChartFactory;
@@ -19,33 +17,23 @@ import org.achartengine.model.CategorySeries;
 import org.achartengine.renderer.DefaultRenderer;
 import org.achartengine.renderer.SimpleSeriesRenderer;
 
-import android.app.ActionBar;
-import android.app.ActionBar.Tab;
-import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.WindowManager;
-import android.view.View.OnClickListener;
-import android.view.View.OnFocusChangeListener;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
-import android.widget.AutoCompleteTextView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.AdapterView.OnItemClickListener;
 
 public class OverallStats extends BaseActivity {
 
 	public static final String PREFS_NAME = "Tab_Pref";
 	int mDisplayMode;
 	private LayoutInflater inflater;
+	private LinearLayout chartContainer;
+	private TextView no_data;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -172,29 +160,40 @@ public class OverallStats extends BaseActivity {
 		}
 		todrec.put("Others", todrec.get("Others")-utilTime);			
 		
-		CategorySeries distributionSeries = new CategorySeries("Overall Comparison of Parent Tasks");
-        
-        for(Map.Entry<String, Long> entry:todrec.entrySet()){
-            // Adding a slice with its values and name to the Pie Chart
-            distributionSeries.add(entry.getKey(), entry.getValue());
-        }
- 
-        // Instantiating a renderer for the Pie Chart
-        DefaultRenderer defaultRenderer  = new DefaultRenderer();
-        for(int i = 0 ;i<todrec.size();i++){
-            SimpleSeriesRenderer seriesRenderer = new SimpleSeriesRenderer();
-            seriesRenderer.setColor(colors[i]);
-            seriesRenderer.setDisplayChartValues(true);
-            // Adding a renderer for a slice
-            defaultRenderer.addSeriesRenderer(seriesRenderer);
-        }
- 
-        defaultRenderer.setChartTitle("Overall Pie Chart");
-        defaultRenderer.setChartTitleTextSize(20);
-        defaultRenderer.setZoomButtonsVisible(false);
- 
-        LinearLayout chartContainer = (LinearLayout) findViewById(R.id.chart);
-        GraphicalView mChart = ChartFactory.getPieChartView(this, distributionSeries , defaultRenderer);
-        chartContainer.addView(mChart);
+		no_data = (TextView) findViewById(R.id.no_data1);
+		if(!todrec.isEmpty())
+		{
+			CategorySeries distributionSeries = new CategorySeries("Overall Comparison of Parent Tasks");
+	        
+	        for(Map.Entry<String, Long> entry:todrec.entrySet()){
+	            // Adding a slice with its values and name to the Pie Chart
+	            distributionSeries.add(entry.getKey(), entry.getValue());
+	        }
+	 
+	        // Instantiating a renderer for the Pie Chart
+	        DefaultRenderer defaultRenderer  = new DefaultRenderer();
+	        for(int i = 0 ;i<todrec.size();i++){
+	            SimpleSeriesRenderer seriesRenderer = new SimpleSeriesRenderer();
+	            seriesRenderer.setColor(colors[i]);
+	            seriesRenderer.setDisplayChartValues(true);
+	            // Adding a renderer for a slice
+	            defaultRenderer.addSeriesRenderer(seriesRenderer);
+	        }
+	 
+	        defaultRenderer.setChartTitle("Overall Pie Chart");
+	        defaultRenderer.setChartTitleTextSize(20);
+	        defaultRenderer.setZoomButtonsVisible(false);
+	        defaultRenderer.setLabelsColor(Color.BLACK);
+	 
+	        no_data.setVisibility(View.GONE);
+	        chartContainer = (LinearLayout) findViewById(R.id.chart);
+	        GraphicalView mChart = ChartFactory.getPieChartView(this, distributionSeries , defaultRenderer);
+	        chartContainer.addView(mChart);
+		}
+		else
+		{
+			no_data.setText("No data is available for this range");
+		}
+		
 	}
 }
