@@ -213,6 +213,5 @@ public class MainActivity extends BaseActivity {
 		super.onResume();
 		
 		initRecentActList();
-		addTasksToAutoView();
 	}
 }	

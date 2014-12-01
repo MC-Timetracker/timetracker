@@ -293,8 +293,12 @@ public class TaskWiseStats extends BaseActivity
 	{
 		super.onMenuItemClick(item);
 		
-		finish();
-		startActivity(getIntent().setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION));
+		this.frame.removeAllViews();
+		this.frame.addView(inflater.inflate(R.layout.activity_task_wise_stats, null));
+		initTimeRanges();
+		drawBarChart();
+		drawPieChart();
+		
 		return true;
 	}
 	
