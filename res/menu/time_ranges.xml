@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+    <item
+        android:id="@+id/today"
+        android:title="@string/str1"
+        />
+    <item
+        android:id="@+id/yesterday"
+        android:title="@string/str2"
+        />
+    <item
+        android:id="@+id/thisweek"
+        android:title="@string/str3"
+        />
+    <item
+        android:id="@+id/lastweek"
+        android:title="@string/str4"
+        />
+    <item
+        android:id="@+id/thismonth"
+        android:title="@string/str5"
+        />
+    <item
+        android:id="@+id/lastmonth"
+        android:title="@string/str6"
+        />
+    <item
+        android:id="@+id/custom"
+        android:title="@string/str7"
+        />
+    
+
+</menu>

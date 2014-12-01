@@ -91,6 +91,7 @@ public class EditTaskActivity extends BaseActivity
 			}
 			
 		});
+		getActionBar().setIcon(R.drawable.ic_launchertimeturner);
 	}
 	
 	public void updateTask()
@@ -102,7 +103,7 @@ public class EditTaskActivity extends BaseActivity
 		db.open();
 		db.updateTask(task);
 		db.close();
-		Toast.makeText(this,"Task updated successfully", Toast.LENGTH_LONG).show();
+		Toast.makeText(this,"Task updated successfully", Toast.LENGTH_SHORT).show();
 		taskname.setEnabled(false);
 		description.setEnabled(false);
 		update.setVisibility(View.GONE);

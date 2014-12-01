@@ -172,9 +172,22 @@ public class DatabaseController implements IDatabaseController {
 		return r;
 	}
 
+	
+	public List<Recording> getRecordings(long start, long end)
+	{
+		return getRecordingsWhere(DatabaseHelper.RECORDING_STARTTIME+" BETWEEN "+start+ " AND "+end,-1);
+	}
+	
 	@Override
 	public List<Recording> getRecordings(long date){
 		return getRecordingsWhere(DatabaseHelper.RECORDING_STARTTIME +" >= "+(date-86400000), -1);
+	}
+	
+	@Override
+	public List<Recording> getRecordings(long taskid, long start, long end)
+	{
+		return getRecordingsWhere(DatabaseHelper.RECORDING_TASKID+" = "+taskid+" AND "+
+				DatabaseHelper.RECORDING_STARTTIME+" BETWEEN "+start+" AND "+end, -1);
 	}
 	
 	@Override

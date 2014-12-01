@@ -111,6 +111,10 @@ public interface IDatabaseController
 	 */
 	public List<Recording> getRecordings(long date);
 	
+	public List<Recording> getRecordings(long start, long end);
+	
+	public List<Recording> getRecordings(long taskid, long start, long end);
+	
 	/**
 	 * Edit an existing Recording.
 	 * @param updatedRecording The Recording with its updated properties, the Recording ID has to stay unchanged.
@@ -132,6 +136,7 @@ public interface IDatabaseController
 	/**
 	 * Gets the subtasks under a particular task
 	 */
+	
 	public List<Task> getSubTasks(long id);
 	
 }

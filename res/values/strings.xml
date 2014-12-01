@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Time Tracker</string>
+    <string name="app_name">TimeTurner</string>
     <string name="new_task"></string>
     <string name="list_task"></string>
     <string name="list_recordings"></string>
     <string name="statistics"></string>
-    <string name="action_settings">Settings</string>
     <string name="btnStart">Start</string>
     <string name="drawer_open">Slider Menu Opened</string>
+    <string name="time_range">Time Range</string>
     <string name="drawer_close">Slider Menu Closed</string>
     <string name="NewText"></string>
     <string name="new_project"></string>
@@ -54,7 +54,7 @@
     <string name="btnEdit">Edit</string>
     <string name="btnUpdate">Update</string>
     <string name="btnCancel">Cancel</string>
-    <string name="title_activity_edit_recording">EditRecordingActivity</string>
+    <string name="title_activity_edit_recording">Edit Recordings</string>
     <string name="starttime">Start Time: </string>
     <string name="stoptime">Stop Time: </string>
     <string name="btnSave">Save</string>
@@ -70,5 +70,21 @@
     <string name="notification_suggestion_text">Suggesting </string>
     <string name="action_new_recording">New</string>
    
+
+    <!-- Statistics names -->
+    <string name="str1">Today</string>
+    <string name="str2">Yesterday</string>
+    <string name="str3">Current Week</string>
+    <string name="str4">Last Week</string>
+    <string name="str5">Current Month</string>
+    <string name="str6">Last Month</string>
+    <string name="str7">Custom</string>
+
+    <!-- Custom Range Dialog names -->
+    <string name="from_date">From</string>
+    <string name="to_date">To</string>
+    <string name="title_activity_task_wise_stats">TaskWiseStats</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
 
 </resources>

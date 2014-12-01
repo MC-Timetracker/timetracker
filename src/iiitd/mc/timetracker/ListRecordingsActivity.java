@@ -2,6 +2,7 @@ package iiitd.mc.timetracker;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -47,6 +48,7 @@ public class ListRecordingsActivity extends BaseActivity {
 		loadRecordingsList();
 
 		registerForContextMenu(expRecView);
+		getActionBar().setIcon(R.drawable.ic_launchertimeturner);
 	}
 	
 	/**

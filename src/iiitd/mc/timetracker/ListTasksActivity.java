@@ -50,6 +50,7 @@ public class ListTasksActivity extends BaseActivity{
 		expListView.setAdapter(listAdapter);
 		
 		registerForContextMenu(expListView);
+		getActionBar().setIcon(R.drawable.ic_launchertimeturner);
 	
 	}
 	
@@ -106,7 +107,8 @@ public class ListTasksActivity extends BaseActivity{
 		super.onCreateContextMenu(menu, v, menuInfo);
 		menu.setHeaderTitle("Select The Action");
 		menu.add(0,v.getId(),0,"View");
-		menu.add(1,v.getId(),1,"Delete");
+		menu.add(1,v.getId(),1,"Statistics");
+		menu.add(2,v.getId(),2,"Delete");
 	}
 	
 	public boolean onContextItemSelected(MenuItem item)
@@ -140,10 +142,15 @@ public class ListTasksActivity extends BaseActivity{
 		{
 			deleteTask(taskId);
 		}
-		else
+		else if(item.getTitle() == "Statistics")
 		{
-			return false;
+			Intent intent = new Intent(this, TaskWiseStats.class);
+			intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+			intent.putExtra("taskid", taskId);
+			startActivity(intent);
 		}	
+		else
+			return false;
 		
 		return true;
 	}
