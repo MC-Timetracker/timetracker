@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- German Strings -->
+
+    <string name="app_name">TimeTurner</string>
+
+    <!-- General Buttons -->
+    <string name="button_yes">Ja</string>
+    <string name="button_no">Nein</string>
+    <string name="button_cancel">Abbrechen</string>
+    <string name="button_clear">Zurücksetzen</string>
+    <string name="button_edit">Bearbeiten</string>
+    <string name="button_save">Speichern</string>
+    <string name="button_delete">Löschen</string>
+    <string name="button_start">Start</string>
+    <string name="button_stop">Stopp</string>
+    <string name="button_pause">Pause</string>
+    <string name="button_resume">Fortsetzen</string>
+
+    <!-- Nav Drawer Menu -->
+    <string name="drawer_open">Hauptmenü geöffnet</string>
+    <string name="drawer_close">Hauptmenü geschlossen</string>
+
+    <string-array name="nav_drawer_items">
+        <item>Start</item>
+        <item>Neues Projekt</item>
+        <item>Alle Projekte</item>
+        <item>Alle Aktivitäten</item>
+        <item>Statistiken</item>
+    </string-array>
+
+    <!-- Activity Titles -->
+    <string name="title_activity_running">Aktivität wird aufgezeichnet</string>
+    <string name="title_activity_new_task">Neues Projekt</string>
+    <string name="title_activity_list_tasks">Alle Projekte</string>
+    <string name="title_activity_list_recordings">Alle Aktivitäten</string>
+    <string name="title_activity_statistics">Statistik</string>
+    <string name="title_activity_edit_recording">Aktivität Bearbeiten</string>
+
+    <!-- Edit Task name -->
+    <string name="edit_task">Projekt Bearbeiten</string>
+    <string name="label_starttime">Start-Zeit: </string>
+    <string name="label_stoptime">End-Zeit: </string>
+    <string name="toast_recording_saved">Aktivität wurde erfolgreich gespeichert.</string>
+    <string name="prompt_taskname_invalid">Dieser Projekt-Name ist nicht erlaubt.</string>
+    <string name="autocomplete_task_hint">Projekt auswählen</string>
+    <string name="prompt_time_invalid">Ungültiges Zeit-Format.</string>
+    <string name="prompt_delete_recording">Wollen Sie die Aktivität wirklich löschen?</string>
+    <string name="prompt_delete_task">Wollen Sie das Projekt wirklich löschen? Damit werden auch alle Aktivitäten und untergeordneten Projekte gelöscht.</string>
+
+    <!-- Statistics names -->
+    <string name="str1">Heute</string>
+    <string name="str2">Gestern</string>
+    <string name="str3">Aktuelle Woche</string>
+    <string name="str4">Letzte Woche</string>
+    <string name="str5">Aktueller Monat</string>
+    <string name="str6">Letzter Monat</string>
+    <string name="str7">Benutzerdefiniert</string>
+
+    <!-- Custom Range Dialog names -->
+    <string name="notification_suggestion_title">Aktualisieren Sie Ihre aktuelle Aktivität</string>
+    <string name="notification_suggestion_text">Vorschlag: </string>
+    <string name="time_range">Zeitraum</string>
+    <string name="from_date">Von</string>
+    <string name="to_date">Bis</string>
+    <string name="title_activity_task_wise_stats">TaskWiseStats</string>
+    <string name="action_settings">Einstellungen</string>
+    <string name="label_task_parent">Übergeordnet: </string>
+    <string name="label_task">Projekt: </string>
+    <string name="label_task_description">Beschreibung: </string>
+    <string name="label_duration">Dauer:</string>
+    <string name="label_recordings">Aktivitäten</string>
+    <string name="recentTv">Neueste Aktivitäten</string>
+    <string name="notification_recording">Momentan an</string>
+    <string name="action_new_recording">Neu</string>
+    <string name="promptCreateNewTask">Wollen Sie ein neues Projekt erstellen?</string>
+
+</resources>
