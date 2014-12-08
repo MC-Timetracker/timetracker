@@ -1,75 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">TimeTurner</string>
-    <string name="new_task"></string>
-    <string name="list_task"></string>
-    <string name="list_recordings"></string>
-    <string name="statistics"></string>
-    <string name="btnStart">Start</string>
-    <string name="drawer_open">Slider Menu Opened</string>
-    <string name="time_range">Time Range</string>
-    <string name="drawer_close">Slider Menu Closed</string>
-    <string name="NewText"></string>
-    <string name="new_project"></string>
-    <string name="desc_newproject">New_Project</string>
-    <string name="btnStop">Stop</string>
-    <string name="btnPause">Pause</string>
-    <string name="btnResume">Resume</string>
-    <string name="recentTv">Recent Activities</string>
-    <string name="Wifi_Task">Wifi_Task</string>
+    <!-- Default Strings -->
 
-    <!-- Nav Drawer Menu Items -->
+    <string name="app_name">TimeTurner</string>
+
+    <!-- General Buttons -->
+    <string name="button_yes">Yes</string>
+    <string name="button_no">No</string>
+    <string name="button_cancel">Cancel</string>
+    <string name="button_clear">Clear</string>
+    <string name="button_edit">Edit</string>
+    <string name="button_save">Save</string>
+    <string name="button_delete">Delete</string>
+    <string name="button_start">Start</string>
+    <string name="button_stop">Stop</string>
+    <string name="button_pause">Pause</string>
+    <string name="button_resume">Resume</string>
+
+    <!-- Nav Drawer Menu -->
+    <string name="drawer_open">Slider Menu Opened</string>
+    <string name="drawer_close">Slider Menu Closed</string>
+
     <string-array name="nav_drawer_items">
         <item>Home</item>
         <item>New Task</item>
-        <item>List Task</item>
+        <item>List Tasks</item>
         <item>List Recordings </item>
         <item>Statistics</item>
     </string-array>
 
+    <!-- Activity Titles -->
+    <string name="title_activity_running">Recording Task</string>
     <string name="title_activity_new_task">New Task</string>
-    <string name="parentname">Parent: </string>
-    <string name="taskname">Task: </string>
-    <string name="description">Description: </string>
-    <string name="btnDone">Done</string>
-    <string name="btnClear">Clear</string>
     <string name="title_activity_list_tasks">All Tasks</string>
     <string name="title_activity_list_recordings">All Recordings</string>
     <string name="title_activity_statistics">Statistics</string>
-    <string name="promptCreateNewTask">Do you want to create a new task?</string>
-    <string name="yes">Yes</string>
-    <string name="no">No</string>
-    <string name="cancel">Cancel</string>
-    <string name="notification_recording">Working on</string>
-    <string name="title_activity_running">Recording Task</string>
-
-    <!-- List Recordings strings -->
-    <string name="task_view">Task:</string>
-    <string name="dur_view">Duration:</string>
-    <string name="recordTv">Recordings</string>
+    <string name="title_activity_edit_recording">Edit Recording</string>
 
     <!-- Edit Task name -->
     <string name="edit_task">Edit Task</string>
-    <string name="btnEdit">Edit</string>
-    <string name="btnUpdate">Update</string>
-    <string name="btnCancel">Cancel</string>
-    <string name="title_activity_edit_recording">Edit Recordings</string>
-    <string name="starttime">Start Time: </string>
-    <string name="stoptime">Stop Time: </string>
-    <string name="btnSave">Save</string>
+    <string name="label_starttime">Start Time: </string>
+    <string name="label_stoptime">Stop Time: </string>
     <string name="toast_recording_saved">Recording was successfully saved.</string>
     <string name="prompt_taskname_invalid">This task name is not allowed.</string>
     <string name="autocomplete_task_hint">Select Task</string>
     <string name="prompt_time_invalid">Invalid time format.</string>
-    <string name="action_edit">Edit</string>
-    <string name="action_delete">Delete</string>
     <string name="prompt_delete_recording">Do you really want to delete the recording?</string>
     <string name="prompt_delete_task">Do you really want to delete the task? This will also delete any recording tracking this task.</string>
-    <string name="notification_suggestion_title">Update your time recording</string>
-    <string name="notification_suggestion_text">Suggesting </string>
-    <string name="action_new_recording">New</string>
-   
 
     <!-- Statistics names -->
     <string name="str1">Today</string>
@@ -81,10 +59,21 @@
     <string name="str7">Custom</string>
 
     <!-- Custom Range Dialog names -->
+    <string name="notification_suggestion_title">Update your time recording</string>
+    <string name="notification_suggestion_text">Suggesting </string>
+    <string name="time_range">Time Range</string>
     <string name="from_date">From</string>
     <string name="to_date">To</string>
     <string name="title_activity_task_wise_stats">TaskWiseStats</string>
-    <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="label_task_parent">Parent: </string>
+    <string name="label_task">Task: </string>
+    <string name="label_task_description">Description: </string>
+    <string name="label_duration">Duration:</string>
+    <string name="label_recordings">Recordings</string>
+    <string name="recentTv">Recent Activities</string>
+    <string name="notification_recording">Working on</string>
+    <string name="action_new_recording">New</string>
+    <string name="promptCreateNewTask">Do you want to create a new task?</string>
 
 </resources>

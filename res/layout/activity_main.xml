@@ -32,7 +32,7 @@
             android:layout_alignParentRight="true"
             android:onClick="Start"
             android:background="@drawable/greenstartbutton"
-            android:text="@string/btnStart" />
+            android:text="@string/button_start" />
 
         <iiitd.mc.timetracker.view.TaskAutoCompleteTextView
             android:id="@+id/taskSelectionBox"

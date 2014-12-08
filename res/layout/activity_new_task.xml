@@ -25,7 +25,7 @@
 	 		    android:layout_width="wrap_content"
 	 		    android:layout_height="wrap_content"
 	 		    android:gravity="top|left"
-	 		    android:text="@string/parentname" />
+	 		    android:text="@string/label_task_parent" />
 	
 			<iiitd.mc.timetracker.view.TaskAutoCompleteTextView
 				android:id="@+id/taskSelectionBox"
@@ -48,7 +48,7 @@
 	 	        android:id="@+id/tasknametextview"
 	 	        android:layout_width="wrap_content"
 	 	        android:layout_height="wrap_content"
-	 	        android:text="@string/taskname" />
+	 	        android:text="@string/label_task" />
 	
 	 	    <EditText
 	 	        android:id="@+id/tasknameedittext"
@@ -69,7 +69,7 @@
 	 	        android:id="@+id/description"
 	 	        android:layout_width="wrap_content"
 	 	        android:layout_height="wrap_content"
-	 	        android:text="@string/description" />
+	 	        android:text="@string/label_task_description" />
 	 	</TableRow>
 	
 	 	<TableRow
@@ -102,7 +102,7 @@
 	 	        android:layout_marginTop="70dp"
 	 	        android:layout_weight="1"
 	 	        android:background="@drawable/orangebutton"
-	 	        android:text="@string/btnDone"
+	 	        android:text="@string/button_save"
 	 	        android:width="160dp" />
 	
 	 	    <Button
@@ -114,7 +114,7 @@
 	 	        android:layout_marginTop="70dp"
 	 	        android:layout_weight="1"
 	 	        android:background="@drawable/orangebutton"
-	 	        android:text="@string/btnClear"
+	 	        android:text="@string/button_clear"
 	 	        android:width="170dp" />
 	 	</TableRow>
 	      

@@ -159,7 +159,7 @@ public class ListTasksActivity extends BaseActivity{
 	{
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		AlertDialog dialog = builder.setMessage(R.string.prompt_delete_task)
-	       .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+	       .setPositiveButton(R.string.button_yes, new DialogInterface.OnClickListener() {
 	           public void onClick(DialogInterface dialog, int id) {
         	   		// delete Task
 					IDatabaseController db = ApplicationHelper.createDatabaseController();
@@ -173,7 +173,7 @@ public class ListTasksActivity extends BaseActivity{
 					startActivity(intent);
 	           }
 	       })
-	       .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+	       .setNegativeButton(R.string.button_cancel, new DialogInterface.OnClickListener() {
 	           public void onClick(DialogInterface dialog, int id) {
 	               // Do nothing
 	           }

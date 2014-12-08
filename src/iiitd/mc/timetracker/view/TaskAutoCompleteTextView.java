@@ -170,7 +170,7 @@ public class TaskAutoCompleteTextView extends AutoCompleteTextView implements On
 			// if task does not exist, ask the user if it should be created
 			AlertDialog.Builder builder = new AlertDialog.Builder(context);
 			AlertDialog dialog = builder.setMessage(context.getString(R.string.promptCreateNewTask) + " (" + text + ")")
-			       .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+			       .setPositiveButton(R.string.button_yes, new DialogInterface.OnClickListener() {
 			           public void onClick(DialogInterface dialog, int id) {
 			               // Create new task and start recording it
 			        	   Task newTask = TaskRecorderService.createTaskFromString(text);
@@ -182,7 +182,7 @@ public class TaskAutoCompleteTextView extends AutoCompleteTextView implements On
 			        	   }
 			           }
 			       })
-			       .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+			       .setNegativeButton(R.string.button_cancel, new DialogInterface.OnClickListener() {
 			           public void onClick(DialogInterface dialog, int id) {
 			               if(canceled != null)
 			            	   canceled.onTaskCreated(null);
