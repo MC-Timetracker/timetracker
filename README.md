@@ -1,17 +1,17 @@
-timetracker
+TimeTurner
 ===========
 
 Find how you waste time without wasting time to analyze it.
 
-*Timetracker* helps you to track how you spend your time and it's smart doing that, making use really fast and easy.
+*TimeTurner* helps you to track how you spend your time and it's smart doing that, making use really fast and easy.
 
 
-## Objective
+## Features
 
 - Basic manual time tracker
   - *Recording time spent on specific tasks.*
   - Select/Start/Stop task
-  - Edit task (after finished recording)
+  - Edit recording (after finished recording)
   - List recorded tasks
 - Statistics
   - *Analysing the recorded tasks offering insights to the user.*
@@ -20,12 +20,16 @@ Find how you waste time without wasting time to analyze it.
 - Context awareness
   - *Making smart suggestions about which task to start / when to stop recording. Based on*
   - Location
-  - Integration with calendar / other apps
   - Previously recorded data
-- Additional Features
+  - Integration with calendar / other apps (*planned for future releases*)
 
 
-## Platform
-- Android
-  - Target Version:    4.4.2
-  - Min Version:       2.3
+## Requirements
+- Android Version: >= 4.0
+- Permissions
+  - ACCESS_WIFI_STATE
+    -to match Wifi access point IDs (MAC addresses) for task suggestions
+  - RECEIVE_BOOT_COMPLETED
+    -to register background services for notifications about suggested tasks
+  - VIBRATE
+
