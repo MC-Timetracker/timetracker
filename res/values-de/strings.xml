@@ -28,6 +28,7 @@
         <item>Alle Projekte</item>
         <item>Alle Aktivitäten</item>
         <item>Statistiken</item>
+        <item>Einstellungen</item>
     </string-array>
 
     <!-- Activity Titles -->
@@ -37,6 +38,7 @@
     <string name="title_activity_list_recordings">Alle Aktivitäten</string>
     <string name="title_activity_statistics">Statistik</string>
     <string name="title_activity_edit_recording">Aktivität Bearbeiten</string>
+    <string name="title_activity_preferences">Einstellungen</string>
 
     <!-- Edit Task name -->
     <string name="edit_task">Projekt Bearbeiten</string>
@@ -75,5 +77,8 @@
     <string name="notification_recording">Momentan an</string>
     <string name="action_new_recording">Neu</string>
     <string name="promptCreateNewTask">Wollen Sie ein neues Projekt erstellen?</string>
+    
+    <string name="pref_title_notify">Benachrichtigungen</string>
+    <string name="pref_summary_notify">Erinnern die aufgezeichnete Aktivität zu aktualisieren</string>
 
 </resources>

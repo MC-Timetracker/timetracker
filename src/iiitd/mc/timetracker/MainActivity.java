@@ -11,6 +11,7 @@ import iiitd.mc.timetracker.view.TaskAutoCompleteTextView;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -47,6 +48,9 @@ public class MainActivity extends BaseActivity {
 		// use LayoutInflater in order to keep the NavigationDrawer of BaseActivity
 		LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.frame.addView(inflater.inflate(R.layout.activity_main, null));
+        
+        // Initialize default settings on first startup
+        PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
         
         tvTask = (TaskAutoCompleteTextView) findViewById(R.id.taskSelectionBox);
         

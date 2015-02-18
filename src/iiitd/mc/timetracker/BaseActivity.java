@@ -67,7 +67,7 @@ public class BaseActivity extends Activity implements OnItemClickListener, OnMen
 	private void navigationDisplay()
 	{
 		actionBar = getActionBar();
-		actionBar.setIcon(R.drawable.ic_launcher);
+		actionBar.setIcon(R.drawable.ic_launchertimeturner);
 		mTitle = getString(R.string.app_name);
 		
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -163,6 +163,11 @@ public class BaseActivity extends Activity implements OnItemClickListener, OnMen
 			statistics.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
 			mDrawerLayout.closeDrawer(mDrawerList);
 			startActivity(statistics);
+			break;
+		case 5:
+			Intent settings = new Intent(this, SettingsActivity.class);
+			mDrawerLayout.closeDrawer(mDrawerList);
+			startActivity(settings);
 			break;
 		default:
 	    }

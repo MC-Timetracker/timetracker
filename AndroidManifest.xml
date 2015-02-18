@@ -69,12 +69,10 @@
             android:name=".EditRecordingActivity"
             android:label="@string/title_activity_edit_recording" >
         </activity>
-
         <activity
             android:name=".TaskWiseStats"
             android:label="@string/title_activity_task_wise_stats" >
         </activity>
-
 
         <receiver android:name=".BootReceiver" >
             <intent-filter>
@@ -83,6 +81,10 @@
             </intent-filter>
         </receiver>
 
+        <activity
+            android:name=".SettingsActivity"
+            android:label="@string/title_activity_preferences" >
+        </activity>
     </application>
 
 </manifest>

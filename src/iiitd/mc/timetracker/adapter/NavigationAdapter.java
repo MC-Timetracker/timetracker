@@ -12,10 +12,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 public class NavigationAdapter extends BaseAdapter{
-
+//TODO: Make this navigation menu more flexible & maintainable
 	private Context context;
 	public static String[] mNavigationTitles;
-	int[] images = {R.drawable.ic_menu_home, R.drawable.ic_newtask, R.drawable.ic_listtask, R.drawable.ic_listrecordings, R.drawable.ic_statistics};
+	int[] images = {R.drawable.ic_menu_home, R.drawable.ic_newtask, R.drawable.ic_listtask, R.drawable.ic_listrecordings, R.drawable.ic_statistics, R.drawable.ic_settings};
 	
 	public NavigationAdapter(Context context){
 		this.context= context;

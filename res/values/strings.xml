@@ -28,6 +28,7 @@
         <item>List Tasks</item>
         <item>List Recordings </item>
         <item>Statistics</item>
+        <item>Settings</item>
     </string-array>
 
     <!-- Activity Titles -->
@@ -37,6 +38,7 @@
     <string name="title_activity_list_recordings">All Recordings</string>
     <string name="title_activity_statistics">Statistics</string>
     <string name="title_activity_edit_recording">Edit Recording</string>
+    <string name="title_activity_preferences">Settings</string>
 
     <!-- Edit Task name -->
     <string name="edit_task">Edit Task</string>
@@ -75,5 +77,8 @@
     <string name="notification_recording">Working on</string>
     <string name="action_new_recording">New</string>
     <string name="promptCreateNewTask">Do you want to create a new task?</string>
+    
+    <string name="pref_title_notify">Notifications</string>
+    <string name="pref_summary_notify">Remind you to update your recorded activity</string>
 
 </resources>

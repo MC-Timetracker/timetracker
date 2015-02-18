@@ -6,6 +6,7 @@ import java.util.List;
 import iiitd.mc.timetracker.ApplicationHelper;
 import iiitd.mc.timetracker.MainActivity;
 import iiitd.mc.timetracker.R;
+import iiitd.mc.timetracker.SettingsActivity;
 import iiitd.mc.timetracker.data.Recording;
 import iiitd.mc.timetracker.data.Task;
 import iiitd.mc.timetracker.data.TaskRecorderService;
@@ -17,10 +18,12 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.content.SharedPreferences;
 import android.net.wifi.SupplicantState;
 import android.net.wifi.WifiManager;
 import android.os.IBinder;
 import android.os.Vibrator;
+import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
@@ -44,6 +47,12 @@ public class AutoRecorder extends BroadcastReceiver
 	@Override
 	public void onReceive(Context context, Intent intent)
 	{
+		//abort if user disabled notifications in preferences
+		SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
+		boolean notifyPref = sharedPref.getBoolean(SettingsActivity.KEY_PREF_NOTIFY, false);
+		if(!notifyPref)
+			return;
+		
 		// abort if intent signifies only an intermediate step while connecting
 		if (intent.getAction().equals(WifiManager.SUPPLICANT_STATE_CHANGED_ACTION))
 		{
