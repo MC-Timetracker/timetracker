@@ -51,3 +51,7 @@ local.properties
 .target
 # TeXlipse plugin
 .texlipse
+
+
+## Custom ignores
+doc/
