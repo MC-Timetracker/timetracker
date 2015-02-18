@@ -64,9 +64,6 @@ public class LocationTaskSuggestor implements ITaskSuggestor
 	 */
 	public List<SuggestedTask> setcurrentbssid(Context context,String bssid)
 	{
-		//TODO: remove this toast messsage after demo
-		Toast.makeText(context, bssid, Toast.LENGTH_SHORT).show();
-		
 		db.open();
 		List<Recording> recordings = db.getRecordings();
 		db.close();
