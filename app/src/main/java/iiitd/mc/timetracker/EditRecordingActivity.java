@@ -1,11 +1,10 @@
 package iiitd.mc.timetracker;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnFocusChangeListener;
 import android.widget.DatePicker;
@@ -23,7 +22,7 @@ import iiitd.mc.timetracker.data.Task;
 import iiitd.mc.timetracker.helper.IDatabaseController;
 import iiitd.mc.timetracker.view.TaskAutoCompleteTextView;
 
-public class EditRecordingActivity extends BaseActivity {
+public class EditRecordingActivity extends Activity {
     static final String EXTRA_RECORDING_ID = "recordingId";
     Recording recording;
     boolean isNewRecording;
@@ -37,9 +36,7 @@ public class EditRecordingActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.activity_edit_recording);
-        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        this.frame.addView(inflater.inflate(R.layout.activity_edit_recording, null));
+        setContentView(R.layout.activity_edit_recording);
 
         etTaskName = (TaskAutoCompleteTextView) findViewById(R.id.taskSelectionBoxRecording);
         etStartTime = (EditText) findViewById(R.id.editTextStartRecordingTime);

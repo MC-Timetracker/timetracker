@@ -1,7 +1,7 @@
 package iiitd.mc.timetracker;
 
 import android.app.AlertDialog;
-import android.content.Context;
+import android.app.Fragment;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ExpandableListView;
 import android.widget.ExpandableListView.ExpandableListContextMenuInfo;
 
@@ -24,31 +25,37 @@ import iiitd.mc.timetracker.adapter.ExpandableRecAdapter;
 import iiitd.mc.timetracker.data.Recording;
 import iiitd.mc.timetracker.helper.IDatabaseController;
 
-public class ListRecordingsActivity extends BaseActivity {
+public class ListRecordingsFragment extends Fragment {
 
     private ExpandableListView expRecView;
-    private List<String> recHeader = new ArrayList<>();
-    private HashMap<String, List<Recording>> recItems = new HashMap<>();
+    private List<String> recHeader = new ArrayList<String>();
+    private HashMap<String, List<Recording>> recItems = new HashMap<String, List<Recording>>();
     private ExpandableRecAdapter recAdapter;
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View v = inflater.inflate(R.layout.activity_list_recordings, container, false);
 
-        //setContentView(R.layout.activity_list_recordings);
-        // use LayoutInflater in order to keep the NavigationDrawer of BaseActivity
-        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        this.frame.addView(inflater.inflate(R.layout.activity_list_recordings, null)); //TODO: cleanup the other one
+        expRecView = (ExpandableListView) v.findViewById(R.id.Explv);
 
-        expRecView = (ExpandableListView) findViewById(R.id.Explv);
-
-        recAdapter = new ExpandableRecAdapter(this, recHeader, recItems);
+        recAdapter = new ExpandableRecAdapter(getActivity(), recHeader, recItems);
         expRecView.setAdapter(recAdapter);
-        loadRecordingsList();
 
+        setHasOptionsMenu(true);
         registerForContextMenu(expRecView);
-        getActionBar().setIcon(R.drawable.ic_launchertimeturner);
+
+        return v;
+    }
+
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        //refresh list
+        loadRecordingsList();
     }
 
     /**
@@ -57,7 +64,7 @@ public class ListRecordingsActivity extends BaseActivity {
     public void loadRecordingsList() {
         recHeader.clear();
         recItems.clear();
-        DateFormat formater = android.text.format.DateFormat.getDateFormat(this);
+        DateFormat formater = android.text.format.DateFormat.getDateFormat(getActivity());
 
         IDatabaseController db = ApplicationHelper.createDatabaseController();
         db.open();
@@ -81,6 +88,7 @@ public class ListRecordingsActivity extends BaseActivity {
     }
 
 
+
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
@@ -90,7 +98,7 @@ public class ListRecordingsActivity extends BaseActivity {
         //only show context menu for child items (recordings not dates)
         int type = ExpandableListView.getPackedPositionType(info.packedPosition);
         if (type == ExpandableListView.PACKED_POSITION_TYPE_CHILD) {
-            MenuInflater inflater = getMenuInflater();
+            MenuInflater inflater = getActivity().getMenuInflater();
             inflater.inflate(R.menu.list_recordings_context, menu);
         }
     }
@@ -115,13 +123,13 @@ public class ListRecordingsActivity extends BaseActivity {
     }
 
 
+
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         // Inflate the menu items for use in the action bar
-        MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.list_recordings_actions, menu);
 
-        return super.onCreateOptionsMenu(menu);
+        super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override
@@ -138,7 +146,7 @@ public class ListRecordingsActivity extends BaseActivity {
 
 
     private void editRecording(Recording r) {
-        Intent edit_recording = new Intent(this, EditRecordingActivity.class);
+        Intent edit_recording = new Intent(getActivity(), EditRecordingActivity.class);
         if (r != null)
             edit_recording.putExtra(EditRecordingActivity.EXTRA_RECORDING_ID, r.getRecordingId());
         startActivity(edit_recording);
@@ -146,7 +154,7 @@ public class ListRecordingsActivity extends BaseActivity {
 
     private void deleteRecording(Recording r) {
         final long rId = r.getRecordingId();
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         AlertDialog dialog = builder.setMessage(R.string.prompt_delete_recording)
                 .setPositiveButton(R.string.button_yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
@@ -155,6 +163,8 @@ public class ListRecordingsActivity extends BaseActivity {
                         db.open();
                         db.deleteRecording(rId);
                         db.close();
+
+                        //refresh recordings list
                         loadRecordingsList();
                     }
                 })

@@ -14,6 +14,7 @@
     <string name="button_save">Speichern</string>
     <string name="button_delete">Löschen</string>
     <string name="button_start">Start</string>
+    <string name="button_start_switch">Wechseln</string>
     <string name="button_stop">Stopp</string>
     <string name="button_pause">Pause</string>
     <string name="button_resume">Fortsetzen</string>
@@ -23,14 +24,13 @@
     <string name="drawer_open">Hauptmenü geöffnet</string>
     <string name="drawer_close">Hauptmenü geschlossen</string>
 
-    <string-array name="nav_drawer_items">
-        <item>Start</item>
-        <item>Neues Projekt</item>
-        <item>Alle Projekte</item>
-        <item>Alle Aktivitäten</item>
-        <item>Statistiken</item>
-        <item>Einstellungen</item>
-    </string-array>
+
+    <string name="menu_home">Start</string>
+    <string name="menu_newtask">Neues Projekt</string>
+    <string name="menu_listtasks">Alle Projekte</string>
+    <string name="menu_listrecordings">Alle Aktivitäten</string>
+    <string name="menu_statistics">Statistiken</string>
+    <string name="menu_settings">Einstellungen</string>
 
     <!-- Activity Titles -->
     <string name="title_activity_running">Aktivität wird aufgezeichnet</string>

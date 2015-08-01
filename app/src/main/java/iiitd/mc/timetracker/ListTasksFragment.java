@@ -1,7 +1,7 @@
 package iiitd.mc.timetracker;
 
 import android.app.AlertDialog;
-import android.content.Context;
+import android.app.Fragment;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ExpandableListView;
 import android.widget.ExpandableListView.ExpandableListContextMenuInfo;
 
@@ -23,34 +24,41 @@ import iiitd.mc.timetracker.adapter.ExpandableListAdapter;
 import iiitd.mc.timetracker.data.Task;
 import iiitd.mc.timetracker.helper.IDatabaseController;
 
-public class ListTasksActivity extends BaseActivity {
+public class ListTasksFragment extends Fragment {
 
     private ExpandableListView expListView;
-    private List<Task> listHeader = new ArrayList<>();
-    private HashMap<Task, List<Task>> listItems = new HashMap<>();
+    private List<Task> listHeader = new ArrayList<Task>();
+    ;
+    private HashMap<Task, List<Task>> listItems = new HashMap<Task, List<Task>>();
     private ExpandableListAdapter listAdapter;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        //setContentView(R.layout.activity_list_main);
-        // use LayoutInflater in order to keep the NavigationDrawer of BaseActivity
-        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        this.frame.addView(inflater.inflate(R.layout.activity_list_tasks, null));
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View v = inflater.inflate(R.layout.activity_list_tasks, container, false);
 
         // Get the ListView
-        expListView = (ExpandableListView) findViewById(R.id.Explv);
+        expListView = (ExpandableListView) v.findViewById(R.id.Explv);
 
-        loadTasksList();
 
-        listAdapter = new ExpandableListAdapter(this, listHeader, listItems);
+        listAdapter = new ExpandableListAdapter(getActivity(), listHeader, listItems);
         expListView.setAdapter(listAdapter);
 
+        setHasOptionsMenu(true);
         registerForContextMenu(expListView);
-        getActionBar().setIcon(R.drawable.ic_launchertimeturner);
 
+        return v;
     }
+
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        //refresh list
+        loadTasksList();
+    }
+
 
     /**
      * Populate the list in the UI with the Tasks from the database.
@@ -93,11 +101,12 @@ public class ListTasksActivity extends BaseActivity {
 
     }
 
+
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
 
-        MenuInflater inflater = getMenuInflater();
+        MenuInflater inflater = getActivity().getMenuInflater();
         inflater.inflate(R.menu.list_tasks_context, menu);
     }
 
@@ -133,12 +142,11 @@ public class ListTasksActivity extends BaseActivity {
 
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         // Inflate the menu items for use in the action bar
-        MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.list_tasks_actions, menu);
 
-        return super.onCreateOptionsMenu(menu);
+        super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override
@@ -155,7 +163,7 @@ public class ListTasksActivity extends BaseActivity {
 
 
     private void editTask(long taskId) {
-        Intent intent = new Intent(this, EditTaskActivity.class);
+        Intent intent = new Intent(getActivity(), EditTaskActivity.class);
         if (taskId >= 0)
             intent.putExtra("taskid", taskId);
         startActivity(intent);
@@ -163,7 +171,7 @@ public class ListTasksActivity extends BaseActivity {
 
 
     private void deleteTask(final long taskId) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         AlertDialog dialog = builder.setMessage(R.string.prompt_delete_task)
                 .setPositiveButton(R.string.button_yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {

@@ -1,123 +1,166 @@
 package iiitd.mc.timetracker;
 
-import android.content.Context;
-import android.content.Intent;
+import android.app.Activity;
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.view.LayoutInflater;
+import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.widget.DrawerLayout;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import iiitd.mc.timetracker.adapter.NavigationAdapter;
 
-import iiitd.mc.timetracker.data.Recording;
-import iiitd.mc.timetracker.data.Task;
-import iiitd.mc.timetracker.data.TaskRecorderService;
-import iiitd.mc.timetracker.helper.IDatabaseController;
-import iiitd.mc.timetracker.view.TaskAutoCompleteTextView;
+public class MainActivity extends Activity implements OnItemClickListener {
 
+    DrawerLayout mDrawerLayout;
+    ListView mDrawerList;
+    ActionBarDrawerToggle mDrawerToggle;
+    NavigationAdapter navigationMenuAdapter;
+    /**
+     * The NavigationDrawer menu items
+     */
+    NavigationItem[] navigationMenuItems = {
+            new NavigationItem(R.string.menu_home, R.drawable.ic_menu_home, MainFragment.class),
+            new NavigationItem(R.string.menu_listtasks, R.drawable.ic_listtask, ListTasksFragment.class),
+            new NavigationItem(R.string.menu_listrecordings, R.drawable.ic_listrecordings, ListRecordingsFragment.class),
+            new NavigationItem(R.string.menu_statistics, R.drawable.ic_statistics, StatisticsOverviewFragment.class),
+            new NavigationItem(R.string.menu_settings, R.drawable.ic_settings, SettingsFragment.class),
+    };
 
-/**
- * The Main Activity of the timetracker application
- *
- * @author gullal
- */
-public class MainActivity extends BaseActivity {
-
-    public RelativeLayout relativelayoutstart, relativelayoutbuttons;
-
-    Intent recorderIntent;
-    TaskRecorderService taskRecorder;
-    boolean taskRecorderBound = false;
-
-    private TaskAutoCompleteTextView tvTask;
-    private ListView recentAct;
-
-    private ArrayAdapter<String> recentActAdapter;
-
+    CharSequence mTitle;
+    CharSequence mDrawerTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        //setContentView(R.layout.activity_main);
-        // use LayoutInflater in order to keep the NavigationDrawer of BaseActivity
-        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        this.frame.addView(inflater.inflate(R.layout.activity_main, null));
+        setContentView(R.layout.activity_base);
 
         // Initialize default settings on first startup
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
 
-        tvTask = (TaskAutoCompleteTextView) findViewById(R.id.taskSelectionBox);
-
-        initRecentActList();
-
         // init AutoRecorder triggers
-        BootReceiver.setupAutoRecorderTriggers(this);
+        BootReceiver.setupAutoRecorderTriggers();
+
+        // init NavigationDrawer
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mDrawerList = (ListView) findViewById(R.id.left_drawer);
+        navigationMenuAdapter = new NavigationAdapter(this, navigationMenuItems);
+        mDrawerList.setAdapter(navigationMenuAdapter);
+        mDrawerList.setOnItemClickListener(this);
+
+        mDrawerToggle = new ActionBarDrawerToggle(
+                this,                  /* host Activity */
+                mDrawerLayout,         /* DrawerLayout object */
+                R.drawable.ic_drawer,  /* nav drawer icon to replace 'Up' caret */
+                R.string.drawer_open,  /* "open drawer" description */
+                R.string.drawer_close  /* "close drawer" description */
+        ) {
+            /**
+             * Called when a drawer has settled in a completely closed state.
+             */
+            public void onDrawerClosed(View view) {
+                super.onDrawerClosed(view);
+                getActionBar().setTitle(mTitle);
+                invalidateOptionsMenu();
+            }
+
+            /**
+             * Called when a drawer has settled in a completely open state.
+             */
+            public void onDrawerOpened(View drawerView) {
+                super.onDrawerOpened(drawerView);
+                getActionBar().setTitle(mDrawerTitle);
+                invalidateOptionsMenu();
+                mDrawerLayout.bringToFront();
+            }
+        };
+        mDrawerLayout.setDrawerListener(mDrawerToggle); // set the drawer toggle as the DrawerListener
+
+        // init ActionBar
+        mDrawerTitle = getString(R.string.app_name);
+        setTitle(getString(R.string.app_name));
         getActionBar().setIcon(R.drawable.ic_launchertimeturner);
+        getActionBar().setDisplayHomeAsUpEnabled(true);
+        getActionBar().setHomeButtonEnabled(true);
+
+
+        // load default fragment
+        selectItem(0);
     }
 
-
-    /**
-     * Handle everything to actually start recording the task in the business logic layer with TaskRecorder.
-     */
-    public void startRecording(Task task) {
-        // Start recording in a Service
-        recorderIntent = new Intent(this, TaskRecorderService.class);
-        recorderIntent.putExtra(TaskRecorderService.EXTRA_TASK_ID, task.getId());
-        startService(recorderIntent);
-
-        Intent running_activity = new Intent(this, RunningActivity.class);
-        startActivity(running_activity);
+    /* Called whenever we call invalidateOptionsMenu() */
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        // If the nav drawer is open, hide action items related to the content view
+        //boolean drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerList);
+        //menu.findItem(R.id.action_websearch).setVisible(!drawerOpen);
+        return super.onPrepareOptionsMenu(menu);
     }
 
-
-    /**
-     * Event handler for click of start button.
-     *
-     * @param view The view for this onClick event.
-     */
-    public void Start(View view) {
-        // Get the task instance that corresponds to the String entered by the user and start recording it
-        tvTask.createTask(new TaskAutoCompleteTextView.OnTaskCreatedListener() {
-                              @Override
-                              public void onTaskCreated(Task newTask) {
-                                  startRecording(newTask);
-                              }
-                          },
-                null);
-    }
-
-
-    public void initRecentActList() {
-        recentAct = (ListView) findViewById(R.id.recentLv);
-
-        IDatabaseController db = ApplicationHelper.createDatabaseController();
-        db.open();
-        List<Recording> records = db.getRecordings((new Date()).getTime());
-        db.close();
-
-        List<String> recentTasks = new ArrayList<>();
-
-        SimpleDateFormat dformat = new SimpleDateFormat("HH:mm");
-        for (Recording rec : records) {
-            String fullrec = rec.getTask().getNameFull() + "\n(" + dformat.format(rec.getStart()) + " - " + dformat.format(rec.getEnd()) + ")";
-            recentTasks.add(fullrec);
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Pass the event to ActionBarDrawerToggle, if it returns
+        // true, then it has handled the app icon touch event
+        if (mDrawerToggle.onOptionsItemSelected(item)) {
+            return true;
         }
 
-        recentActAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, recentTasks);
-
-        recentAct.setAdapter(recentActAdapter);
+        return false;
     }
 
-    public void onResume() {
-        super.onResume();
-
-        initRecentActList();
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        // Sync the toggle state after onRestoreInstanceState has occurred.
+        mDrawerToggle.syncState();
     }
-}	
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        mDrawerToggle.onConfigurationChanged(newConfig);
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        selectItem(position);
+    }
+
+    /**
+     * Swaps fragments in the main content view
+     */
+    private void selectItem(int position) {
+        Fragment fragment = null;
+        try {
+            fragment = ((Fragment) navigationMenuItems[position].fragment.newInstance());
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+
+        // Insert the fragment by replacing any existing fragment
+        FragmentManager fragmentManager = getFragmentManager();
+        fragmentManager.beginTransaction()
+                .replace(R.id.content_frame, fragment)
+                .commit();
+
+        mDrawerList.setItemChecked(position, true);
+        setTitle(navigationMenuItems[position].stringTitle);
+        mDrawerLayout.closeDrawer(mDrawerList);
+    }
+
+    @Override
+    public void setTitle(CharSequence title) {
+        mTitle = title;
+        getActionBar().setTitle(mTitle);
+    }
+
+}

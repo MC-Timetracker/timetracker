@@ -14,6 +14,7 @@
     <string name="button_save">Save</string>
     <string name="button_delete">Delete</string>
     <string name="button_start">Start</string>
+    <string name="button_start_switch">Switch</string>
     <string name="button_stop">Stop</string>
     <string name="button_pause">Pause</string>
     <string name="button_resume">Resume</string>
@@ -23,14 +24,12 @@
     <string name="drawer_open">Slider Menu Opened</string>
     <string name="drawer_close">Slider Menu Closed</string>
 
-    <string-array name="nav_drawer_items">
-        <item>Home</item>
-        <item>New Task</item>
-        <item>List Tasks</item>
-        <item>List Recordings </item>
-        <item>Statistics</item>
-        <item>Settings</item>
-    </string-array>
+    <string name="menu_home">Home</string>
+    <string name="menu_newtask">New Task</string>
+    <string name="menu_listtasks">List Tasks</string>
+    <string name="menu_listrecordings">List Recordings</string>
+    <string name="menu_statistics">Statistics</string>
+    <string name="menu_settings">Settings</string>
 
     <!-- Activity Titles -->
     <string name="title_activity_running">Recording Task</string>

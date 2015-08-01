@@ -1,12 +1,12 @@
 package iiitd.mc.timetracker;
 
-import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Paint.Align;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -34,34 +34,41 @@ import iiitd.mc.timetracker.data.Recording;
 import iiitd.mc.timetracker.data.Task;
 import iiitd.mc.timetracker.helper.IDatabaseController;
 
-public class TaskWiseStats extends OverallStats {
+public class TaskWiseStatsFragment extends StatisticsOverviewFragment {
     private long taskid;
     private TextView rangeTv;
+    TextView textView, textView2;
+    TextView no_data;
+    LinearLayout chartContainer, chartContainer2;
     private long startTime, endTime;
-    private LayoutInflater inflater;
     private HashMap<String, Long> pierec;
     private HashMap<String, Float> barrec;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View v = inflater.inflate(R.layout.activity_task_wise_stats, container, false);
+
         drawOverallPie = false; // workaround because this class extends OverallStats
-        super.onCreate(savedInstanceState);
-        inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        this.frame.addView(inflater.inflate(R.layout.activity_task_wise_stats, null));
 
-        taskid = getIntent().getLongExtra("taskid", 0);
+        taskid = getActivity().getIntent().getLongExtra("taskid", 0); //TODO: rework this for fragment
 
-        rangeTv = (TextView) findViewById(R.id.timeRangeTv);
+        rangeTv = (TextView) v.findViewById(R.id.timeRangeTv);
+        textView = (TextView) v.findViewById(R.id.textView);
+        textView2 = (TextView) v.findViewById(R.id.textView2);
+        chartContainer = (LinearLayout) v.findViewById(R.id.chart1);
+        chartContainer2 = (LinearLayout) v.findViewById(R.id.chart2);
+        no_data = (TextView) v.findViewById(R.id.no_data2);
 
         initTimeRanges();
         drawBarChart();
         drawPieChart();
 
+        return v;
     }
 
     public void drawBarChart() {
-        TextView tv = (TextView) findViewById(R.id.textView);
-        tv.setText("Average Hours Spent");
+        textView.setText("Average Hours Spent");
 
         IDatabaseController db = ApplicationHelper.createDatabaseController();
         db.open();
@@ -93,7 +100,7 @@ public class TaskWiseStats extends OverallStats {
 
         timeDurationseries = new XYSeries("Duration(in hrs)");
 
-        List<String> lblTasks = new ArrayList<>();
+        List<String> lblTasks = new ArrayList<String>();
         int i = 0;
 
         for (Map.Entry<String, Float> entry : barrec.entrySet()) {
@@ -137,8 +144,7 @@ public class TaskWiseStats extends OverallStats {
             multiRenderer.addXTextLabel(j, lblTasks.get(j));
         multiRenderer.addSeriesRenderer(timeDurationRenderer);
 
-        LinearLayout chartContainer = (LinearLayout) findViewById(R.id.chart1);
-        GraphicalView mChart = ChartFactory.getBarChartView(TaskWiseStats.this, dataset, multiRenderer, org.achartengine.chart.BarChart.Type.DEFAULT);
+        GraphicalView mChart = ChartFactory.getBarChartView(getActivity(), dataset, multiRenderer, org.achartengine.chart.BarChart.Type.DEFAULT);
 
         chartContainer.addView(mChart);
     }
@@ -167,12 +173,10 @@ public class TaskWiseStats extends OverallStats {
             utilTime += dur;
         }
 
-        TextView no_data = (TextView) findViewById(R.id.no_data2);
 
         if (!pierec.isEmpty()) {
-            TextView tv = (TextView) findViewById(R.id.textView2);
             String name = task.getName();
-            tv.setText(name.substring(0, 1).toUpperCase() + name.substring(1, name.length()) + " and Sub Activities Proportion");
+            textView2.setText(name.substring(0, 1).toUpperCase() + name.substring(1, name.length()) + " and Sub Activities Proportion");
             CategorySeries distributionSeries = new CategorySeries("Subjects Studied Over Time");
 
             for (Map.Entry<String, Long> entry : pierec.entrySet()) {
@@ -195,9 +199,8 @@ public class TaskWiseStats extends OverallStats {
             defaultRenderer.setLabelsColor(Color.BLACK);
 
             no_data.setVisibility(View.GONE);
-            LinearLayout chartContainer = (LinearLayout) findViewById(R.id.chart2);
-            GraphicalView mChart = ChartFactory.getPieChartView(this, distributionSeries, defaultRenderer);
-            chartContainer.addView(mChart);
+            GraphicalView mChart = ChartFactory.getPieChartView(getActivity(), distributionSeries, defaultRenderer);
+            chartContainer2.addView(mChart);
         } else {
             no_data.setText("No data available for this range");
         }
@@ -261,8 +264,8 @@ public class TaskWiseStats extends OverallStats {
     public boolean onMenuItemClick(MenuItem item) {
         super.onMenuItemClick(item);
 
-        this.frame.removeAllViews();
-        this.frame.addView(inflater.inflate(R.layout.activity_task_wise_stats, null));
+        //TODO this.frame.removeAllViews();
+        //this.frame.addView(inflater.inflate(R.layout.activity_task_wise_stats, null));
         initTimeRanges();
         drawBarChart();
         drawPieChart();

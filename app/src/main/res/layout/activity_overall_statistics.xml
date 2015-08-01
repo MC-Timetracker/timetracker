@@ -2,51 +2,46 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_width="fill_parent"
 	android:layout_height="fill_parent"
-	android:orientation="vertical"
-	android:fillViewport="true">
-
- 
+	android:fillViewport="true"
+	android:orientation="vertical">
 
 	<LinearLayout
-	
-		android:layout_height="wrap_content"	
 		android:layout_width="fill_parent"
-		android:orientation="vertical"
-		android:weightSum="1"
+		android:layout_height="wrap_content"
 		android:layout_gravity="top"
-		android:background="@android:color/transparent">
-    
-		    <TextView 
-		        android:id="@+id/timeRangeTv"
-		        android:layout_width="wrap_content"
-		        android:layout_height="wrap_content"
-		        android:layout_gravity="center"
-		        android:textSize="20sp"/>
-		    
-		    <View
-			    android:layout_width="fill_parent"
-			    android:layout_height="1dp"
-			    android:layout_gravity="center"
-			    android:background="@android:color/darker_gray"/>
-		    
-		    <LinearLayout
-				
-				android:orientation="vertical"
-				android:layout_width="fill_parent"
-				android:layout_height="350dp"
-				android:paddingLeft="10sp"
-				android:paddingRight="10sp"			
-				android:id="@+id/chart"			
-				android:layout_gravity="center_horizontal"			
-				android:background="@android:color/transparent">
-				
-		        <TextView
-		        android:layout_width="match_parent"
-		        android:layout_height="match_parent"
-		        android:gravity="center"
-		        android:id="@+id/no_data1"/>
-		        
-		    </LinearLayout>
+		android:background="@android:color/transparent"
+		android:orientation="vertical"
+		android:weightSum="1">
 
+		<TextView
+			android:id="@+id/timeRangeTv"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_gravity="center"
+			android:textSize="20sp" />
+
+		<View
+			android:layout_width="fill_parent"
+			android:layout_height="1dp"
+			android:layout_gravity="center"
+			android:background="@android:color/darker_gray" />
+
+		<LinearLayout
+			android:id="@+id/chart"
+			android:layout_width="fill_parent"
+			android:layout_height="350dp"
+			android:layout_gravity="center_horizontal"
+			android:background="@android:color/transparent"
+			android:orientation="vertical"
+			android:paddingLeft="10sp"
+			android:paddingRight="10sp">
+
+			<TextView
+				android:id="@+id/no_data1"
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
+				android:gravity="center" />
+		</LinearLayout>
 	</LinearLayout>
+
 </ScrollView>

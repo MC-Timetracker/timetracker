@@ -3,7 +3,7 @@ package iiitd.mc.timetracker;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.DatePickerDialog.OnDateSetListener;
-import android.content.Context;
+import android.app.Fragment;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -13,7 +13,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnFocusChangeListener;
-import android.widget.AdapterView.OnItemClickListener;
+import android.view.ViewGroup;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -27,9 +27,9 @@ import org.achartengine.model.CategorySeries;
 import org.achartengine.renderer.DefaultRenderer;
 import org.achartengine.renderer.SimpleSeriesRenderer;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,7 +38,7 @@ import java.util.concurrent.TimeUnit;
 import iiitd.mc.timetracker.data.Recording;
 import iiitd.mc.timetracker.helper.IDatabaseController;
 
-public class OverallStats extends BaseActivity implements OnItemClickListener, OnMenuItemClickListener {
+public class StatisticsOverviewFragment extends Fragment implements OnMenuItemClickListener {
 
     int colors[] = {Color.BLUE, Color.CYAN, Color.DKGRAY, Color.GRAY, Color.GREEN, Color.MAGENTA, Color.RED, Color.YELLOW};
     static Calendar startDate;
@@ -50,22 +50,29 @@ public class OverallStats extends BaseActivity implements OnItemClickListener, O
 
     public static final String PREFS_NAME = "Tab_Pref";
     int mDisplayMode;
-    private LayoutInflater inflater;
     private LinearLayout chartContainer;
     private TextView no_data;
+    private TextView tvTimeRange;
 
     protected boolean drawOverallPie = true;
+    DateFormat format;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View v = inflater.inflate(R.layout.activity_overall_statistics, container, false);
 
-        //setContentView(R.layout.activity_statistics);
-        // use LayoutInflater in order to keep the NavigationDrawer of BaseActivity
-        inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        this.frame.addView(inflater.inflate(R.layout.activity_overall_statistics, null));
+        tvTimeRange = (TextView) v.findViewById(R.id.timeRangeTv);
+        no_data = (TextView) v.findViewById(R.id.no_data1);
+        chartContainer = (LinearLayout) v.findViewById(R.id.chart);
+
+        format = android.text.format.DateFormat.getDateFormat(getActivity());
+
+        setHasOptionsMenu(true);
 
         if (drawOverallPie) drawOverallPieChart();
+
+        return v;
     }
 
     @Override
@@ -97,8 +104,9 @@ public class OverallStats extends BaseActivity implements OnItemClickListener, O
 
         }
 
-        this.frame.removeAllViews();
-        this.frame.addView(inflater.inflate(R.layout.activity_overall_statistics, null));
+        //TODO: refresh
+        //this.frame.removeAllViews();
+        //this.frame.addView(inflater.inflate(R.layout.activity_overall_statistics, null));
         drawOverallPieChart();
 
         return true;
@@ -107,40 +115,38 @@ public class OverallStats extends BaseActivity implements OnItemClickListener, O
     public void drawOverallPieChart() {
         Map<String, Long> todrec = new HashMap<>();
         List<Recording> recs = new ArrayList<>();
-        TextView tv = (TextView) findViewById(R.id.timeRangeTv);
 
         IDatabaseController db = ApplicationHelper.createDatabaseController();
         db.open();
 
         if (timeRangeId == 1) {
-            tv.setText("Today");
+            tvTimeRange.setText("Today");
 
-            Date today = new Date();
             recs = db.getRecordings(getStartOfDay(), getEndOfDay());
             todrec.put("Others", (long) 24 * 60);
         } else if (timeRangeId == 2) {
-            tv.setText("Yesterday");
+            tvTimeRange.setText("Yesterday");
 
             recs = db.getRecordings(getYesterdayStart(), getYesterdayEnd());
             todrec.put("Others", (long) 24 * 60);
         } else if (timeRangeId == 3) {
-            tv.setText("This Week");
+            tvTimeRange.setText("This Week");
 
             recs = db.getRecordings(getWeekStart(), getWeekEnd());
             todrec.put("Others", (long) 7 * 24 * 60);
         } else if (timeRangeId == 4) {
-            tv.setText("Last Week");
+            tvTimeRange.setText("Last Week");
 
             recs = db.getRecordings(getLastWeekStart(), getLastWeekEnd());
             todrec.put("Others", (long) 7 * 24 * 60);
         } else if (timeRangeId == 5) {
-            tv.setText("Current Month");
+            tvTimeRange.setText("Current Month");
 
             recs = db.getRecordings(getMonthStart(), getMonthEnd());
 
             todrec.put("Others", (long) Calendar.getInstance().getActualMaximum(Calendar.DAY_OF_MONTH) * 24 * 60);
         } else if (timeRangeId == 6) {
-            tv.setText("Last Month");
+            tvTimeRange.setText("Last Month");
 
             recs = db.getRecordings(getLastMonthStart(), getLastMonthEnd());
             Calendar calendar = Calendar.getInstance();
@@ -149,9 +155,9 @@ public class OverallStats extends BaseActivity implements OnItemClickListener, O
         } else if (timeRangeId == 7) {
             int inter = 1;
             if (startDate == null || endDate == null)
-                tv.setText("No date specified");
+                tvTimeRange.setText("No date specified");
             else {
-                tv.setText(startDate.get(Calendar.DATE) + "/" + startDate.get(Calendar.MONTH) + " - " + endDate.get(Calendar.DATE) + "/" + endDate.get(Calendar.MONTH));
+                tvTimeRange.setText(startDate.get(Calendar.DATE) + "/" + startDate.get(Calendar.MONTH) + " - " + endDate.get(Calendar.DATE) + "/" + endDate.get(Calendar.MONTH));
 
                 recs = db.getRecordings(startDate.getTimeInMillis(), endDate.getTimeInMillis());
                 inter = endDate.get(Calendar.DATE) - startDate.get(Calendar.DATE) + 1;
@@ -182,7 +188,7 @@ public class OverallStats extends BaseActivity implements OnItemClickListener, O
         }
         todrec.put("Others", todrec.get("Others") - utilTime);
 
-        no_data = (TextView) findViewById(R.id.no_data1);
+
         if (todrec.size() > 1) {
             CategorySeries distributionSeries = new CategorySeries("Overall Comparison of Parent Tasks");
 
@@ -207,8 +213,7 @@ public class OverallStats extends BaseActivity implements OnItemClickListener, O
             defaultRenderer.setLabelsColor(Color.BLACK);
 
             no_data.setVisibility(View.GONE);
-            chartContainer = (LinearLayout) findViewById(R.id.chart);
-            GraphicalView mChart = ChartFactory.getPieChartView(this, distributionSeries, defaultRenderer);
+            GraphicalView mChart = ChartFactory.getPieChartView(getActivity(), distributionSeries, defaultRenderer);
             chartContainer.addView(mChart);
         } else {
             no_data.setText("No data is available for this range");
@@ -217,13 +222,13 @@ public class OverallStats extends BaseActivity implements OnItemClickListener, O
     }
 
 
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle your other action bar items...
         switch (item.getItemId()) {
             case R.id.time_range:
-                View v = findViewById(R.id.time_range);
-                showPopUp(v);
+                showPopUp();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -231,8 +236,8 @@ public class OverallStats extends BaseActivity implements OnItemClickListener, O
 
     }
 
-    public void showPopUp(View v) {
-        PopupMenu popup = new PopupMenu(this, v);
+    public void showPopUp() {
+        PopupMenu popup = new PopupMenu(getActivity(), tvTimeRange);
         MenuInflater inflater = popup.getMenuInflater();
         inflater.inflate(R.menu.time_ranges, popup.getMenu());
         popup.setOnMenuItemClickListener(this);
@@ -241,8 +246,8 @@ public class OverallStats extends BaseActivity implements OnItemClickListener, O
 
 
     public void rangeCustomDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        LayoutInflater inflater = this.getLayoutInflater();
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        LayoutInflater inflater = getActivity().getLayoutInflater();
         View view = null;
         view = inflater.inflate(R.layout.custom_dialog, null);
         from_date = (EditText) view.findViewById(R.id.from_date);
@@ -296,7 +301,7 @@ public class OverallStats extends BaseActivity implements OnItemClickListener, O
 
         final Calendar cal1 = Calendar.getInstance();
 
-        fromDatePickerDialog = new DatePickerDialog(this, new OnDateSetListener() {
+        fromDatePickerDialog = new DatePickerDialog(getActivity(), new OnDateSetListener() {
 
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                 cal1.set(Calendar.YEAR, year);
@@ -314,7 +319,7 @@ public class OverallStats extends BaseActivity implements OnItemClickListener, O
 
         final Calendar cal2 = Calendar.getInstance();
 
-        toDatePickerDialog = new DatePickerDialog(this, new OnDateSetListener() {
+        toDatePickerDialog = new DatePickerDialog(getActivity(), new OnDateSetListener() {
 
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                 cal2.set(Calendar.YEAR, year);
@@ -333,11 +338,11 @@ public class OverallStats extends BaseActivity implements OnItemClickListener, O
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.statistics, menu);
+        inflater.inflate(R.menu.statistics, menu);
 
-        return super.onCreateOptionsMenu(menu);
+        super.onCreateOptionsMenu(menu, inflater);
     }
 
     public long getLastMonthEnd() {

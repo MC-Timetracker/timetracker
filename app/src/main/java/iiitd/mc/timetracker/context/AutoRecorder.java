@@ -22,7 +22,7 @@ import java.util.List;
 import iiitd.mc.timetracker.ApplicationHelper;
 import iiitd.mc.timetracker.MainActivity;
 import iiitd.mc.timetracker.R;
-import iiitd.mc.timetracker.SettingsActivity;
+import iiitd.mc.timetracker.SettingsFragment;
 import iiitd.mc.timetracker.data.Recording;
 import iiitd.mc.timetracker.data.Task;
 import iiitd.mc.timetracker.data.TaskRecorderService;
@@ -48,7 +48,7 @@ public class AutoRecorder extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         //abort if user disabled notifications in preferences
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
-        boolean notifyPref = sharedPref.getBoolean(SettingsActivity.KEY_PREF_NOTIFY, false);
+        boolean notifyPref = sharedPref.getBoolean(SettingsFragment.KEY_PREF_NOTIFY, false);
         if (!notifyPref)
             return;
 

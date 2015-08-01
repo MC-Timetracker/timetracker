@@ -1,15 +1,15 @@
 package iiitd.mc.timetracker;
 
 import android.os.Bundle;
-import android.preference.PreferenceActivity;
+import android.preference.PreferenceFragment;
 
-public class SettingsActivity extends PreferenceActivity {
+public class SettingsFragment extends PreferenceFragment {
 
     public static final String KEY_PREF_NOTIFY = "pref_notify";
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         addPreferencesFromResource(R.xml.preferences);

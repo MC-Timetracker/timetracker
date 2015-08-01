@@ -8,44 +8,99 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="iiitd.mc.timetracker.MainActivity" >
 
-    <RelativeLayout
+
+    <LinearLayout
         android:id="@+id/root_layout"
+        android:orientation="vertical"
         android:layout_width="500dp"
-        android:layout_height="116dp"
+        android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="47dp"
         android:padding="10dp"
-        android:background="@drawable/border"
-        android:gravity="center_vertical"
-        android:shadowColor="#F50743"
-        android:shadowDx="2"
-        android:shadowDy="2"
-        android:shadowRadius="4" >
+        android:gravity="center_vertical">
 
-        <Button
-            android:id="@+id/btnStart"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentRight="true"
-            android:onClick="Start"
-            android:background="@drawable/greenstartbutton"
-            android:text="@string/button_start" />
-
-        <iiitd.mc.timetracker.view.TaskAutoCompleteTextView
-            android:id="@+id/taskSelectionBox"
+        <LinearLayout
+            android:id="@+id/running_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:ems="10"
-            android:imeOptions="actionDone"
-            android:inputType="textAutoComplete|textAutoCorrect" />
-    </RelativeLayout>
-    
-    <TextView 
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:background="@drawable/border"
+            android:padding="10dp">
+
+            <TextView
+                android:id="@+id/tv_recording_task"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Task.Name"
+                android:textAppearance="?android:attr/textAppearanceLarge" />
+
+            <Chronometer
+                android:id="@+id/chronometer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:format="%s"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:id="@+id/pausestop"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center">
+
+                <Button
+                    android:id="@+id/btnPause"
+                    android:layout_width="125dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:text="@string/button_pause"
+                    android:background="@drawable/orangebutton"
+                    android:visibility="visible" />
+
+                <Button
+                    android:id="@+id/btnStop"
+                    android:layout_width="125dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/button_stop"
+                    android:background="@drawable/redpausebutton" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/start_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:padding="10dp"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:background="@drawable/border">
+
+            <iiitd.mc.timetracker.view.TaskAutoCompleteTextView
+                android:id="@+id/taskSelectionBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:imeOptions="actionDone"
+                android:inputType="textAutoComplete|textAutoCorrect" />
+
+            <Button
+                android:id="@+id/btnStart"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/greenstartbutton"
+                android:text="@string/button_start" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <TextView
         android:id="@+id/recentTv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -55,8 +110,8 @@
         android:textStyle="bold"
         android:layout_below="@+id/root_layout"
         android:text="@string/recentTv"/>
-    
-    <ListView 
+
+    <ListView
         android:id="@+id/recentLv"
         android:layout_below="@+id/recentTv"
         android:layout_width="wrap_content"

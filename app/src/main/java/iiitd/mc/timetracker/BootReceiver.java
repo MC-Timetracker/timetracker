@@ -17,14 +17,16 @@ public class BootReceiver extends BroadcastReceiver {
      */
     @Override
     public void onReceive(Context context, Intent intent) {
-        setupAutoRecorderTriggers(context);
+        setupAutoRecorderTriggers();
     }
 
     private static boolean isSetup = false;
 
-    public static void setupAutoRecorderTriggers(Context context) {
+    public static void setupAutoRecorderTriggers() {
         if (isSetup)
             return;
+
+        Context context = ApplicationHelper.getAppContext();
 
         // Set regular alarm for AutoRecorder
         //		see https://developer.android.com/training/scheduling/alarms.html

@@ -74,7 +74,7 @@ public class EditTaskActivity extends Activity {
     public void save() {
         String taskname = etTaskname.getText().toString();
         String parentTaskname = acParent.getText().toString();
-        String fullTaskname = !parentTaskname.isEmpty() ? parentTaskname + "." + taskname : taskname;
+        String fullTaskname = (parentTaskname == "") ? parentTaskname + "." + taskname : taskname;
 
         if (!TaskRecorderService.isValidTaskName(taskname)) {
             // empty string or otherwise not allowed name

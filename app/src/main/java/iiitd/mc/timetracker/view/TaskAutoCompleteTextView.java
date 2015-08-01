@@ -94,6 +94,7 @@ public class TaskAutoCompleteTextView extends AutoCompleteTextView implements On
                     showDropDown();
                 } else {
                     //Hide your popup here?
+                    dismissDropDown();
                 }
             }
         });
