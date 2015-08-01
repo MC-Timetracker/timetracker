@@ -17,6 +17,7 @@
     <string name="button_stop">Stopp</string>
     <string name="button_pause">Pause</string>
     <string name="button_resume">Fortsetzen</string>
+    <string name="button_statistics">Statistiken</string>
 
     <!-- Nav Drawer Menu -->
     <string name="drawer_open">Hauptmenü geöffnet</string>
@@ -33,7 +34,6 @@
 
     <!-- Activity Titles -->
     <string name="title_activity_running">Aktivität wird aufgezeichnet</string>
-    <string name="title_activity_new_task">Neues Projekt</string>
     <string name="title_activity_list_tasks">Alle Projekte</string>
     <string name="title_activity_list_recordings">Alle Aktivitäten</string>
     <string name="title_activity_statistics">Statistik</string>
@@ -46,6 +46,7 @@
     <string name="label_stoptime">End-Zeit: </string>
     <string name="toast_recording_saved">Aktivität wurde erfolgreich gespeichert.</string>
     <string name="prompt_taskname_invalid">Dieser Projekt-Name ist nicht erlaubt.</string>
+    <string name="prompt_taskname_exists">Dieser Projekt-Name existiert bereits.</string>
     <string name="autocomplete_task_hint">Projekt auswählen</string>
     <string name="prompt_time_invalid">Ungültiges Zeit-Format.</string>
     <string name="prompt_delete_recording">Wollen Sie die Aktivität wirklich löschen?</string>
@@ -76,8 +77,9 @@
     <string name="recentTv">Neueste Aktivitäten</string>
     <string name="notification_recording">Momentan an</string>
     <string name="action_new_recording">Neu</string>
+    <string name="action_new_task">Neu</string>
     <string name="promptCreateNewTask">Wollen Sie ein neues Projekt erstellen?</string>
-    
+
     <string name="pref_title_notify">Benachrichtigungen</string>
     <string name="pref_summary_notify">Erinnern die aufgezeichnete Aktivität zu aktualisieren</string>
 

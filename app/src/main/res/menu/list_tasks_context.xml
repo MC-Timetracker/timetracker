@@ -1,0 +1,19 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/action_edit"
+        android:orderInCategory="100"
+        android:title="@string/button_edit"
+        android:showAsAction="never" />
+    <item
+        android:id="@+id/action_delete"
+        android:orderInCategory="200"
+        android:title="@string/button_delete"
+        android:showAsAction="never" />
+    <item
+        android:id="@+id/action_statistics"
+        android:orderInCategory="200"
+        android:title="@string/button_statistics"
+        android:showAsAction="never" />
+
+</menu>

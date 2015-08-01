@@ -29,13 +29,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".NewTaskActivity"
-            android:label="@string/title_activity_new_task" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="iiitd.mc.timetracker.BaseActivity" />
-        </activity>
-        <activity
             android:name=".ListTasksActivity"
             android:label="@string/title_activity_list_tasks" >
             <meta-data

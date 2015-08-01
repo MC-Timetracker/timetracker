@@ -1,6 +1,5 @@
 package iiitd.mc.timetracker;
 
-import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -9,6 +8,8 @@ import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ExpandableListView;
@@ -22,12 +23,11 @@ import iiitd.mc.timetracker.adapter.ExpandableListAdapter;
 import iiitd.mc.timetracker.data.Task;
 import iiitd.mc.timetracker.helper.IDatabaseController;
 
-@SuppressLint({"InflateParams", "ShowToast"})
 public class ListTasksActivity extends BaseActivity {
 
     private ExpandableListView expListView;
-    private List<Task> listHeader;
-    private HashMap<Task, List<Task>> listItems;
+    private List<Task> listHeader = new ArrayList<>();
+    private HashMap<Task, List<Task>> listItems = new HashMap<>();
     private ExpandableListAdapter listAdapter;
 
     @Override
@@ -56,8 +56,8 @@ public class ListTasksActivity extends BaseActivity {
      * Populate the list in the UI with the Tasks from the database.
      */
     public void loadTasksList() {
-        listHeader = new ArrayList<>();
-        listItems = new HashMap<>();
+        listHeader.clear();
+        listItems.clear();
 
         IDatabaseController db = ApplicationHelper.createDatabaseController();
         db.open();
@@ -93,48 +93,74 @@ public class ListTasksActivity extends BaseActivity {
 
     }
 
-    public void onCreateContextMenu(ContextMenu menu,
-                                    View v, ContextMenuInfo menuInfo) {
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
-        menu.setHeaderTitle("Select The Action");
-        menu.add(0, v.getId(), 0, "View");
-        menu.add(1, v.getId(), 1, "Statistics");
-        menu.add(2, v.getId(), 2, "Delete");
+
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.list_tasks_context, menu);
     }
 
+    @Override
     public boolean onContextItemSelected(MenuItem item) {
         ExpandableListContextMenuInfo info = (ExpandableListContextMenuInfo) item.getMenuInfo();
-
+        int groupPos = ExpandableListView.getPackedPositionGroup(info.packedPosition);
+        int childPos = ExpandableListView.getPackedPositionChild(info.packedPosition);
         int type = ExpandableListView.getPackedPositionType(info.packedPosition);
 
-        int grouppos = ExpandableListView.getPackedPositionGroup(info.packedPosition);
-        int childpos = ExpandableListView.getPackedPositionChild(info.packedPosition);
-
-        long taskId = 0;
-
+        long taskId = -1;
         if (type == ExpandableListView.PACKED_POSITION_TYPE_GROUP) {
-            taskId = listHeader.get(grouppos).getId();
+            taskId = listHeader.get(groupPos).getId();
         } else {
-            taskId = listItems.get(listHeader.get(grouppos)).get(childpos).getId();
+            taskId = listItems.get(listHeader.get(groupPos)).get(childPos).getId();
         }
 
-        if (item.getTitle() == "View") {
-            Intent intent = new Intent(ListTasksActivity.this, EditTaskActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-            intent.putExtra("taskid", taskId);
-            startActivity(intent);
-        } else if (item.getTitle() == "Delete") {
-            deleteTask(taskId);
-        } else if (item.getTitle() == "Statistics") {
-            Intent intent = new Intent(this, TaskWiseStats.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-            intent.putExtra("taskid", taskId);
-            startActivity(intent);
-        } else
-            return false;
 
-        return true;
+        switch (item.getItemId()) {
+            case R.id.action_edit:
+                editTask(taskId);
+                return true;
+            case R.id.action_delete:
+                deleteTask(taskId);
+                return true;
+            case R.id.action_statistics:
+                statisticsTask(taskId);
+                return true;
+            default:
+                return super.onContextItemSelected(item);
+        }
     }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu items for use in the action bar
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.list_tasks_actions, menu);
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle presses on the action bar items
+        switch (item.getItemId()) {
+            case R.id.action_new_task:
+                editTask(-1);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+
+    private void editTask(long taskId) {
+        Intent intent = new Intent(this, EditTaskActivity.class);
+        if (taskId >= 0)
+            intent.putExtra("taskid", taskId);
+        startActivity(intent);
+    }
+
 
     private void deleteTask(final long taskId) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -147,10 +173,8 @@ public class ListTasksActivity extends BaseActivity {
                         db.deleteTask(taskId);
                         db.close();
 
-                        Intent intent = getIntent();
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                        finish();
-                        startActivity(intent);
+                        //refresh task list after delete
+                        loadTasksList();
                     }
                 })
                 .setNegativeButton(R.string.button_cancel, new DialogInterface.OnClickListener() {
@@ -161,4 +185,14 @@ public class ListTasksActivity extends BaseActivity {
                 .create();
         dialog.show();
     }
+
+
+    private void statisticsTask(long taskId) {
+        //TODO: load the fragment instead of launching activity?!
+//		Intent intent = new Intent(getActivity(), TaskWiseStatsFragment.class);
+//		intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+//		intent.putExtra("taskid", taskId);
+//		startActivity(intent);
+    }
+
 }

@@ -17,6 +17,7 @@
     <string name="button_stop">Stop</string>
     <string name="button_pause">Pause</string>
     <string name="button_resume">Resume</string>
+    <string name="button_statistics">Statistics</string>
 
     <!-- Nav Drawer Menu -->
     <string name="drawer_open">Slider Menu Opened</string>
@@ -33,7 +34,6 @@
 
     <!-- Activity Titles -->
     <string name="title_activity_running">Recording Task</string>
-    <string name="title_activity_new_task">New Task</string>
     <string name="title_activity_list_tasks">All Tasks</string>
     <string name="title_activity_list_recordings">All Recordings</string>
     <string name="title_activity_statistics">Statistics</string>
@@ -46,6 +46,7 @@
     <string name="label_stoptime">Stop Time: </string>
     <string name="toast_recording_saved">Recording was successfully saved.</string>
     <string name="prompt_taskname_invalid">This task name is not allowed.</string>
+    <string name="prompt_taskname_exists">This task name already exists.</string>
     <string name="autocomplete_task_hint">Select Task</string>
     <string name="prompt_time_invalid">Invalid time format.</string>
     <string name="prompt_delete_recording">Do you really want to delete the recording?</string>
@@ -76,6 +77,7 @@
     <string name="recentTv">Recent Activities</string>
     <string name="notification_recording">Working on</string>
     <string name="action_new_recording">New</string>
+    <string name="action_new_task">New</string>
     <string name="promptCreateNewTask">Do you want to create a new task?</string>
     
     <string name="pref_title_notify">Notifications</string>

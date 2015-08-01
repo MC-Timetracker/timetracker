@@ -120,7 +120,7 @@ public class BaseActivity extends Activity implements OnItemClickListener {
                 startActivity(home_activity);
                 break;
             case 1:
-                Intent new_task = new Intent(this, NewTaskActivity.class);
+                Intent new_task = new Intent(this, EditTaskActivity.class);
                 new_task.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                 new_task.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 mDrawerLayout.closeDrawer(mDrawerList);
