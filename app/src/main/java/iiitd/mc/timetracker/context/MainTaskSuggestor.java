@@ -26,7 +26,7 @@ public class MainTaskSuggestor implements ITaskSuggestor {
 
     @Override
     public List<SuggestedTask> getSuggestedTasks() {
-        List<SuggestedTask> tasks = new ArrayList<SuggestedTask>();
+        List<SuggestedTask> tasks = new ArrayList<>();
 
         for (int i = 0; i < suggestors.length; i++) {
             ITaskSuggestor suggestor = suggestors[i];

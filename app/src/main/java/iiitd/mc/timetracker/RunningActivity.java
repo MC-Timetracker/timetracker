@@ -1,10 +1,5 @@
 package iiitd.mc.timetracker;
 
-import java.util.concurrent.TimeUnit;
-
-import iiitd.mc.timetracker.data.TaskRecorderService;
-import iiitd.mc.timetracker.data.TaskRecorderService.TaskRecorderBinder;
-
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -17,6 +12,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.TextView;
+
+import java.util.concurrent.TimeUnit;
+
+import iiitd.mc.timetracker.data.TaskRecorderService;
+import iiitd.mc.timetracker.data.TaskRecorderService.TaskRecorderBinder;
 
 public class RunningActivity extends BaseActivity {
 

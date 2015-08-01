@@ -1,14 +1,5 @@
 package iiitd.mc.timetracker;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-import iiitd.mc.timetracker.data.*;
-import iiitd.mc.timetracker.helper.IDatabaseController;
-import iiitd.mc.timetracker.view.TaskAutoCompleteTextView;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,6 +9,17 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import iiitd.mc.timetracker.data.Recording;
+import iiitd.mc.timetracker.data.Task;
+import iiitd.mc.timetracker.data.TaskRecorderService;
+import iiitd.mc.timetracker.helper.IDatabaseController;
+import iiitd.mc.timetracker.view.TaskAutoCompleteTextView;
 
 
 /**
@@ -78,7 +80,7 @@ public class MainActivity extends BaseActivity {
     /**
      * Event handler for click of start button.
      *
-     * @param view
+     * @param view The view for this onClick event.
      */
     public void Start(View view) {
         // Get the task instance that corresponds to the String entered by the user and start recording it
@@ -108,7 +110,7 @@ public class MainActivity extends BaseActivity {
             recentTasks.add(fullrec);
         }
 
-        recentActAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, recentTasks);
+        recentActAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, recentTasks);
 
         recentAct.setAdapter(recentActAdapter);
     }

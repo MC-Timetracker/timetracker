@@ -1,10 +1,11 @@
 package iiitd.mc.timetracker.helper;
 
+import android.database.SQLException;
+
 import java.util.List;
 
-import iiitd.mc.timetracker.data.*;
-
-import android.database.SQLException;
+import iiitd.mc.timetracker.data.Recording;
+import iiitd.mc.timetracker.data.Task;
 
 /**
  * Provides a simple CRUD interface for database access.
@@ -19,12 +20,12 @@ public interface IDatabaseController {
      * @return The initialized DatabaseController
      * @throws SQLException
      */
-    public IDatabaseController open() throws SQLException;
+    IDatabaseController open() throws SQLException;
 
     /**
      * Close the connection to the database.
      */
-    public void close();
+    void close();
 
     //public void printTasks(String abc);
 
@@ -35,7 +36,7 @@ public interface IDatabaseController {
      *
      * @param newTask A Task instance with the properties of the task to be created.
      */
-    public void insertTask(Task newTask);
+    void insertTask(Task newTask);
 
     /**
      * Get the Task with the given ID.
@@ -43,14 +44,14 @@ public interface IDatabaseController {
      * @param id The task ID.
      * @return Returns the Task instance or null if no task with the given ID exists.
      */
-    public Task getTask(long id);
+    Task getTask(long id);
 
     /**
      * Returns a list of all tasks.
      *
      * @return A list of all tasks.
      */
-    public List<Task> getTasks();
+    List<Task> getTasks();
 
     /**
      * Get the task(s) that have the given name.
@@ -59,14 +60,14 @@ public interface IDatabaseController {
      * @param name The name of the tasks to retrieve.
      * @return A list of all the tasks with the given name (empty, one or several elements).
      */
-    public List<Task> getTasks(String name);
+    List<Task> getTasks(String name);
 
     /**
      * Edit an existing Task.
      *
      * @param updatedTask The Task with its updated properties, the Task ID has to stay unchanged.
      */
-    public void updateTask(Task updatedTask);
+    void updateTask(Task updatedTask);
 
     /**
      * Delete the given Task from the database.
@@ -74,14 +75,14 @@ public interface IDatabaseController {
      *
      * @param id The ID of the Task to be deleted.
      */
-    public void deleteTask(long id);
+    void deleteTask(long id);
 
     /**
      * Delete the given Task from the database.
      *
      * @param removedTask The Task to be deleted.
      */
-    public void deleteTask(Task removedTask);
+    void deleteTask(Task removedTask);
 
 
     // Recordings
@@ -91,7 +92,7 @@ public interface IDatabaseController {
      *
      * @param newRecording The Recording containing the properties to be saved to the database.
      */
-    public void insertRecording(Recording newRecording);
+    void insertRecording(Recording newRecording);
 
     /**
      * Get the Recordings with the given ID.
@@ -99,14 +100,14 @@ public interface IDatabaseController {
      * @param recordingId The Recording ID.
      * @return Returns the Recording instance or null if no Recording with the given ID exists.
      */
-    public Recording getRecording(long recordingId);
+    Recording getRecording(long recordingId);
 
     /**
      * Get a list of all Recordings.
      *
      * @return A list of all Recordings.
      */
-    public List<Recording> getRecordings();
+    List<Recording> getRecordings();
 
     /**
      * Get a list of all Recordings.
@@ -114,7 +115,7 @@ public interface IDatabaseController {
      * @param limit The maximum number of recordings to be returned.
      * @return A list of all Recordings.
      */
-    public List<Recording> getRecordings(int limit);
+    List<Recording> getRecordings(int limit);
 
     /**
      * Get a list of Recordings for a particular date
@@ -122,37 +123,37 @@ public interface IDatabaseController {
      * @param date
      * @return
      */
-    public List<Recording> getRecordings(long date);
+    List<Recording> getRecordings(long date);
 
-    public List<Recording> getRecordings(long start, long end);
+    List<Recording> getRecordings(long start, long end);
 
-    public List<Recording> getRecordings(long taskid, long start, long end);
+    List<Recording> getRecordings(long taskid, long start, long end);
 
     /**
      * Edit an existing Recording.
      *
      * @param updatedRecording The Recording with its updated properties, the Recording ID has to stay unchanged.
      */
-    public void updateRecording(Recording updatedRecording);
+    void updateRecording(Recording updatedRecording);
 
     /**
      * Delete the given Recording from the database.
      *
      * @param id The ID of the Recording to be removed.
      */
-    public void deleteRecording(long id);
+    void deleteRecording(long id);
 
     /**
      * Delete the given Recording from the database.
      *
      * @param removedRecording The Recording to be removed.
      */
-    public void deleteRecording(Recording removedRecording);
+    void deleteRecording(Recording removedRecording);
 
     /**
      * Gets the subtasks under a particular task
      */
 
-    public List<Task> getSubTasks(long id);
+    List<Task> getSubTasks(long id);
 
 }

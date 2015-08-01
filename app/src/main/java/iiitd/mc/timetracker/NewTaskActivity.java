@@ -1,10 +1,5 @@
 package iiitd.mc.timetracker;
 
-import iiitd.mc.timetracker.data.Task;
-import iiitd.mc.timetracker.data.TaskRecorderService;
-import iiitd.mc.timetracker.helper.IDatabaseController;
-import iiitd.mc.timetracker.view.TaskAutoCompleteTextView;
-
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
@@ -14,6 +9,11 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import iiitd.mc.timetracker.data.Task;
+import iiitd.mc.timetracker.data.TaskRecorderService;
+import iiitd.mc.timetracker.helper.IDatabaseController;
+import iiitd.mc.timetracker.view.TaskAutoCompleteTextView;
 
 /**
  * Activity for creating a new task.

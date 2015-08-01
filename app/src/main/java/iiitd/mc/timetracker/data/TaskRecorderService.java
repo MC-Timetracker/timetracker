@@ -1,10 +1,4 @@
-
 package iiitd.mc.timetracker.data;
-
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
-import java.util.regex.Pattern;
 
 import android.app.PendingIntent;
 import android.app.Service;
@@ -17,9 +11,13 @@ import android.os.Binder;
 import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
 
+import java.util.Date;
+import java.util.List;
+import java.util.regex.Pattern;
+
 import iiitd.mc.timetracker.ApplicationHelper;
-import iiitd.mc.timetracker.RunningActivity;
 import iiitd.mc.timetracker.R;
+import iiitd.mc.timetracker.RunningActivity;
 import iiitd.mc.timetracker.helper.IDatabaseController;
 
 /**
@@ -196,8 +194,7 @@ public class TaskRecorderService extends Service {
         String[] taskStringParts = taskString.split(Pattern.quote(Task.THS));
 //get all tasks with name like the lowest hierarchy part of the string
         List<Task> taskCandidates = db.getTasks(taskStringParts[taskStringParts.length - 1]);
-        for (Iterator<Task> i = taskCandidates.iterator(); i.hasNext(); ) {
-            Task t = i.next();
+        for (Task t : taskCandidates) {
             if (taskString.equalsIgnoreCase(t.toString())) {
                 task = t;
                 break;
@@ -266,9 +263,7 @@ public class TaskRecorderService extends Service {
      * @return True if the string is valid as a task name.
      */
     public static boolean isValidTaskName(String sTask) {
-        if (sTask == null || sTask.trim().equals(""))
-            return false;
-        return true;
+        return sTask != null && !sTask.trim().equals("");
     }
 }
 

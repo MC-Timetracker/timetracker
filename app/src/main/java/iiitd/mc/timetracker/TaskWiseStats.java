@@ -93,7 +93,7 @@ public class TaskWiseStats extends OverallStats {
 
         timeDurationseries = new XYSeries("Duration(in hrs)");
 
-        List<String> lblTasks = new ArrayList<String>();
+        List<String> lblTasks = new ArrayList<>();
         int i = 0;
 
         for (Map.Entry<String, Float> entry : barrec.entrySet()) {

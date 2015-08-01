@@ -1,16 +1,14 @@
 package iiitd.mc.timetracker.data;
 
-import iiitd.mc.timetracker.ApplicationHelper;
-import iiitd.mc.timetracker.helper.IDatabaseController;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import iiitd.mc.timetracker.ApplicationHelper;
+import iiitd.mc.timetracker.helper.IDatabaseController;
 
 /**
  * A Task describes the details of a specific activity.
  * The user can record time spent for a Task through (multiple) Recordings referencing the Task.
- *
- * @author gullal
  */
 public class Task {
     /**
@@ -18,11 +16,7 @@ public class Task {
      * e.g. "." for "Studies.Maths.Assignment"
      */
     public static final String THS = ".";
-    /**
-     * Member for Id variable added
-     *
-     * @author Shubham
-     */
+
     private long id;
     private String name;
     private Task parent;
@@ -113,8 +107,6 @@ public class Task {
     /**
      * Set the parent Task of this Task.
      * Through parent relationships a task hierarchy can be built.
-     *
-     * @return
      */
     public void setParent(Task parent) {
         this.parent = parent;
@@ -146,7 +138,7 @@ public class Task {
      */
     public List<Task> getSubtasks() {
         if (subtasks == null)
-            subtasks = new ArrayList<Task>();
+            subtasks = new ArrayList<>();
 
         IDatabaseController db = ApplicationHelper.createDatabaseController();
         db.open();

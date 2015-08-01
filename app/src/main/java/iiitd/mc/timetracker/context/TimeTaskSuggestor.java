@@ -1,14 +1,14 @@
 package iiitd.mc.timetracker.context;
 
-import iiitd.mc.timetracker.ApplicationHelper;
-import iiitd.mc.timetracker.data.Recording;
-import iiitd.mc.timetracker.helper.IDatabaseController;
-
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.GregorianCalendar;
 import java.util.List;
+
+import iiitd.mc.timetracker.ApplicationHelper;
+import iiitd.mc.timetracker.data.Recording;
+import iiitd.mc.timetracker.helper.IDatabaseController;
 
 public class TimeTaskSuggestor implements ITaskSuggestor {
     private final int INTERVAL = 60; // interval size in minutes for classification based on recording start time
@@ -22,7 +22,7 @@ public class TimeTaskSuggestor implements ITaskSuggestor {
     @Override
     public List<SuggestedTask> getSuggestedTasks() {
         /*
-		 * Prediction is based on 1 hour buckets, overlapping by 0.5 hour each:
+         * Prediction is based on 1 hour buckets, overlapping by 0.5 hour each:
 		 * 		00:00 - 01:00
 		 * 		00:30 - 01:30
 		 *  	01:00 - 02:00
@@ -39,7 +39,7 @@ public class TimeTaskSuggestor implements ITaskSuggestor {
             timestamp = now.getTimeInMillis();
         }
 
-        List<SuggestedTask> tasks = new ArrayList<SuggestedTask>();
+        List<SuggestedTask> tasks = new ArrayList<>();
         int bucket1 = getPrimaryBucket(now);
         int bucket2 = getSecondaryBucket(bucket1);
 
@@ -59,7 +59,7 @@ public class TimeTaskSuggestor implements ITaskSuggestor {
         List<Recording> recordings = db.getRecordings();
         db.close();
 
-        timeBuckets = new ArrayList<List<SuggestedTask>>(BUCKET_COUNT);
+        timeBuckets = new ArrayList<>(BUCKET_COUNT);
         for (int i = 0; i < 48; i++) {
             // init bucket
             timeBuckets.add(i, new ArrayList<SuggestedTask>());
@@ -90,11 +90,10 @@ public class TimeTaskSuggestor implements ITaskSuggestor {
         int min = time.get(Calendar.MINUTE);
         min += 60 * time.get(Calendar.HOUR_OF_DAY);
 
-        int bucket = min / (INTERVAL / 2);
         // e.g. 00:27 -> 27/30=0 -> bucket 0 (& bucket -1 -> bucket BUCKET_COUNT-1, see getSecondaryBucket() )
         // e.g. 00:33 -> 33/30=1 -> bucket 1 (& bucket  0)
 
-        return bucket;
+        return min / (INTERVAL / 2);
     }
 
     /**

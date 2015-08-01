@@ -1,11 +1,11 @@
 package iiitd.mc.timetracker.context;
 
-import iiitd.mc.timetracker.ApplicationHelper;
-import iiitd.mc.timetracker.data.Task;
-import iiitd.mc.timetracker.helper.*;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import iiitd.mc.timetracker.ApplicationHelper;
+import iiitd.mc.timetracker.data.Task;
+import iiitd.mc.timetracker.helper.IDatabaseController;
 
 /**
  * Suggests top hierarchy tasks
@@ -28,7 +28,7 @@ public class TopHierarchySuggestor implements ITaskSuggestor {
         db.close();
         //TODO: filter to only get top hierarchy tasks?!
 
-        tasks = new ArrayList<SuggestedTask>();
+        tasks = new ArrayList<>();
         for (Task t : topTasks) {
             // wrap the Tasks in SuggestTask objects with a constant probability
             //TODO: what probability for TopHierarchy tasks?

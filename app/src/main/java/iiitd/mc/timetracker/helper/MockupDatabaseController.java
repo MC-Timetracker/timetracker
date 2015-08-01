@@ -1,14 +1,13 @@
 package iiitd.mc.timetracker.helper;
 
-import iiitd.mc.timetracker.data.Recording;
-import iiitd.mc.timetracker.data.Task;
+import android.database.SQLException;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 
-import android.database.SQLException;
+import iiitd.mc.timetracker.data.Recording;
+import iiitd.mc.timetracker.data.Task;
 
 /**
  * A naive in-memory implementation of the IDatabaseController interface for debugging purposes.
@@ -17,9 +16,9 @@ import android.database.SQLException;
  */
 public class MockupDatabaseController implements IDatabaseController {
 
-    private static List<Task> taskList = new ArrayList<Task>();
+    private static List<Task> taskList = new ArrayList<>();
     private static int tid = 1;
-    private static List<Recording> recordsList = new ArrayList<Recording>();
+    private static List<Recording> recordsList = new ArrayList<>();
     private static int rid = 1;
     private static boolean initialized = false;
 
@@ -86,8 +85,7 @@ public class MockupDatabaseController implements IDatabaseController {
 
     @Override
     public Task getTask(long id) {
-        for (Iterator<Task> i = taskList.iterator(); i.hasNext(); ) {
-            Task t = i.next();
+        for (Task t : taskList) {
             if (t.getId() == id)
                 return t;
         }
@@ -104,8 +102,7 @@ public class MockupDatabaseController implements IDatabaseController {
     public List<Task> getTasks(String name) {
         List<Task> namedTasks = new ArrayList<>();
 
-        for (Iterator<Task> i = taskList.iterator(); i.hasNext(); ) {
-            Task t = i.next();
+        for (Task t : taskList) {
             if (t.getName().equalsIgnoreCase(name))
                 namedTasks.add(t);
         }
@@ -141,8 +138,7 @@ public class MockupDatabaseController implements IDatabaseController {
 
     @Override
     public Recording getRecording(long recordingId) {
-        for (Iterator<Recording> i = recordsList.iterator(); i.hasNext(); ) {
-            Recording r = i.next();
+        for (Recording r : recordsList) {
             if (r.getRecordingId() == recordingId)
                 return r;
         }

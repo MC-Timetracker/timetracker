@@ -1,15 +1,15 @@
 package iiitd.mc.timetracker.adapter;
 
-import iiitd.mc.timetracker.context.SuggestedTask;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.widget.ArrayAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import iiitd.mc.timetracker.context.SuggestedTask;
 
 /**
  * Custom AutoComplete Adapter to suggest all kinds of tasks with parent tasks
@@ -57,14 +57,14 @@ public class CustomArrayAdapter extends ArrayAdapter<SuggestedTask> implements F
             FilterResults filteredTasks = new FilterResults();
 
             if (prefix == null || prefix.length() == 0) {
-                List<SuggestedTask> list = new ArrayList<SuggestedTask>(originalList);
+                List<SuggestedTask> list = new ArrayList<>(originalList);
                 filteredTasks.values = list;
                 filteredTasks.count = list.size();
             } else {
 
                 final String prefixString = prefix.toString().toLowerCase();
 
-                List<SuggestedTask> newValues = new ArrayList<SuggestedTask>(originalList.size());
+                List<SuggestedTask> newValues = new ArrayList<>(originalList.size());
                 for (SuggestedTask item : originalList) {
                     if (item.toString().toLowerCase().contains("." + prefixString) || item.toString().toLowerCase().startsWith(prefixString)) {
                         newValues.add(item);
@@ -83,7 +83,7 @@ public class CustomArrayAdapter extends ArrayAdapter<SuggestedTask> implements F
             if (filteredTasks.values != null) {
                 suggestedList = (List<SuggestedTask>) filteredTasks.values;
             } else {
-                suggestedList = new ArrayList<SuggestedTask>();
+                suggestedList = new ArrayList<>();
             }
 
             if (filteredTasks.count > 0) {

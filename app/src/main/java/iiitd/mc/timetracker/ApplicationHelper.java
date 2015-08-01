@@ -1,9 +1,10 @@
 package iiitd.mc.timetracker;
 
-import iiitd.mc.timetracker.helper.*;
-
 import android.app.Application;
 import android.content.Context;
+
+import iiitd.mc.timetracker.helper.DatabaseController;
+import iiitd.mc.timetracker.helper.IDatabaseController;
 
 /**
  * Helper class to get the application Context in static functions.
@@ -21,7 +22,7 @@ public class ApplicationHelper extends Application {
     /**
      * Returns the ApplicationContext.
      *
-     * @return
+     * @return The app's ApplicationContext.
      */
     public static Context getAppContext() {
         return ApplicationHelper.context;

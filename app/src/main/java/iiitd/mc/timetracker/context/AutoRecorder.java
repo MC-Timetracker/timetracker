@@ -1,17 +1,5 @@
 package iiitd.mc.timetracker.context;
 
-import java.util.GregorianCalendar;
-import java.util.List;
-
-import iiitd.mc.timetracker.ApplicationHelper;
-import iiitd.mc.timetracker.MainActivity;
-import iiitd.mc.timetracker.R;
-import iiitd.mc.timetracker.SettingsActivity;
-import iiitd.mc.timetracker.data.Recording;
-import iiitd.mc.timetracker.data.Task;
-import iiitd.mc.timetracker.data.TaskRecorderService;
-import iiitd.mc.timetracker.data.TaskRecorderService.TaskRecorderBinder;
-
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
@@ -27,6 +15,18 @@ import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
+
+import java.util.GregorianCalendar;
+import java.util.List;
+
+import iiitd.mc.timetracker.ApplicationHelper;
+import iiitd.mc.timetracker.MainActivity;
+import iiitd.mc.timetracker.R;
+import iiitd.mc.timetracker.SettingsActivity;
+import iiitd.mc.timetracker.data.Recording;
+import iiitd.mc.timetracker.data.Task;
+import iiitd.mc.timetracker.data.TaskRecorderService;
+import iiitd.mc.timetracker.data.TaskRecorderService.TaskRecorderBinder;
 
 /**
  * Constantly checks for Tasks that are likely to be started right now
@@ -54,7 +54,7 @@ public class AutoRecorder extends BroadcastReceiver {
 
         // abort if intent signifies only an intermediate step while connecting
         if (intent.getAction().equals(WifiManager.SUPPLICANT_STATE_CHANGED_ACTION)) {
-            SupplicantState state = (SupplicantState) intent.getParcelableExtra(WifiManager.EXTRA_NEW_STATE);
+            SupplicantState state = intent.getParcelableExtra(WifiManager.EXTRA_NEW_STATE);
             switch (state) {
                 case COMPLETED:
                 case DISCONNECTED:

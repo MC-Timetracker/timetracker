@@ -1,13 +1,13 @@
 package iiitd.mc.timetracker.context;
 
-import iiitd.mc.timetracker.ApplicationHelper;
-import iiitd.mc.timetracker.data.*;
-import iiitd.mc.timetracker.helper.*;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+
+import iiitd.mc.timetracker.ApplicationHelper;
+import iiitd.mc.timetracker.data.Recording;
+import iiitd.mc.timetracker.helper.IDatabaseController;
 
 /**
  * Suggests tasks that were entered by the user previously.
@@ -35,7 +35,7 @@ public class RecentTaskSuggestor implements ITaskSuggestor {
         recordings = db.getRecordings(); //TODO: Why save them in the RecentTaskSuggester instance if not reused?
         db.close();
 
-        tasks = new ArrayList<SuggestedTask>();
+        tasks = new ArrayList<>();
 
         Collections.sort(recordings, new Comparator<Recording>() {
 

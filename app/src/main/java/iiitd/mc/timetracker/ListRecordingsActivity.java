@@ -1,15 +1,5 @@
 package iiitd.mc.timetracker;
 
-import java.text.DateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-
-import iiitd.mc.timetracker.adapter.ExpandableRecAdapter;
-import iiitd.mc.timetracker.data.Recording;
-import iiitd.mc.timetracker.helper.IDatabaseController;
-
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -25,11 +15,20 @@ import android.view.View;
 import android.widget.ExpandableListView;
 import android.widget.ExpandableListView.ExpandableListContextMenuInfo;
 
+import java.text.DateFormat;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+import iiitd.mc.timetracker.adapter.ExpandableRecAdapter;
+import iiitd.mc.timetracker.data.Recording;
+import iiitd.mc.timetracker.helper.IDatabaseController;
+
 public class ListRecordingsActivity extends BaseActivity {
 
     private ExpandableListView expRecView;
-    private List<String> recHeader = new ArrayList<String>();
-    private HashMap<String, List<Recording>> recItems = new HashMap<String, List<Recording>>();
+    private List<String> recHeader = new ArrayList<>();
+    private HashMap<String, List<Recording>> recItems = new HashMap<>();
     private ExpandableRecAdapter recAdapter;
 
 
@@ -92,7 +91,7 @@ public class ListRecordingsActivity extends BaseActivity {
         int type = ExpandableListView.getPackedPositionType(info.packedPosition);
         if (type == ExpandableListView.PACKED_POSITION_TYPE_CHILD) {
             MenuInflater inflater = getMenuInflater();
-            inflater.inflate(R.menu.context_menu, menu);
+            inflater.inflate(R.menu.list_recordings_context, menu);
         }
     }
 

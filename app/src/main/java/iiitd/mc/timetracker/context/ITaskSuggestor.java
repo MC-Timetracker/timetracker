@@ -13,9 +13,9 @@ public interface ITaskSuggestor {
     /**
      * Get an array of the suggested tasks.
      *
-     * @return
+     * @return a list of suggested tasks, specifying task and probability.
      */
 
-    public List<SuggestedTask> getSuggestedTasks();
+    List<SuggestedTask> getSuggestedTasks();
 
 }

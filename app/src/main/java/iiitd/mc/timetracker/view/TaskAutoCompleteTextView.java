@@ -1,5 +1,19 @@
 package iiitd.mc.timetracker.view;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.support.v4.view.GestureDetectorCompat;
+import android.util.AttributeSet;
+import android.view.GestureDetector.OnGestureListener;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AutoCompleteTextView;
+import android.widget.Toast;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,24 +25,10 @@ import iiitd.mc.timetracker.context.SuggestedTask;
 import iiitd.mc.timetracker.data.Task;
 import iiitd.mc.timetracker.data.TaskRecorderService;
 
-import android.app.AlertDialog;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.support.v4.view.GestureDetectorCompat;
-import android.util.AttributeSet;
-import android.view.GestureDetector.OnGestureListener;
-import android.view.MotionEvent;
-import android.view.View;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
-import android.widget.AutoCompleteTextView;
-import android.widget.Toast;
-import android.widget.AdapterView.OnItemClickListener;
-
 public class TaskAutoCompleteTextView extends AutoCompleteTextView implements OnGestureListener {
     private ITaskSuggestor suggestor;
     private CustomArrayAdapter taskListAdapter;
-    private List<SuggestedTask> suggestedTasks = new ArrayList<SuggestedTask>();
+    private List<SuggestedTask> suggestedTasks = new ArrayList<>();
 
     private Context context;
 
@@ -184,7 +184,7 @@ public class TaskAutoCompleteTextView extends AutoCompleteTextView implements On
     }
 
     public interface OnTaskCreatedListener {
-        public void onTaskCreated(Task newTask);
+        void onTaskCreated(Task newTask);
     }
 
 

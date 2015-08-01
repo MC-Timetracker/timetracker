@@ -1,12 +1,11 @@
 package iiitd.mc.timetracker.context;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.content.Context;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
-import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import iiitd.mc.timetracker.ApplicationHelper;
 import iiitd.mc.timetracker.data.Recording;
@@ -47,10 +46,7 @@ public class LocationTaskSuggestor implements ITaskSuggestor {
 
     @Override
     public List<SuggestedTask> getSuggestedTasks() {
-        String bssid = trackbssid(appContext);
-        List<SuggestedTask> tasks = setcurrentbssid(appContext, bssid);
-
-        return tasks;
+        return setcurrentbssid(appContext, trackbssid(appContext));
     }
 
     /**
@@ -66,7 +62,7 @@ public class LocationTaskSuggestor implements ITaskSuggestor {
         db.close();
 
         double prob = 1.0;
-        List<SuggestedTask> tasks = new ArrayList<SuggestedTask>();
+        List<SuggestedTask> tasks = new ArrayList<>();
         for (Recording rec : recordings) {
             if (bssid != "00:00:00:00:00" && bssid.compareTo(rec.getMacAddress()) == 0) {
                 SuggestedTask temp = new SuggestedTask(rec.getTask(), prob);

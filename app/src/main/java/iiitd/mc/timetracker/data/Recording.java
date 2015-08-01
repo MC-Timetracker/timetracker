@@ -1,22 +1,17 @@
 package iiitd.mc.timetracker.data;
 
-import iiitd.mc.timetracker.ApplicationHelper;
-
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
+import iiitd.mc.timetracker.ApplicationHelper;
+
 /**
  * A Recording describes a specific time period spent working on a Task.
- *
- * @author gullal
  */
 public class Recording {
-    /**
-     * @author Shubham
-     * Member for Id variable added
-     */
+
     private long recordingId;
     private Date start;
     private Date end;

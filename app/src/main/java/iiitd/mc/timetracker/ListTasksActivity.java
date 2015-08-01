@@ -1,19 +1,10 @@
 package iiitd.mc.timetracker;
 
-import iiitd.mc.timetracker.adapter.ExpandableListAdapter;
-import iiitd.mc.timetracker.data.Task;
-import iiitd.mc.timetracker.helper.IDatabaseController;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -22,7 +13,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ExpandableListView;
 import android.widget.ExpandableListView.ExpandableListContextMenuInfo;
-import android.widget.ExpandableListView.OnChildClickListener;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+import iiitd.mc.timetracker.adapter.ExpandableListAdapter;
+import iiitd.mc.timetracker.data.Task;
+import iiitd.mc.timetracker.helper.IDatabaseController;
 
 @SuppressLint({"InflateParams", "ShowToast"})
 public class ListTasksActivity extends BaseActivity {
@@ -58,8 +56,8 @@ public class ListTasksActivity extends BaseActivity {
      * Populate the list in the UI with the Tasks from the database.
      */
     public void loadTasksList() {
-        listHeader = new ArrayList<Task>();
-        listItems = new HashMap<Task, List<Task>>();
+        listHeader = new ArrayList<>();
+        listItems = new HashMap<>();
 
         IDatabaseController db = ApplicationHelper.createDatabaseController();
         db.open();

@@ -1,17 +1,17 @@
 package iiitd.mc.timetracker.helper;
 
-import iiitd.mc.timetracker.data.Recording;
-import iiitd.mc.timetracker.data.Task;
-
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import iiitd.mc.timetracker.data.Recording;
+import iiitd.mc.timetracker.data.Task;
 
 /**
  * Database Helper class to perform all Database CURD operations
@@ -95,7 +95,7 @@ public class DatabaseController implements IDatabaseController {
     }
 
     public List<Task> getTasksWhere(String filter) {
-        List<Task> tasks = new ArrayList<Task>();
+        List<Task> tasks = new ArrayList<>();
         String selectTasksQuery = "SELECT * FROM " + DatabaseHelper.TABLE_TASK + " WHERE " + filter;
         database = dbHelper.getReadableDatabase();
         Cursor c = database.rawQuery(selectTasksQuery, null);
@@ -194,7 +194,7 @@ public class DatabaseController implements IDatabaseController {
     }
 
     public List<Recording> getRecordingsWhere(String filter, int limit) {
-        List<Recording> recordings = new ArrayList<Recording>();
+        List<Recording> recordings = new ArrayList<>();
         String selectRecordingQuery = "SELECT * FROM " + DatabaseHelper.TABLE_RECORDING + " WHERE " + filter
                 + " ORDER BY " + DatabaseHelper.RECORDING_STARTTIME + " DESC";
         if (limit > 0)

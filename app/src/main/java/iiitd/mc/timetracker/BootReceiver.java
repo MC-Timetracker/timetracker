@@ -1,7 +1,5 @@
 package iiitd.mc.timetracker;
 
-import iiitd.mc.timetracker.context.AutoRecorder;
-
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
@@ -9,6 +7,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.wifi.WifiManager;
+
+import iiitd.mc.timetracker.context.AutoRecorder;
 
 public class BootReceiver extends BroadcastReceiver {
 

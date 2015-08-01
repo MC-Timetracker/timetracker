@@ -91,11 +91,7 @@ public class BaseActivity extends Activity implements OnItemClickListener {
     public boolean onOptionsItemSelected(MenuItem item) {
         // Pass the event to ActionBarDrawerToggle, if it returns
         // true, then it has handled the app icon touch event
-        if (mDrawerToggle.onOptionsItemSelected(item)) {
-            return true;
-        }
-
-        return false;
+        return mDrawerToggle.onOptionsItemSelected(item);
     }
 
     @Override

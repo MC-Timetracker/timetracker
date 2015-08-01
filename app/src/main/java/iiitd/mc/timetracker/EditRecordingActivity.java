@@ -1,15 +1,5 @@
 package iiitd.mc.timetracker;
 
-import java.text.DateFormat;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.List;
-
-import iiitd.mc.timetracker.data.Recording;
-import iiitd.mc.timetracker.data.Task;
-import iiitd.mc.timetracker.helper.IDatabaseController;
-import iiitd.mc.timetracker.view.TaskAutoCompleteTextView;
-
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
@@ -22,6 +12,16 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TimePicker;
 import android.widget.Toast;
+
+import java.text.DateFormat;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.List;
+
+import iiitd.mc.timetracker.data.Recording;
+import iiitd.mc.timetracker.data.Task;
+import iiitd.mc.timetracker.helper.IDatabaseController;
+import iiitd.mc.timetracker.view.TaskAutoCompleteTextView;
 
 public class EditRecordingActivity extends BaseActivity {
     static final String EXTRA_RECORDING_ID = "recordingId";

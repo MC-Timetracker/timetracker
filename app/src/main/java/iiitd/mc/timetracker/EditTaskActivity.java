@@ -1,8 +1,5 @@
 package iiitd.mc.timetracker;
 
-import iiitd.mc.timetracker.data.Task;
-import iiitd.mc.timetracker.helper.IDatabaseController;
-
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
@@ -13,6 +10,9 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import iiitd.mc.timetracker.data.Task;
+import iiitd.mc.timetracker.helper.IDatabaseController;
 
 /**
  * This activity shows the parent, task name, description and probably the recordings w.r.t

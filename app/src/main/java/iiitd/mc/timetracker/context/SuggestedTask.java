@@ -80,7 +80,7 @@ public class SuggestedTask implements Comparable<SuggestedTask> {
 
     @Override
     public int compareTo(SuggestedTask another) {
-        int r = Double.compare(this.getProbability(), ((SuggestedTask) another).getProbability());
+        int r = Double.compare(this.getProbability(), another.getProbability());
         return -r;
     }
 }
