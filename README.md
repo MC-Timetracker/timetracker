@@ -33,3 +33,8 @@ Find how you waste time without wasting time to analyze it.
     -to register background services for notifications about suggested tasks
   - VIBRATE
 
+
+## About
+Please report any problems or suggestions here on GitHub under [Issues](https://github.com/MC-Timetracker/timetracker/issues).
+
+This project is released as free software under the GPL license, [see LICENSE.md](https://github.com/MC-Timetracker/timetracker/blob/master/LICENSE.md). You are welcome to contribute or use this code in any way.
