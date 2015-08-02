@@ -81,5 +81,8 @@
     
     <string name="pref_title_notify">Notifications</string>
     <string name="pref_summary_notify">Remind you to update your recorded activity</string>
+    <string name="version">Version</string>
+    <string name="about">About</string>
+    <string name="about_summary">https://github.com/MC-Timetracker/timetracker</string>
 
 </resources>
