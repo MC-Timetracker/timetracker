@@ -6,7 +6,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="iiitd.mc.timetracker.EditTaskActivity">
+    tools:context="iiitd.mc.timetracker.view.EditTaskActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -47,7 +47,7 @@
                     android:paddingRight="20dp"
                     android:text="@string/label_task_parent" />
 
-                <iiitd.mc.timetracker.view.TaskAutoCompleteTextView
+                <iiitd.mc.timetracker.view.component.TaskAutoCompleteTextView
                     android:id="@+id/ac_taskparent"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"

@@ -8,8 +8,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.wifi.WifiManager;
 
-import iiitd.mc.timetracker.context.AutoRecorder;
-
 public class BootReceiver extends BroadcastReceiver {
 
     /**

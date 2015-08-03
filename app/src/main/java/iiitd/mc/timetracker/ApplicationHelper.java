@@ -3,8 +3,8 @@ package iiitd.mc.timetracker;
 import android.app.Application;
 import android.content.Context;
 
-import iiitd.mc.timetracker.helper.DatabaseController;
-import iiitd.mc.timetracker.helper.IDatabaseController;
+import iiitd.mc.timetracker.database.DatabaseController;
+import iiitd.mc.timetracker.database.IDatabaseController;
 
 /**
  * Helper class to get the application Context in static functions.

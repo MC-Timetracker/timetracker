@@ -20,7 +20,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".MainActivity"
+            android:name=".view.MainActivity"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -28,13 +28,13 @@
             </intent-filter>
         </activity>
 
-        <service android:name=".data.TaskRecorderService" />
+        <service android:name=".TaskRecorderService" />
 
         <activity
-            android:name=".EditTaskActivity"
+            android:name=".view.EditTaskActivity"
             android:label="@string/edit_task"></activity>
         <activity
-            android:name=".EditRecordingActivity"
+            android:name=".view.EditRecordingActivity"
             android:label="@string/title_activity_edit_recording"></activity>
         <activity
             android:name=".TaskWiseStats"
