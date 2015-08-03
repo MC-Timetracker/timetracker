@@ -33,14 +33,14 @@ import iiitd.mc.timetracker.view.SettingsFragment;
  * and potentially act automatically on this.
  */
 public class AutoRecorder extends BroadcastReceiver {
-    public final int NOTIFICATION_ID_TASK_SUGGESTION = 2;
+    private static final int NOTIFICATION_ID_TASK_SUGGESTION = 2;
     private static final String TAG = "AutoRecorder";
 
-    TaskRecorderService taskRecorder;
-    boolean mBound = false;
+    private TaskRecorderService taskRecorder;
+    private boolean mBound = false;
 
-    ITaskSuggestor taskSuggestor;
-    long lastActionTimestamp;
+    private ITaskSuggestor taskSuggestor;
+    private long lastActionTimestamp;
     private static final int SILENCE_INTERVAL = 10 * 60 * 1000; // minimum time between active notification of the user; in ms (minutes*60*1000)
 
 

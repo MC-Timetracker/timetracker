@@ -10,13 +10,13 @@ import java.util.List;
  * @author gullal
  */
 public class MainTaskSuggestor implements ITaskSuggestor {
-    ITaskSuggestor[] suggestors = new ITaskSuggestor[]{
+    private ITaskSuggestor[] suggestors = new ITaskSuggestor[]{
             new TopHierarchySuggestor(),
             new RecentTaskSuggestor(),
             new TimeTaskSuggestor(),
             new LocationTaskSuggestor(),
     };
-    double[] suggestorWeights = new double[]{
+    private double[] suggestorWeights = new double[]{
             0,        // top hierarchy
             0.1,    // recent tasks
             0.4,    // time

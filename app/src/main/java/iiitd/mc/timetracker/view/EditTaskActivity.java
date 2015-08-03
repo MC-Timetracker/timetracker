@@ -21,7 +21,6 @@ import iiitd.mc.timetracker.view.component.TaskAutoCompleteTextView;
  * to the task to the user.
  */
 public class EditTaskActivity extends Activity {
-    private Button btnUpdate, btnCancel;
     private EditText etTaskname, etDescription;
     private TaskAutoCompleteTextView acParent;
 
@@ -32,8 +31,8 @@ public class EditTaskActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_task);
 
-        btnUpdate = (Button) findViewById(R.id.btnUpdate);
-        btnCancel = (Button) findViewById(R.id.btnCancel);
+        Button btnUpdate = (Button) findViewById(R.id.btnUpdate);
+        Button btnCancel = (Button) findViewById(R.id.btnCancel);
         acParent = (TaskAutoCompleteTextView) findViewById(R.id.ac_taskparent);
         etTaskname = (EditText) findViewById(R.id.et_taskname);
         etDescription = (EditText) findViewById(R.id.et_taskdescription);
@@ -73,10 +72,10 @@ public class EditTaskActivity extends Activity {
     /**
      * Save the Task by updating/inserting it into the database.
      */
-    public void save() {
+    private void save() {
         String taskname = etTaskname.getText().toString();
         String parentTaskname = acParent.getText().toString();
-        String fullTaskname = (parentTaskname == "") ? parentTaskname + "." + taskname : taskname;
+        String fullTaskname = !parentTaskname.isEmpty() ? parentTaskname + "." + taskname : taskname;
 
         if (!TaskRecorderService.isValidTaskName(taskname)) {
             // empty string or otherwise not allowed name

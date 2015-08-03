@@ -10,10 +10,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 /**
  * Database Helper class helps to perform all CURD operations on the database.
  */
-public class DatabaseHelper extends SQLiteOpenHelper {
-
-    //LOGCAT tag for logs
-    public static final String LOG = "DatabaseHelper";
+class DatabaseHelper extends SQLiteOpenHelper {
 
     //DB version
     public static final int DATABASE_VERSION = 1;
@@ -42,7 +39,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     //Table Create Statements
     //Task Table Create Statement
-    public static final String CREATE_TABLE_TASK = "CREATE TABLE " + TABLE_TASK + "("
+    private static final String CREATE_TABLE_TASK = "CREATE TABLE " + TABLE_TASK + "("
             + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
             + TASK_NAME + " TEXT NOT NULL, "
             + TASK_DESCRIPTION + " TEXT, "
@@ -50,7 +47,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             + ");";
 
     //Recording Table Create Statement
-    public static final String CREATE_TABLE_RECORDING = "CREATE TABLE " + TABLE_RECORDING + "("
+    private static final String CREATE_TABLE_RECORDING = "CREATE TABLE " + TABLE_RECORDING + "("
             + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
             + RECORDING_TASKID + " INTEGER REFERENCES " + TABLE_TASK + "(" + KEY_ID + ") ON DELETE CASCADE, "
             + RECORDING_STARTTIME + " INTEGER, "

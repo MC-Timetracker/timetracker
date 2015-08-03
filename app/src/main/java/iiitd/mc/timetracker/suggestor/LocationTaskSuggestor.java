@@ -27,18 +27,13 @@ public class LocationTaskSuggestor implements ITaskSuggestor {
      * @param context application context
      * @return mac address
      */
-    public String trackbssid(Context context) {
-        String bssid = "";
-
+    private String trackbssid(Context context) {
         WifiManager mainWifi = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
         WifiInfo wifiInfo = mainWifi.getConnectionInfo();
 
+        String bssid = "00:00:00:00:00";
         if (wifiInfo.getBSSID() != null) {
-
             bssid = wifiInfo.getBSSID();
-        } else if (wifiInfo.getBSSID() == null) {
-
-            bssid = "00:00:00:00:00";
         }
 
         return bssid;
@@ -46,17 +41,7 @@ public class LocationTaskSuggestor implements ITaskSuggestor {
 
     @Override
     public List<SuggestedTask> getSuggestedTasks() {
-        return setcurrentbssid(appContext, trackbssid(appContext));
-    }
-
-    /**
-     * compares the current mac address to the mac address saved in all the recordings
-     *
-     * @param context
-     * @param bssid   mac address
-     * @return
-     */
-    public List<SuggestedTask> setcurrentbssid(Context context, String bssid) {
+        String bssid = trackbssid(appContext);
         db.open();
         List<Recording> recordings = db.getRecordings();
         db.close();
@@ -64,7 +49,7 @@ public class LocationTaskSuggestor implements ITaskSuggestor {
         double prob = 1.0;
         List<SuggestedTask> tasks = new ArrayList<>();
         for (Recording rec : recordings) {
-            if (bssid != "00:00:00:00:00" && bssid.compareTo(rec.getMacAddress()) == 0) {
+            if (bssid.equals(rec.getMacAddress()) && !bssid.equals("00:00:00:00:00")) {
                 SuggestedTask temp = new SuggestedTask(rec.getTask(), prob);
                 tasks.add(temp);
             }

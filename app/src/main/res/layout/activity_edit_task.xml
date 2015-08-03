@@ -84,23 +84,23 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/btnUpdate"
+                android:id="@+id/btnCancel"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@drawable/orangebutton"
-                android:text="@string/button_save"
-                android:width="170dp" />
+                android:text="@string/button_cancel"
+                android:width="160dp" />
 
             <Button
-                android:id="@+id/btnCancel"
+                android:id="@+id/btnUpdate"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:layout_weight="1"
                 android:background="@drawable/orangebutton"
-                android:text="@string/button_cancel"
-                android:width="170dp" />
+                android:text="@string/button_save"
+                android:width="160dp" />
         </LinearLayout>
     </LinearLayout>
 

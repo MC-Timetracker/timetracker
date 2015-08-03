@@ -104,32 +104,32 @@
 	    <TableRow
 	        android:layout_width="match_parent"
 	        android:layout_height="match_parent"
-	        android:layout_below="@+id/row4" >
+			android:layout_below="@+id/row3">
 	
 	        <Button
-	            android:id="@+id/btnSaveRecording"
+				android:id="@+id/btnCancelRecording"
 	            android:layout_width="0dp"
 	            android:layout_height="wrap_content"
 	            android:layout_marginLeft="0dp"
 	            android:layout_marginTop="300dp"
 	            android:layout_weight="1"
-	            android:onClick="onSave"
-	            android:text="@string/button_save"
+				android:text="@string/button_cancel"
 	            android:background="@drawable/orangebutton"
-	            android:width="160dp" />
-	
-	        <Button
-	            android:id="@+id/btnCancelRecording"
+				android:width="160dp"
+				android:onClick="onCancel" />
+
+			<Button
+				android:id="@+id/btnSaveRecording"
 	            android:layout_width="0dp"
 	            android:layout_height="wrap_content"
 	            android:layout_marginLeft="15dp"
 	            android:layout_marginRight="0dp"
 	            android:layout_marginTop="300dp"
 	            android:layout_weight="1"
-	            android:text="@string/button_cancel"
+				android:text="@string/button_save"
 	            android:background="@drawable/orangebutton"
-	            android:width="170dp"
-	            android:onClick="onCancel" />
+				android:width="160dp"
+				android:onClick="onSave" />
 	    </TableRow>
 	
 	</RelativeLayout>

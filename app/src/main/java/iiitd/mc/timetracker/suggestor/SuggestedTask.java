@@ -1,6 +1,5 @@
 package iiitd.mc.timetracker.suggestor;
 
-import iiitd.mc.timetracker.database.DatabaseController;
 import iiitd.mc.timetracker.model.Task;
 
 /**
@@ -11,7 +10,6 @@ import iiitd.mc.timetracker.model.Task;
 public class SuggestedTask implements Comparable<SuggestedTask> {
     private Task task;
     private double probability = 0.5;
-    DatabaseController dc_obj = new DatabaseController(null);
 
 
     public SuggestedTask(Task task, double probability) {

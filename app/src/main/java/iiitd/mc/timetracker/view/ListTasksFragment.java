@@ -28,11 +28,8 @@ import iiitd.mc.timetracker.view.adapter.ExpandableListAdapter;
 
 public class ListTasksFragment extends Fragment {
 
-    private ExpandableListView expListView;
-    private List<Task> listHeader = new ArrayList<Task>();
-    ;
-    private HashMap<Task, List<Task>> listItems = new HashMap<Task, List<Task>>();
-    private ExpandableListAdapter listAdapter;
+    private List<Task> listHeader = new ArrayList<>();
+    private HashMap<Task, List<Task>> listItems = new HashMap<>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -40,10 +37,10 @@ public class ListTasksFragment extends Fragment {
         View v = inflater.inflate(R.layout.activity_list_tasks, container, false);
 
         // Get the ListView
-        expListView = (ExpandableListView) v.findViewById(R.id.Explv);
+        ExpandableListView expListView = (ExpandableListView) v.findViewById(R.id.Explv);
 
 
-        listAdapter = new ExpandableListAdapter(getActivity(), listHeader, listItems);
+        ExpandableListAdapter listAdapter = new ExpandableListAdapter(getActivity(), listHeader, listItems);
         expListView.setAdapter(listAdapter);
 
         setHasOptionsMenu(true);
@@ -65,7 +62,7 @@ public class ListTasksFragment extends Fragment {
     /**
      * Populate the list in the UI with the Tasks from the database.
      */
-    public void loadTasksList() {
+    private void loadTasksList() {
         listHeader.clear();
         listItems.clear();
 
@@ -119,7 +116,7 @@ public class ListTasksFragment extends Fragment {
         int childPos = ExpandableListView.getPackedPositionChild(info.packedPosition);
         int type = ExpandableListView.getPackedPositionType(info.packedPosition);
 
-        long taskId = -1;
+        long taskId;
         if (type == ExpandableListView.PACKED_POSITION_TYPE_GROUP) {
             taskId = listHeader.get(groupPos).getId();
         } else {

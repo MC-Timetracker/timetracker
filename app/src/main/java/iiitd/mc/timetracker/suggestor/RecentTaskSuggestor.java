@@ -15,14 +15,9 @@ import iiitd.mc.timetracker.model.Recording;
  * @author sebastian & gullal
  */
 public class RecentTaskSuggestor implements ITaskSuggestor {
-    /**
-     * How many recordings are considered.
-     */
-    private final int recordingLimit = 5;
 
-    private List<SuggestedTask> tasks;
-    private List<Recording> recordings;
-    IDatabaseController db;
+    private IDatabaseController db;
+    private static final int RECORDING_LIMIT = 5;
 
     public RecentTaskSuggestor() {
         db = ApplicationHelper.createDatabaseController();
@@ -32,10 +27,10 @@ public class RecentTaskSuggestor implements ITaskSuggestor {
     public List<SuggestedTask> getSuggestedTasks() {
         db.open();
         //TODO: use some limit to only get the last 10 (?) recordings?
-        recordings = db.getRecordings(); //TODO: Why save them in the RecentTaskSuggester instance if not reused?
+        List<Recording> recordings = db.getRecordings();
         db.close();
 
-        tasks = new ArrayList<>();
+        List<SuggestedTask> tasks = new ArrayList<>();
 
         Collections.sort(recordings, new Comparator<Recording>() {
 
@@ -47,8 +42,11 @@ public class RecentTaskSuggestor implements ITaskSuggestor {
         });
 
         // add unique tasks to list and update their probability (ratio of occurrences)
-        int i = recordingLimit;
-        double prob = 1.0 / recordingLimit;
+        /*
+      How many recordings are considered.
+     */
+        int i = RECORDING_LIMIT;
+        double prob = 1.0 / RECORDING_LIMIT;
         for (Recording rec : recordings) {
             if (i <= 0)
                 break;

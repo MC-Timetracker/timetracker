@@ -46,18 +46,17 @@ public class StatisticsOverviewFragment extends Fragment implements OnMenuItemCl
     static Calendar startDate;
     static Calendar endDate;
     static int timeRangeId = 1;
-    EditText from_date;
-    EditText to_date;
-    DatePickerDialog fromDatePickerDialog, toDatePickerDialog;
+    private EditText from_date;
+    private EditText to_date;
+    private DatePickerDialog fromDatePickerDialog;
+    private DatePickerDialog toDatePickerDialog;
 
-    public static final String PREFS_NAME = "Tab_Pref";
-    int mDisplayMode;
     private LinearLayout chartContainer;
     private TextView no_data;
     private TextView tvTimeRange;
 
-    protected boolean drawOverallPie = true;
-    DateFormat format;
+    boolean drawOverallPie = true;
+    private DateFormat format;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -114,7 +113,7 @@ public class StatisticsOverviewFragment extends Fragment implements OnMenuItemCl
         return true;
     }
 
-    public void drawOverallPieChart() {
+    private void drawOverallPieChart() {
         Map<String, Long> todrec = new HashMap<>();
         List<Recording> recs = new ArrayList<>();
 
@@ -178,7 +177,7 @@ public class StatisticsOverviewFragment extends Fragment implements OnMenuItemCl
             else
                 tname = fullname;
 
-            long dur = 0;
+            long dur;
             if (todrec.containsKey(tname)) {
                 dur = todrec.get(tname) + r.getDuration(TimeUnit.MINUTES);
                 todrec.put(tname, dur);
@@ -238,7 +237,7 @@ public class StatisticsOverviewFragment extends Fragment implements OnMenuItemCl
 
     }
 
-    public void showPopUp() {
+    private void showPopUp() {
         PopupMenu popup = new PopupMenu(getActivity(), tvTimeRange);
         MenuInflater inflater = popup.getMenuInflater();
         inflater.inflate(R.menu.time_ranges, popup.getMenu());
@@ -247,10 +246,10 @@ public class StatisticsOverviewFragment extends Fragment implements OnMenuItemCl
     }
 
 
-    public void rangeCustomDialog() {
+    private void rangeCustomDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
-        View view = null;
+        View view;
         view = inflater.inflate(R.layout.custom_dialog, null);
         from_date = (EditText) view.findViewById(R.id.from_date);
         to_date = (EditText) view.findViewById(R.id.to_date);
@@ -347,7 +346,7 @@ public class StatisticsOverviewFragment extends Fragment implements OnMenuItemCl
         super.onCreateOptionsMenu(menu, inflater);
     }
 
-    public long getLastMonthEnd() {
+    long getLastMonthEnd() {
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.MONTH, -1);
         calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DATE));
@@ -358,7 +357,7 @@ public class StatisticsOverviewFragment extends Fragment implements OnMenuItemCl
         return calendar.getTimeInMillis();
     }
 
-    public long getLastMonthStart() {
+    long getLastMonthStart() {
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.MONTH, -1);
         calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMinimum(Calendar.DATE));
@@ -369,7 +368,7 @@ public class StatisticsOverviewFragment extends Fragment implements OnMenuItemCl
         return calendar.getTimeInMillis();
     }
 
-    public long getMonthEnd() {
+    long getMonthEnd() {
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DATE));
         calendar.set(Calendar.HOUR_OF_DAY, 23);
@@ -379,7 +378,7 @@ public class StatisticsOverviewFragment extends Fragment implements OnMenuItemCl
         return calendar.getTimeInMillis();
     }
 
-    public long getMonthStart() {
+    long getMonthStart() {
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMinimum(Calendar.DATE));
         calendar.set(Calendar.HOUR_OF_DAY, 0);
@@ -389,7 +388,7 @@ public class StatisticsOverviewFragment extends Fragment implements OnMenuItemCl
         return calendar.getTimeInMillis();
     }
 
-    public long getLastWeekStart() {
+    long getLastWeekStart() {
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.WEEK_OF_MONTH, -1);
         calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
@@ -400,7 +399,7 @@ public class StatisticsOverviewFragment extends Fragment implements OnMenuItemCl
         return calendar.getTimeInMillis();
     }
 
-    public long getLastWeekEnd() {
+    long getLastWeekEnd() {
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
         calendar.set(Calendar.HOUR_OF_DAY, 23);
@@ -410,7 +409,7 @@ public class StatisticsOverviewFragment extends Fragment implements OnMenuItemCl
         return calendar.getTimeInMillis();
     }
 
-    public long getWeekStart() {
+    long getWeekStart() {
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
         calendar.set(Calendar.HOUR_OF_DAY, 0);
@@ -420,7 +419,7 @@ public class StatisticsOverviewFragment extends Fragment implements OnMenuItemCl
         return calendar.getTimeInMillis();
     }
 
-    public long getWeekEnd() {
+    long getWeekEnd() {
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.WEEK_OF_MONTH, 1);
         calendar.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
@@ -431,7 +430,7 @@ public class StatisticsOverviewFragment extends Fragment implements OnMenuItemCl
         return calendar.getTimeInMillis();
     }
 
-    public long getYesterdayStart() {
+    long getYesterdayStart() {
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.DATE, -1);
         calendar.set(Calendar.HOUR_OF_DAY, 0);
@@ -441,7 +440,7 @@ public class StatisticsOverviewFragment extends Fragment implements OnMenuItemCl
         return calendar.getTimeInMillis();
     }
 
-    public long getYesterdayEnd() {
+    long getYesterdayEnd() {
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.DATE, -1);
         calendar.set(Calendar.HOUR_OF_DAY, 23);
@@ -451,7 +450,7 @@ public class StatisticsOverviewFragment extends Fragment implements OnMenuItemCl
         return calendar.getTimeInMillis();
     }
 
-    public long getStartOfDay() {
+    long getStartOfDay() {
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.HOUR_OF_DAY, 0);
         calendar.set(Calendar.MINUTE, 0);
@@ -460,7 +459,7 @@ public class StatisticsOverviewFragment extends Fragment implements OnMenuItemCl
         return calendar.getTimeInMillis();
     }
 
-    public long getEndOfDay() {
+    long getEndOfDay() {
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.HOUR_OF_DAY, 23);
         calendar.set(Calendar.MINUTE, 59);

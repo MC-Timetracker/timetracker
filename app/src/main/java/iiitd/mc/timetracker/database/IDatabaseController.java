@@ -117,9 +117,6 @@ public interface IDatabaseController {
 
     /**
      * Get a list of Recordings for a particular date
-     *
-     * @param date
-     * @return
      */
     List<Recording> getRecordings(long date);
 

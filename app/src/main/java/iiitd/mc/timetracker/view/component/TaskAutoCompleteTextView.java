@@ -68,7 +68,7 @@ public class TaskAutoCompleteTextView extends AutoCompleteTextView implements On
     /**
      * Initial setup of the autocomplete dropdown task selection text box.
      */
-    public void initTaskAutocomplete() {
+    private void initTaskAutocomplete() {
         mDetector = new GestureDetectorCompat(context, this);
         //mDetector.setOnDoubleTapListener(this);
 
@@ -115,7 +115,7 @@ public class TaskAutoCompleteTextView extends AutoCompleteTextView implements On
     /**
      * Reload the list of tasks displayed in the autocomplete dropdown.
      */
-    public void updateSuggestionList() {
+    private void updateSuggestionList() {
         if (suggestor == null)
             suggestor = new MainTaskSuggestor();
 

@@ -30,8 +30,8 @@ import iiitd.mc.timetracker.view.adapter.ExpandableRecAdapter;
 public class ListRecordingsFragment extends Fragment {
 
     private ExpandableListView expRecView;
-    private List<String> recHeader = new ArrayList<String>();
-    private HashMap<String, List<Recording>> recItems = new HashMap<String, List<Recording>>();
+    private List<String> recHeader = new ArrayList<>();
+    private HashMap<String, List<Recording>> recItems = new HashMap<>();
     private ExpandableRecAdapter recAdapter;
 
 
@@ -63,7 +63,7 @@ public class ListRecordingsFragment extends Fragment {
     /**
      * Populate the list in the UI with the Recordings from the database.
      */
-    public void loadRecordingsList() {
+    private void loadRecordingsList() {
         recHeader.clear();
         recItems.clear();
         DateFormat formater = android.text.format.DateFormat.getDateFormat(getActivity());

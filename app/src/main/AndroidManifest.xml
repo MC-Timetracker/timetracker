@@ -9,10 +9,6 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
-    <uses-sdk
-        android:minSdkVersion="14"
-        android:targetSdkVersion="21" />
-
     <application
         android:name=".ApplicationHelper"
         android:allowBackup="true"
@@ -32,17 +28,17 @@
 
         <activity
             android:name=".view.EditTaskActivity"
-            android:label="@string/edit_task"></activity>
+            android:label="@string/edit_task" />
         <activity
             android:name=".view.EditRecordingActivity"
-            android:label="@string/title_activity_edit_recording"></activity>
+            android:label="@string/title_activity_edit_recording" />
         <activity
             android:name=".TaskWiseStats"
-            android:label="@string/title_activity_task_wise_stats"></activity>
+            android:label="@string/title_activity_task_wise_stats" />
 
         <receiver android:name=".BootReceiver">
             <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED"></action>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
     </application>

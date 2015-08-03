@@ -66,7 +66,7 @@ public class Task {
     /**
      * Get the name describing the Task.
      *
-     * @return
+     * @return The name of the task (without parent).
      */
     public String getName() {
         return name;
@@ -75,7 +75,7 @@ public class Task {
     /**
      * Get the full name describing the Task including the path of all parent tasks.
      *
-     * @return
+     * @return The full name, including parent hierarchy.
      */
     public String getNameFull() {
         String p = "";
@@ -88,17 +88,23 @@ public class Task {
     /**
      * Set the name describing the Task.
      *
-     * @param name
+     * @param name The name to be assigned to this task (without parents).
+     *             If the string contains the character used for separating
+     *             parent hierarchy, only the last part of the string is assigned as name.
      */
     public void setName(String name) {
-        this.name = name;
+        if (name.contains(THS)) {
+            this.name = name.substring(name.lastIndexOf(THS));
+        } else {
+            this.name = name;
+        }
     }
 
     /**
      * Get the parent Task of this Task.
      * Through parent relationships a task hierarchy can be built.
      *
-     * @return
+     * @return The parent task instance or null if there is no parent.
      */
     public Task getParent() {
         return parent;
@@ -115,7 +121,7 @@ public class Task {
     /**
      * Get the description text giving further details about the Task.
      *
-     * @return
+     * @return The textual description of the task.
      */
     public String getDescription() {
         return description;
@@ -124,7 +130,7 @@ public class Task {
     /**
      * Set the description text giving further details about the Task.
      *
-     * @param description
+     * @param description The text to be assigned as description to the task.
      */
     public void setDescription(String description) {
         this.description = description;
@@ -134,7 +140,7 @@ public class Task {
      * Get the list of subtasks, Tasks for which this Task serves as parent.
      * This is a convenience function, modifications of the list will not propagate to the database.
      *
-     * @return
+     * @return A list of all tasks for which this task is the parent.
      */
     public List<Task> getSubtasks() {
         if (subtasks == null)

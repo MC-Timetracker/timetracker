@@ -14,7 +14,7 @@ public interface RecorderListener {
      *
      * @param oldRec The Recording that has been recorded until now.
      */
-    public void onRecordingStopped(Recording oldRec);
+    void onRecordingStopped(Recording oldRec);
 
     /**
      * Fires when the Recorder starts a Recording.
@@ -22,5 +22,5 @@ public interface RecorderListener {
      *
      * @param newRec The new Recording that has just been started.
      */
-    public void onRecordingStarted(Recording newRec);
+    void onRecordingStarted(Recording newRec);
 }

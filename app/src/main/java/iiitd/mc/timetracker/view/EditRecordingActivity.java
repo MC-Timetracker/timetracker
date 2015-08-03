@@ -26,14 +26,19 @@ import iiitd.mc.timetracker.view.component.TaskAutoCompleteTextView;
 
 public class EditRecordingActivity extends Activity {
     static final String EXTRA_RECORDING_ID = "recordingId";
-    Recording recording;
-    boolean isNewRecording;
+    private Recording recording;
+    private boolean isNewRecording;
 
     private TaskAutoCompleteTextView etTaskName;
 
-    EditText etStartTime, etStartDate, etStopTime, etStopDate;
-    DateFormat formatDate, formatTime;
-    Calendar calStart, calEnd;
+    private EditText etStartTime;
+    private EditText etStartDate;
+    private EditText etStopTime;
+    private EditText etStopDate;
+    private DateFormat formatDate;
+    private DateFormat formatTime;
+    private Calendar calStart;
+    private Calendar calEnd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

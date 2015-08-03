@@ -61,7 +61,7 @@ public class Recording {
     /**
      * Get time when work on the recording was started.
      *
-     * @return
+     * @return The start time for this recording.
      */
     public Date getStart() {
         return start;
@@ -84,7 +84,7 @@ public class Recording {
     /**
      * Get time when work on the recording was stopped.
      *
-     * @return
+     * @return The end time for this recording.
      */
     public Date getEnd() {
         return end;
@@ -107,7 +107,7 @@ public class Recording {
     /**
      * Get the task for which work was done during this recording.
      *
-     * @return
+     * @return The task instance of this recording.
      */
     public Task getTask() {
         return task;
@@ -116,7 +116,7 @@ public class Recording {
     /**
      * Set the task for which work was done during this recording.
      *
-     * @param task
+     * @param task The task to be associated with this recording.
      */
     public void setTask(Task task) {
         this.task = task;

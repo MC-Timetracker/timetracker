@@ -39,20 +39,17 @@ import iiitd.mc.timetracker.view.component.TaskAutoCompleteTextView;
  */
 public class MainFragment extends Fragment implements RecorderListener {
 
-    Intent recorderIntent;
-    TaskRecorderService taskRecorder;
-    boolean taskRecorderBound = false;
-    boolean mBound = false;
+    private TaskRecorderService taskRecorder;
+    private boolean mBound = false;
 
     private View vRunning;
     private TaskAutoCompleteTextView tvTask;
     private TextView tvRecordingTask;
-    private Button btnPause, btnStart, btnStop;
+    private Button btnPause;
+    private Button btnStart;
     private ListView recentAct;
-    private ArrayAdapter<String> recentActAdapter;
 
-    Chronometer chronometer;
-    long stoptime = 0;
+    private Chronometer chronometer;
 
 
     @Override
@@ -60,11 +57,11 @@ public class MainFragment extends Fragment implements RecorderListener {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.activity_main, container, false);
 
-        vRunning = (View) v.findViewById(R.id.running_layout);
+        vRunning = v.findViewById(R.id.running_layout);
         recentAct = (ListView) v.findViewById(R.id.recentLv);
         tvTask = (TaskAutoCompleteTextView) v.findViewById(R.id.taskSelectionBox);
         btnPause = (Button) v.findViewById(R.id.btnPause);
-        btnStop = (Button) v.findViewById(R.id.btnStop);
+        Button btnStop = (Button) v.findViewById(R.id.btnStop);
         btnStart = (Button) v.findViewById(R.id.btnStart);
         chronometer = (Chronometer) v.findViewById(R.id.chronometer);
         tvRecordingTask = (TextView) v.findViewById(R.id.tv_recording_task);
@@ -124,9 +121,9 @@ public class MainFragment extends Fragment implements RecorderListener {
     /**
      * Event handler for click of stop button.
      *
-     * @param view
+     * @param view The view passed from the event handler.
      */
-    public void Stop(View view) {
+    private void Stop(View view) {
         chronometer.stop();
 
         if (mBound) {
@@ -139,9 +136,9 @@ public class MainFragment extends Fragment implements RecorderListener {
     /**
      * Event handler for click of pause button.
      *
-     * @param view
+     * @param view The view passed from the event handler.
      */
-    public void Pause(View view) {
+    private void Pause(View view) {
         if (mBound) {
             taskRecorder.pauseRecording();
         }
@@ -150,9 +147,9 @@ public class MainFragment extends Fragment implements RecorderListener {
     /**
      * Event handler for click of start button.
      *
-     * @param view
+     * @param view The view passed from the event handler.
      */
-    public void Start(View view) {
+    private void Start(View view) {
         // Get the task instance that corresponds to the String entered by the user and start recording it
         tvTask.createTask(new TaskAutoCompleteTextView.OnTaskCreatedListener() {
                               @Override
@@ -178,9 +175,9 @@ public class MainFragment extends Fragment implements RecorderListener {
     /**
      * Handle everything to actually start recording the task in the business logic layer with TaskRecorder.
      */
-    public void startRecording(Task task) {
+    private void startRecording(Task task) {
         // Start recording in a Service
-        recorderIntent = new Intent(getActivity(), TaskRecorderService.class);
+        Intent recorderIntent = new Intent(getActivity(), TaskRecorderService.class);
         recorderIntent.putExtra(TaskRecorderService.EXTRA_TASK_ID, task.getId());
         getActivity().startService(recorderIntent);
 
@@ -222,7 +219,7 @@ public class MainFragment extends Fragment implements RecorderListener {
     /**
      * Load a list of recent recordings
      */
-    public void initRecentActList() {
+    private void initRecentActList() {
         IDatabaseController db = ApplicationHelper.createDatabaseController();
         db.open();
         List<Recording> records = db.getRecordings((new Date()).getTime());
@@ -236,7 +233,7 @@ public class MainFragment extends Fragment implements RecorderListener {
             recentTasks.add(fullrec);
         }
 
-        recentActAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, recentTasks);
+        ArrayAdapter<String> recentActAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, recentTasks);
 
         recentAct.setAdapter(recentActAdapter);
     }

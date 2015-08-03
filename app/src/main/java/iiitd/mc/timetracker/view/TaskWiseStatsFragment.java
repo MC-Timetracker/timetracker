@@ -39,11 +39,12 @@ import iiitd.mc.timetracker.model.Task;
 public class TaskWiseStatsFragment extends StatisticsOverviewFragment {
     private long taskid;
     private TextView rangeTv;
-    TextView textView, textView2;
-    TextView no_data;
-    LinearLayout chartContainer, chartContainer2;
+    private TextView textView;
+    private TextView textView2;
+    private TextView no_data;
+    private LinearLayout chartContainer;
+    private LinearLayout chartContainer2;
     private long startTime, endTime;
-    private HashMap<String, Long> pierec;
     private HashMap<String, Float> barrec;
 
     @Override
@@ -69,7 +70,7 @@ public class TaskWiseStatsFragment extends StatisticsOverviewFragment {
         return v;
     }
 
-    public void drawBarChart() {
+    private void drawBarChart() {
         textView.setText("Average Hours Spent");
 
         IDatabaseController db = ApplicationHelper.createDatabaseController();
@@ -85,7 +86,7 @@ public class TaskWiseStatsFragment extends StatisticsOverviewFragment {
 
         for (Recording r : recs) {
             String tday = sdf.format(r.getStart());
-            float dur_hrs = 0f;
+            float dur_hrs;
             if (barrec.containsKey(tday)) {
                 dur_hrs = (float) (barrec.get(tday) + (r.getDuration(TimeUnit.MINUTES) / 60.0));
                 barrec.put(tday, dur_hrs);
@@ -102,7 +103,7 @@ public class TaskWiseStatsFragment extends StatisticsOverviewFragment {
 
         timeDurationseries = new XYSeries("Duration(in hrs)");
 
-        List<String> lblTasks = new ArrayList<String>();
+        List<String> lblTasks = new ArrayList<>();
         int i = 0;
 
         for (Map.Entry<String, Float> entry : barrec.entrySet()) {
@@ -151,7 +152,7 @@ public class TaskWiseStatsFragment extends StatisticsOverviewFragment {
         chartContainer.addView(mChart);
     }
 
-    public void drawPieChart() {
+    private void drawPieChart() {
         IDatabaseController db = ApplicationHelper.createDatabaseController();
         db.open();
         Task task = db.getTask(taskid);
@@ -159,12 +160,12 @@ public class TaskWiseStatsFragment extends StatisticsOverviewFragment {
 
         List<Recording> recs = getRecordings();
 
-        pierec = new HashMap<>();
+        HashMap<String, Long> pierec = new HashMap<>();
 
         long utilTime = 0;
         for (Recording r : recs) {
             String name = r.getTask().getName();
-            long dur = 0;
+            long dur;
             if (pierec.containsKey(name)) {
                 dur = pierec.get(name) + r.getDuration(TimeUnit.MINUTES);
                 pierec.put(name, dur);
@@ -209,7 +210,7 @@ public class TaskWiseStatsFragment extends StatisticsOverviewFragment {
 
     }
 
-    public List<Recording> getRecordings() {
+    private List<Recording> getRecordings() {
         IDatabaseController db = ApplicationHelper.createDatabaseController();
         db.open();
         List<Task> subtasks = db.getSubTasks(taskid);
@@ -226,7 +227,7 @@ public class TaskWiseStatsFragment extends StatisticsOverviewFragment {
         return recs;
     }
 
-    public void initTimeRanges() {
+    private void initTimeRanges() {
         if (timeRangeId == 1) {
             rangeTv.setText("Today");
             startTime = getStartOfDay();
@@ -275,7 +276,7 @@ public class TaskWiseStatsFragment extends StatisticsOverviewFragment {
         return true;
     }
 
-    public void initializeMapforBarGraph() {
+    private void initializeMapforBarGraph() {
         barrec = new LinkedHashMap<>();
         barrec.put("Mon", (float) 0);
         barrec.put("Tue", (float) 0);

@@ -11,11 +11,11 @@ import iiitd.mc.timetracker.database.IDatabaseController;
 import iiitd.mc.timetracker.model.Recording;
 
 public class TimeTaskSuggestor implements ITaskSuggestor {
-    private final int INTERVAL = 60; // interval size in minutes for classification based on recording start time
-    private final int BUCKET_COUNT = 24 * 60 * 2 / INTERVAL; // 24*60 (minutes/day) * 2 (overlap of buckets) / interval
-    private final double PROBABILITY = 0.1; // if a task occurs 5 times in the time period it will have full probability (recordings counted twice if within INTERVAL/2 of point in time, once if within INTERVAL only
+    private static final int INTERVAL = 60; // interval size in minutes for classification based on recording start time
+    private static final int BUCKET_COUNT = 24 * 60 * 2 / INTERVAL; // 24*60 (minutes/day) * 2 (overlap of buckets) / interval
+    private static final double PROBABILITY = 0.1;
+    private static final int CACHE_TIME = 60 * 60 * 1000; // cache the timeBuckets model for 60 minutes
 
-    private final int CACHE_TIME = 60 * 60 * 1000; // cache the timeBuckets model for 60 minutes
     private long timestamp;
     private List<List<SuggestedTask>> timeBuckets;
 

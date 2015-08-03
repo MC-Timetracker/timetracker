@@ -14,8 +14,7 @@ import iiitd.mc.timetracker.model.Task;
  */
 public class TopHierarchySuggestor implements ITaskSuggestor {
 
-    private List<SuggestedTask> tasks;
-    IDatabaseController db;
+    private IDatabaseController db;
 
     public TopHierarchySuggestor() {
         db = ApplicationHelper.createDatabaseController();
@@ -28,7 +27,7 @@ public class TopHierarchySuggestor implements ITaskSuggestor {
         db.close();
         //TODO: filter to only get top hierarchy tasks?!
 
-        tasks = new ArrayList<>();
+        List<SuggestedTask> tasks = new ArrayList<>();
         for (Task t : topTasks) {
             // wrap the Tasks in SuggestTask objects with a constant probability
             //TODO: what probability for TopHierarchy tasks?

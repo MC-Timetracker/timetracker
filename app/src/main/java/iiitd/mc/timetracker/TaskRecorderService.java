@@ -13,7 +13,6 @@ import android.support.v4.app.NotificationCompat;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -30,14 +29,14 @@ import iiitd.mc.timetracker.view.MainActivity;
 public class TaskRecorderService extends Service {
     public final static String EXTRA_TASK_ID = "TASK_ID";
     private final IBinder mBinder = new TaskRecorderBinder();
-    public final int ONGOING_NOTIFICATION_ID = 1;
+    private final int ONGOING_NOTIFICATION_ID = 1;
     private Recording currentRecording = null;
     private Recording lastRecording = null;
-    IDatabaseController db = ApplicationHelper.createDatabaseController();
-    Task breakTask;
+    private IDatabaseController db = ApplicationHelper.createDatabaseController();
+    private Task breakTask;
     private static final String SETTINGS_BREAK_TASK_ID = "breakTaskId";
     private static final String BREAK_TASK_NAME = "Break";
-    WifiManager mainWifiObj;
+    private WifiManager mainWifiObj;
 
     @Override
     public void onCreate() {
@@ -58,7 +57,7 @@ public class TaskRecorderService extends Service {
     }
 
 
-    private List<RecorderListener> listeners = new ArrayList<RecorderListener>();
+    private List<RecorderListener> listeners = new ArrayList<>();
 
     /**
      * Add an object to get notified about changes of the Recorder state like start of a new recording.
@@ -109,7 +108,7 @@ public class TaskRecorderService extends Service {
      * @param task
      *            The task for which recording will be started.
      */
-    public void startRecording(Task task) {
+    private void startRecording(Task task) {
         if (task == null)
             return;
         // if some Task is currently being recorded, stop that first as do not
@@ -215,7 +214,7 @@ public class TaskRecorderService extends Service {
                 // save ID to settings
                 SharedPreferences.Editor editor = settings.edit();
                 editor.putLong(SETTINGS_BREAK_TASK_ID, breakTaskId);
-                editor.commit();
+                editor.apply();
             }
             db.close();
         }
@@ -240,8 +239,7 @@ public class TaskRecorderService extends Service {
         // get all tasks with name like the lowest hierarchy part of the string
         List<Task> taskCandidates = db
                 .getTasks(taskStringParts[taskStringParts.length - 1]);
-        for (Iterator<Task> i = taskCandidates.iterator(); i.hasNext(); ) {
-            Task t = i.next();
+        for (Task t : taskCandidates) {
             if (taskString.equalsIgnoreCase(t.toString())) {
                 task = t;
                 break;
@@ -315,8 +313,6 @@ public class TaskRecorderService extends Service {
      * @return True if the string is valid as a task name.
      */
     public static boolean isValidTaskName(String sTask) {
-        if (sTask == null || sTask.trim().equals(""))
-            return false;
-        return true;
+        return sTask != null && !sTask.trim().equals("");
     }
 }

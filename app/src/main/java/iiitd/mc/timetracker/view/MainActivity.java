@@ -22,14 +22,13 @@ import iiitd.mc.timetracker.view.component.NavigationItem;
 
 public class MainActivity extends Activity implements OnItemClickListener {
 
-    DrawerLayout mDrawerLayout;
-    ListView mDrawerList;
-    ActionBarDrawerToggle mDrawerToggle;
-    NavigationAdapter navigationMenuAdapter;
+    private DrawerLayout mDrawerLayout;
+    private ListView mDrawerList;
+    private ActionBarDrawerToggle mDrawerToggle;
     /**
      * The NavigationDrawer menu items
      */
-    NavigationItem[] navigationMenuItems = {
+    private NavigationItem[] navigationMenuItems = {
             new NavigationItem(R.string.menu_home, R.drawable.ic_menu_home, MainFragment.class),
             new NavigationItem(R.string.menu_listtasks, R.drawable.ic_listtask, ListTasksFragment.class),
             new NavigationItem(R.string.menu_listrecordings, R.drawable.ic_listrecordings, ListRecordingsFragment.class),
@@ -37,8 +36,8 @@ public class MainActivity extends Activity implements OnItemClickListener {
             new NavigationItem(R.string.menu_settings, R.drawable.ic_settings, SettingsFragment.class),
     };
 
-    CharSequence mTitle;
-    CharSequence mDrawerTitle;
+    private CharSequence mTitle;
+    private CharSequence mDrawerTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +53,7 @@ public class MainActivity extends Activity implements OnItemClickListener {
         // init NavigationDrawer
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
-        navigationMenuAdapter = new NavigationAdapter(this, navigationMenuItems);
+        NavigationAdapter navigationMenuAdapter = new NavigationAdapter(this, navigationMenuItems);
         mDrawerList.setAdapter(navigationMenuAdapter);
         mDrawerList.setOnItemClickListener(this);
 
@@ -111,11 +110,8 @@ public class MainActivity extends Activity implements OnItemClickListener {
     public boolean onOptionsItemSelected(MenuItem item) {
         // Pass the event to ActionBarDrawerToggle, if it returns
         // true, then it has handled the app icon touch event
-        if (mDrawerToggle.onOptionsItemSelected(item)) {
-            return true;
-        }
+        return mDrawerToggle.onOptionsItemSelected(item);
 
-        return false;
     }
 
     @Override
