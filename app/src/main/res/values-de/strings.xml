@@ -82,7 +82,9 @@
 
     <!-- Import/Export -->
     <string name="label_export">Export</string>
+    <string name="export_summary">Speichern der Aktivitäten als Datei (.csv)</string>
     <string name="label_import">Import</string>
+    <string name="import_summary">Hinzufügen von Daten aus einer Datei (.csv)</string>
     <string name="msg_export_error_file">Konnte Datei nicht speichern:</string>
     <string name="msg_export_success">Daten erfolgreich exportiert:</string>
     <string name="msg_import_error_date">Aktivität konnte nicht importiert werden wegen ungültigem Format des Datums.</string>

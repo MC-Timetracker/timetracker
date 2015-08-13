@@ -81,7 +81,9 @@
 
     <!-- Import/Export -->
     <string name="label_export">Export</string>
+    <string name="export_summary">Save a backup of your data in CSV format</string>
     <string name="label_import">Import</string>
+    <string name="import_summary">Add data from a CSV file</string>
     <string name="msg_export_error_file">Could not write file:</string>
     <string name="msg_export_success">Exported data successfully:</string>
     <string name="msg_import_error_date">Could not import record because of invalid date format.</string>

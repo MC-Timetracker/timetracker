@@ -9,10 +9,12 @@
 
     <Preference
         android:key="export"
+        android:summary="@string/export_summary"
         android:title="@string/label_export" />
 
     <Preference
         android:key="import"
+        android:summary="@string/import_summary"
         android:title="@string/label_import" />
 
     <Preference
