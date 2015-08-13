@@ -80,6 +80,15 @@
     <string name="action_new_task">Neu</string>
     <string name="promptCreateNewTask">Wollen Sie ein neues Projekt erstellen?</string>
 
+    <!-- Import/Export -->
+    <string name="label_export">Export</string>
+    <string name="label_import">Import</string>
+    <string name="msg_export_error_file">Konnte Datei nicht speichern:</string>
+    <string name="msg_export_success">Daten erfolgreich exportiert:</string>
+    <string name="msg_import_error_date">Aktivität konnte nicht importiert werden wegen ungültigem Format des Datums.</string>
+    <string name="msg_import_error_file">Konnte Datei nicht öffnen:</string>
+    <string name="msg_import_success">Daten wurden erfolgreich importiert.</string>
+
     <string name="pref_title_notify">Benachrichtigungen</string>
     <string name="pref_summary_notify">Erinnern die aufgezeichnete Aktivität zu aktualisieren</string>
     <string name="version">Version</string>
