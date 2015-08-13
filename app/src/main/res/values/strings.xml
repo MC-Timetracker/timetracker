@@ -87,6 +87,7 @@
     <string name="msg_import_error_date">Could not import record because of invalid date format.</string>
     <string name="msg_import_error_file">Could not read file:</string>
     <string name="msg_import_success">Successfully imported data.</string>
+    <string name="prompt_reset_database">Do you want to reset the database?</string>
 
 
     <string name="pref_title_notify">Notifications</string>

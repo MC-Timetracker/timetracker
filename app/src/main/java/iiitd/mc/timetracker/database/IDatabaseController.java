@@ -148,7 +148,12 @@ public interface IDatabaseController {
     /**
      * Gets the subtasks under a particular task
      */
-
     List<Task> getSubTasks(long id);
+
+    /**
+     * Clears the whole database.
+     * Use with care!
+     */
+    void resetDatabase();
 
 }

@@ -1,17 +1,12 @@
 package iiitd.mc.timetracker.database;
 
-import android.net.Uri;
-import android.os.Environment;
 import android.widget.Toast;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import iiitd.mc.timetracker.ApplicationHelper;
 import iiitd.mc.timetracker.R;
@@ -32,48 +27,22 @@ public class DatabaseExportImport {
     private static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
 
-    /**
-     * Writes a complete backup of the database in CSV format to the default backup file.
-     */
-    public static void exportCsv() {
-        String filename = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath() + "/"
-                + DatabaseExportImport.getDefaultExportFileName();
-
-        try {
-            BufferedWriter exportWriter = new BufferedWriter(new FileWriter(filename, false));
-            DatabaseExportImport.exportCsv(exportWriter);
-        } catch (IOException e) {
-            Toast toast = Toast.makeText(ApplicationHelper.getAppContext(), R.string.msg_export_error_file, Toast.LENGTH_SHORT);
-            toast.show();
-
-            Toast toastPath = Toast.makeText(ApplicationHelper.getAppContext(), filename, Toast.LENGTH_LONG);
-            toastPath.show();
-
-            return;
-        }
-
-        Toast toast = Toast.makeText(ApplicationHelper.getAppContext(), R.string.msg_export_success, Toast.LENGTH_SHORT);
-        toast.show();
-        Toast toastPath = Toast.makeText(ApplicationHelper.getAppContext(), filename, Toast.LENGTH_LONG);
-        toastPath.show();
-    }
 
     /**
-     * Writes a complete backup of the database in CSV format into the given file.
-     *
-     * @param exportWriter The writer to which the export is written, pointing the the desired output stream.
+     * Creates a complete backup of the database in CSV format.
+     * @return An list of lines as csv strings.
      */
-    public static void exportCsv(BufferedWriter exportWriter) throws IOException {
+    public static List<String> exportCsv() {
+        List<String> lines = new ArrayList<>();
+
         IDatabaseController db = ApplicationHelper.createDatabaseController();
         db.open();
-
         for (Recording recording : db.getRecordings()) {
-            exportWriter.write(recording2csv(recording));
-            exportWriter.newLine();
+            lines.add(recording2csv(recording));
         }
-        exportWriter.flush();
-
         db.close();
+
+        return lines;
     }
 
     private static String recording2csv(Recording recording) {
@@ -102,39 +71,21 @@ public class DatabaseExportImport {
     }
 
 
-    public static void importCsv(Uri csvUri) {
-        askDatabaseReset();
-
-        try {
-            BufferedReader importReader = new BufferedReader(new FileReader(csvUri.getPath()));
-            DatabaseExportImport.importCsv(importReader);
-        } catch (IOException e) {
-            Toast toast = Toast.makeText(ApplicationHelper.getAppContext(), R.string.msg_import_error_file, Toast.LENGTH_SHORT);
-            toast.show();
-
-            return;
-        }
-
-        Toast toast = Toast.makeText(ApplicationHelper.getAppContext(), R.string.msg_import_success, Toast.LENGTH_SHORT);
-        toast.show();
-    }
-
-    private static void askDatabaseReset() {
-
-    }
-
-    public static void importCsv(BufferedReader importReader) throws IOException {
+    /**
+     * Writes the Recordings given in CSV format to the database,
+     * creating Tasks on the fly if they do now exist yet.
+     *
+     * @param csvLines A list of Strings, each representing csv data of one recording.
+     */
+    public static void importCsv(List<String> csvLines) {
         IDatabaseController db = ApplicationHelper.createDatabaseController();
         db.open();
-
-        String csvLine;
-        while ((csvLine = importReader.readLine()) != null) {
-            Recording recording = csv2recording(csvLine);
+        for (String line : csvLines) {
+            Recording recording = csv2recording(line);
             if (recording != null) {
                 db.insertRecording(recording);
             }
         }
-
         db.close();
     }
 
@@ -175,5 +126,17 @@ public class DatabaseExportImport {
         recording.setEnd(endDate);
 
         return recording;
+    }
+
+
+    /**
+     * Clears the database of all existing recordings and tasks.
+     * Use with care!
+     */
+    public static void resetDatabase() {
+        IDatabaseController db = ApplicationHelper.createDatabaseController();
+        db.open();
+        db.resetDatabase();
+        db.close();
     }
 }

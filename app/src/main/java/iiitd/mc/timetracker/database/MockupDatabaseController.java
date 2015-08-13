@@ -177,25 +177,27 @@ public class MockupDatabaseController implements IDatabaseController {
 
     @Override
     public List<Task> getSubTasks(long id) {
-        // TODO Auto-generated method stub
-        return null;
+        throw new UnsupportedOperationException("Not implemented in mock");
+    }
+
+    @Override
+    public void resetDatabase() {
+        recordsList.clear();
+        taskList.clear();
     }
 
     @Override
     public List<Recording> getRecordings(long date) {
-        // TODO Auto-generated method stub
-        return null;
+        throw new UnsupportedOperationException("Not implemented in mock");
     }
 
     @Override
     public List<Recording> getRecordings(long start, long end) {
-        // TODO Auto-generated method stub
-        return null;
+        throw new UnsupportedOperationException("Not implemented in mock");
     }
 
     @Override
     public List<Recording> getRecordings(long taskid, long start, long end) {
-        // TODO Auto-generated method stub
-        return null;
+        throw new UnsupportedOperationException("Not implemented in mock");
     }
 }

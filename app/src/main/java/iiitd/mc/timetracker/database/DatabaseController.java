@@ -256,4 +256,11 @@ public class DatabaseController implements IDatabaseController {
     public void deleteRecording(Recording removedRecording) {
         database.delete(DatabaseHelper.TABLE_RECORDING, DatabaseHelper.KEY_ID + " = " + removedRecording.getRecordingId(), null);
     }
+
+
+    @Override
+    public void resetDatabase() {
+        database.delete(DatabaseHelper.TABLE_RECORDING, null, null);
+        database.delete(DatabaseHelper.TABLE_TASK, null, null);
+    }
 }
