@@ -84,10 +84,14 @@ public class Recording {
     /**
      * Get time when work on the recording was stopped.
      *
-     * @return The end time for this recording.
+     * @return The end time for this recording or the current time if there is no end set.
      */
     public Date getEnd() {
-        return end;
+        if (end != null) {
+            return end;
+        } else {
+            return new Date();
+        }
     }
 
     /**

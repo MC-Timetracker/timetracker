@@ -28,9 +28,11 @@ Find how you waste time without wasting time to analyze it.
 - Android Version: >= 4.0
 - Permissions
   - ACCESS_WIFI_STATE
-    -to match Wifi access point IDs (MAC addresses) for task suggestions
+    - to match Wifi access point IDs (MAC addresses) for task suggestions
   - RECEIVE_BOOT_COMPLETED
-    -to register background services for notifications about suggested tasks
+    - to register background services for notifications about suggested tasks
+  - WRITE_EXTERNAL_STORAGE
+    - to save a manual backup
   - VIBRATE
 
 
