@@ -6,6 +6,17 @@
         android:summary="@string/pref_summary_notify"
         android:title="@string/pref_title_notify" />
 
+
+    <Preference
+        android:key="export"
+        android:summary="@string/export_summary"
+        android:title="@string/label_export" />
+
+    <Preference
+        android:key="import"
+        android:summary="@string/import_summary"
+        android:title="@string/label_import" />
+
     <Preference
         android:key="version"
         android:title="@string/version" />
