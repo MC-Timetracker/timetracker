@@ -139,7 +139,7 @@ public class EditRecordingActivity extends Activity {
 
             recording = new Recording();
         }
-        getActionBar().setIcon(R.drawable.ic_launchertimeturner);
+        getActionBar().setIcon(R.mipmap.ic_launcher);
     }
 
     private void updateTimeViews() {

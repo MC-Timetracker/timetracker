@@ -88,7 +88,7 @@ public class MainActivity extends Activity implements OnItemClickListener {
         // init ActionBar
         mDrawerTitle = getString(R.string.app_name);
         setTitle(getString(R.string.app_name));
-        getActionBar().setIcon(R.drawable.ic_launchertimeturner);
+        getActionBar().setIcon(R.mipmap.ic_launcher);
         getActionBar().setDisplayHomeAsUpEnabled(true);
         getActionBar().setHomeButtonEnabled(true);
 

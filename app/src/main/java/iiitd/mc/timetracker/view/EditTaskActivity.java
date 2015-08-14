@@ -66,7 +66,7 @@ public class EditTaskActivity extends Activity {
         }
 
 
-        getActionBar().setIcon(R.drawable.ic_launchertimeturner);
+        getActionBar().setIcon(R.mipmap.ic_launcher);
     }
 
     /**
