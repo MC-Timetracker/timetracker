@@ -10,7 +10,7 @@ import iiitd.mc.timetracker.ApplicationHelper;
 /**
  * A Recording describes a specific time period spent working on a Task.
  */
-public class Recording {
+public class Recording implements Comparable<Recording> {
 
     private long recordingId;
     private Date start;
@@ -174,5 +174,10 @@ public class Recording {
         if (end != null)
             eTime = dateFormatter.format(end) + " " + timeFormatter.format(end);
         return getTask().toString() + " [" + sTime + " - " + eTime + "]";
+    }
+
+    @Override
+    public int compareTo(Recording recording) {
+        return recording.getStart().compareTo(this.getStart());
     }
 }
