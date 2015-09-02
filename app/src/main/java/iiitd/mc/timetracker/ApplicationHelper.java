@@ -3,8 +3,10 @@ package iiitd.mc.timetracker;
 import android.app.Application;
 import android.content.Context;
 
-import iiitd.mc.timetracker.database.DatabaseController;
+import iiitd.mc.timetracker.database.CachedDatabaseController;
 import iiitd.mc.timetracker.database.IDatabaseController;
+import iiitd.mc.timetracker.suggestor.ITaskSuggestor;
+import iiitd.mc.timetracker.suggestor.MainTaskSuggestor;
 
 /**
  * Helper class to get the application Context in static functions.
@@ -13,6 +15,8 @@ import iiitd.mc.timetracker.database.IDatabaseController;
  */
 public class ApplicationHelper extends Application {
     private static Context context;
+    private static IDatabaseController databaseController;
+    private static ITaskSuggestor mainTaskSuggestor;
 
     public void onCreate() {
         super.onCreate();
@@ -34,8 +38,19 @@ public class ApplicationHelper extends Application {
      *
      * @return An instance implementing the IDatabaseController interface.
      */
-    public static IDatabaseController createDatabaseController() {
-        //return new MockupDatabaseController();
-        return new DatabaseController(ApplicationHelper.context);
+    public static IDatabaseController getDatabaseController() {
+        if (databaseController == null) {
+            databaseController = new CachedDatabaseController(context);
+        }
+
+        return databaseController;
+    }
+
+    public static ITaskSuggestor getMainTaskSuggestor() {
+        if (mainTaskSuggestor == null) {
+            mainTaskSuggestor = new MainTaskSuggestor();
+        }
+
+        return mainTaskSuggestor;
     }
 }

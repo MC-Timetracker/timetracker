@@ -66,7 +66,7 @@ public class ListTasksFragment extends Fragment {
         listHeader.clear();
         listItems.clear();
 
-        IDatabaseController db = ApplicationHelper.createDatabaseController();
+        IDatabaseController db = ApplicationHelper.getDatabaseController();
         db.open();
         List<Task> tasks = db.getTasks();
         db.close();
@@ -175,7 +175,7 @@ public class ListTasksFragment extends Fragment {
                 .setPositiveButton(R.string.button_yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         // delete Task
-                        IDatabaseController db = ApplicationHelper.createDatabaseController();
+                        IDatabaseController db = ApplicationHelper.getDatabaseController();
                         db.open();
                         db.deleteTask(taskId);
                         db.close();

@@ -6,8 +6,6 @@ import java.util.List;
 
 /**
  * Merges different tasks into one Task list
- *
- * @author gullal
  */
 public class MainTaskSuggestor implements ITaskSuggestor {
     private ITaskSuggestor[] suggestors = new ITaskSuggestor[]{
@@ -17,7 +15,7 @@ public class MainTaskSuggestor implements ITaskSuggestor {
             new LocationTaskSuggestor(),
     };
     private double[] suggestorWeights = new double[]{
-            0,        // top hierarchy
+            0,      // top hierarchy
             0.1,    // recent tasks
             0.4,    // time
             0.5,    // location

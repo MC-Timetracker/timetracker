@@ -108,7 +108,7 @@ public class EditRecordingActivity extends Activity {
         isNewRecording = true;
         Intent intent = getIntent();
         if (intent.hasExtra(EXTRA_RECORDING_ID)) {
-            IDatabaseController db = ApplicationHelper.createDatabaseController();
+            IDatabaseController db = ApplicationHelper.getDatabaseController();
             db.open();
             recording = db.getRecording(intent.getLongExtra(EXTRA_RECORDING_ID, 0));
             db.close();
@@ -125,7 +125,7 @@ public class EditRecordingActivity extends Activity {
 
         if (isNewRecording) {
             //set start time to end time of last recording
-            IDatabaseController db = ApplicationHelper.createDatabaseController();
+            IDatabaseController db = ApplicationHelper.getDatabaseController();
             db.open();
             List<Recording> recordings = db.getRecordings(1);
             db.close();
@@ -166,7 +166,7 @@ public class EditRecordingActivity extends Activity {
         recording.setEnd(calEnd.getTime());
 
         // save to database
-        IDatabaseController db = ApplicationHelper.createDatabaseController();
+        IDatabaseController db = ApplicationHelper.getDatabaseController();
         db.open();
         if (isNewRecording) {
             db.insertRecording(recording);

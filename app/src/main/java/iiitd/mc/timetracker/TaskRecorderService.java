@@ -32,7 +32,7 @@ public class TaskRecorderService extends Service {
     private final int ONGOING_NOTIFICATION_ID = 1;
     private Recording currentRecording = null;
     private Recording lastRecording = null;
-    private IDatabaseController db = ApplicationHelper.createDatabaseController();
+    private IDatabaseController db = ApplicationHelper.getDatabaseController();
     private Task breakTask;
     private static final String SETTINGS_BREAK_TASK_ID = "breakTaskId";
     private static final String BREAK_TASK_NAME = "Break";
@@ -233,7 +233,7 @@ public class TaskRecorderService extends Service {
      */
     public static Task getTaskFromString(String taskString) {
         Task task = null;
-        IDatabaseController db = ApplicationHelper.createDatabaseController();
+        IDatabaseController db = ApplicationHelper.getDatabaseController();
         db.open();
         String[] taskStringParts = taskString.split(Pattern.quote(Task.THS));
         // get all tasks with name like the lowest hierarchy part of the string
@@ -276,7 +276,7 @@ public class TaskRecorderService extends Service {
             taskParent = createTaskFromString(parentName);
         }
         Task newTask = new Task(taskName, taskParent);
-        IDatabaseController db = ApplicationHelper.createDatabaseController();
+        IDatabaseController db = ApplicationHelper.getDatabaseController();
         db.open();
         db.insertTask(newTask);
         db.close();

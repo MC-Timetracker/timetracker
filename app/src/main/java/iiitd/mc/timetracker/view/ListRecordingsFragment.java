@@ -68,7 +68,7 @@ public class ListRecordingsFragment extends Fragment {
         recItems.clear();
         DateFormat formater = android.text.format.DateFormat.getDateFormat(getActivity());
 
-        IDatabaseController db = ApplicationHelper.createDatabaseController();
+        IDatabaseController db = ApplicationHelper.getDatabaseController();
         db.open();
         List<Recording> recs = db.getRecordings();
         db.close();
@@ -161,7 +161,7 @@ public class ListRecordingsFragment extends Fragment {
                 .setPositiveButton(R.string.button_yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         // delete Recording
-                        IDatabaseController db = ApplicationHelper.createDatabaseController();
+                        IDatabaseController db = ApplicationHelper.getDatabaseController();
                         db.open();
                         db.deleteRecording(rId);
                         db.close();

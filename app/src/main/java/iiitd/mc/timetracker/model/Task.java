@@ -146,7 +146,7 @@ public class Task {
         if (subtasks == null)
             subtasks = new ArrayList<>();
 
-        IDatabaseController db = ApplicationHelper.createDatabaseController();
+        IDatabaseController db = ApplicationHelper.getDatabaseController();
         db.open();
         List<Task> subtasks = db.getSubTasks(id);
         db.close();

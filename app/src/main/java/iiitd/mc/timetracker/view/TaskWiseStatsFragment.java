@@ -73,7 +73,7 @@ public class TaskWiseStatsFragment extends StatisticsOverviewFragment {
     private void drawBarChart() {
         textView.setText("Average Hours Spent");
 
-        IDatabaseController db = ApplicationHelper.createDatabaseController();
+        IDatabaseController db = ApplicationHelper.getDatabaseController();
         db.open();
         Task task = db.getTask(taskid);
         db.close();
@@ -153,7 +153,7 @@ public class TaskWiseStatsFragment extends StatisticsOverviewFragment {
     }
 
     private void drawPieChart() {
-        IDatabaseController db = ApplicationHelper.createDatabaseController();
+        IDatabaseController db = ApplicationHelper.getDatabaseController();
         db.open();
         Task task = db.getTask(taskid);
         db.close();
@@ -211,7 +211,7 @@ public class TaskWiseStatsFragment extends StatisticsOverviewFragment {
     }
 
     private List<Recording> getRecordings() {
-        IDatabaseController db = ApplicationHelper.createDatabaseController();
+        IDatabaseController db = ApplicationHelper.getDatabaseController();
         db.open();
         List<Task> subtasks = db.getSubTasks(taskid);
         List<Recording> recs = new ArrayList<>();

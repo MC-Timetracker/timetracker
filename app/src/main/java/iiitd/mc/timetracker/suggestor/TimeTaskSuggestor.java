@@ -53,7 +53,7 @@ public class TimeTaskSuggestor implements ITaskSuggestor {
     }
 
     private void updateTimeBuckets() {
-        IDatabaseController db = ApplicationHelper.createDatabaseController();
+        IDatabaseController db = ApplicationHelper.getDatabaseController();
         db.open();
         //TODO: use some limit to only get the recordings of the last 30 (?) days?
         List<Recording> recordings = db.getRecordings();

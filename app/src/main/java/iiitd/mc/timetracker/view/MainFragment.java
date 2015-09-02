@@ -220,7 +220,7 @@ public class MainFragment extends Fragment implements RecorderListener {
      * Load a list of recent recordings
      */
     private void initRecentActList() {
-        IDatabaseController db = ApplicationHelper.createDatabaseController();
+        IDatabaseController db = ApplicationHelper.getDatabaseController();
         db.open();
         List<Recording> records = db.getRecordings((new Date()).getTime());
         db.close();
