@@ -117,7 +117,7 @@ public class StatisticsOverviewFragment extends Fragment implements OnMenuItemCl
         Map<String, Long> todrec = new HashMap<>();
         List<Recording> recs = new ArrayList<>();
 
-        IDatabaseController db = ApplicationHelper.createDatabaseController();
+        IDatabaseController db = ApplicationHelper.getDatabaseController();
         db.open();
 
         if (timeRangeId == 1) {

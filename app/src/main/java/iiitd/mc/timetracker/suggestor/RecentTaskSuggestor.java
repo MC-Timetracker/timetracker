@@ -2,7 +2,6 @@ package iiitd.mc.timetracker.suggestor;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import iiitd.mc.timetracker.ApplicationHelper;
@@ -20,7 +19,7 @@ public class RecentTaskSuggestor implements ITaskSuggestor {
     private static final int RECORDING_LIMIT = 5;
 
     public RecentTaskSuggestor() {
-        db = ApplicationHelper.createDatabaseController();
+        db = ApplicationHelper.getDatabaseController();
     }
 
     @Override
@@ -32,14 +31,7 @@ public class RecentTaskSuggestor implements ITaskSuggestor {
 
         List<SuggestedTask> tasks = new ArrayList<>();
 
-        Collections.sort(recordings, new Comparator<Recording>() {
-
-            @Override
-            public int compare(Recording r1, Recording r2) {
-                return r2.getStart().compareTo(r1.getStart());
-            }
-
-        });
+        Collections.sort(recordings);
 
         // add unique tasks to list and update their probability (ratio of occurrences)
         /*

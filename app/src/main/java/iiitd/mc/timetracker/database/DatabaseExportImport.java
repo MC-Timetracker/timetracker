@@ -35,7 +35,7 @@ public class DatabaseExportImport {
     public static List<String> exportCsv() {
         List<String> lines = new ArrayList<>();
 
-        IDatabaseController db = ApplicationHelper.createDatabaseController();
+        IDatabaseController db = ApplicationHelper.getDatabaseController();
         db.open();
         for (Recording recording : db.getRecordings()) {
             lines.add(recording2csv(recording));
@@ -78,7 +78,7 @@ public class DatabaseExportImport {
      * @param csvLines A list of Strings, each representing csv data of one recording.
      */
     public static void importCsv(List<String> csvLines) {
-        IDatabaseController db = ApplicationHelper.createDatabaseController();
+        IDatabaseController db = ApplicationHelper.getDatabaseController();
         db.open();
         for (String line : csvLines) {
             Recording recording = csv2recording(line);
@@ -134,7 +134,7 @@ public class DatabaseExportImport {
      * Use with care!
      */
     public static void resetDatabase() {
-        IDatabaseController db = ApplicationHelper.createDatabaseController();
+        IDatabaseController db = ApplicationHelper.getDatabaseController();
         db.open();
         db.resetDatabase();
         db.close();

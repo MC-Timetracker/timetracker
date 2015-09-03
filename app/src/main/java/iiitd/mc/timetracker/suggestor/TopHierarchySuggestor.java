@@ -17,7 +17,7 @@ public class TopHierarchySuggestor implements ITaskSuggestor {
     private IDatabaseController db;
 
     public TopHierarchySuggestor() {
-        db = ApplicationHelper.createDatabaseController();
+        db = ApplicationHelper.getDatabaseController();
     }
 
     @Override

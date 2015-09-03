@@ -17,11 +17,11 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
+import iiitd.mc.timetracker.ApplicationHelper;
 import iiitd.mc.timetracker.R;
 import iiitd.mc.timetracker.TaskRecorderService;
 import iiitd.mc.timetracker.model.Task;
 import iiitd.mc.timetracker.suggestor.ITaskSuggestor;
-import iiitd.mc.timetracker.suggestor.MainTaskSuggestor;
 import iiitd.mc.timetracker.suggestor.SuggestedTask;
 import iiitd.mc.timetracker.view.adapter.CustomArrayAdapter;
 
@@ -69,6 +69,8 @@ public class TaskAutoCompleteTextView extends AutoCompleteTextView implements On
      * Initial setup of the autocomplete dropdown task selection text box.
      */
     private void initTaskAutocomplete() {
+        setTaskSuggestor(ApplicationHelper.getMainTaskSuggestor());
+
         mDetector = new GestureDetectorCompat(context, this);
         //mDetector.setOnDoubleTapListener(this);
 
@@ -116,16 +118,15 @@ public class TaskAutoCompleteTextView extends AutoCompleteTextView implements On
      * Reload the list of tasks displayed in the autocomplete dropdown.
      */
     private void updateSuggestionList() {
-        if (suggestor == null)
-            suggestor = new MainTaskSuggestor();
-
-        //TODO: fix dropdown only showing after first typing
-        suggestedTasks.clear();
-        suggestedTasks.addAll(suggestor.getSuggestedTasks());
-        //suggestedTasks = suggestor.getSuggestedTasks();
-        //taskListAdapter = new CustomArrayAdapter(context, android.R.layout.simple_dropdown_item_1line, suggestedTasks);
-        //this.setAdapter(taskListAdapter);
-        //taskListAdapter.notifyDataSetChanged();
+        if (suggestor != null) {
+            //TODO: fix dropdown only showing after first typing
+            suggestedTasks.clear();
+            suggestedTasks.addAll(suggestor.getSuggestedTasks());
+            //suggestedTasks = suggestor.getSuggestedTasks();
+            //taskListAdapter = new CustomArrayAdapter(context, android.R.layout.simple_dropdown_item_1line, suggestedTasks);
+            //this.setAdapter(taskListAdapter);
+            //taskListAdapter.notifyDataSetChanged();
+        }
     }
 
     /**

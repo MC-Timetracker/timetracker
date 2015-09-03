@@ -53,7 +53,7 @@ public class EditTaskActivity extends Activity {
 
         Intent intent = getIntent();
         long taskId = intent.getLongExtra("taskid", -1);
-        IDatabaseController db = ApplicationHelper.createDatabaseController();
+        IDatabaseController db = ApplicationHelper.getDatabaseController();
         db.open();
         task = db.getTask(taskId);
         db.close();
@@ -66,7 +66,7 @@ public class EditTaskActivity extends Activity {
         }
 
 
-        getActionBar().setIcon(R.drawable.ic_launchertimeturner);
+        getActionBar().setIcon(R.mipmap.ic_launcher);
     }
 
     /**
@@ -122,7 +122,7 @@ public class EditTaskActivity extends Activity {
         task.setParent(parent);
 
 
-        IDatabaseController db = ApplicationHelper.createDatabaseController();
+        IDatabaseController db = ApplicationHelper.getDatabaseController();
         db.open();
         if (create)
             db.insertTask(task);

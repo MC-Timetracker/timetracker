@@ -18,7 +18,7 @@ public class LocationTaskSuggestor implements ITaskSuggestor {
 
     public LocationTaskSuggestor() {
         appContext = ApplicationHelper.getAppContext();
-        db = ApplicationHelper.createDatabaseController();
+        db = ApplicationHelper.getDatabaseController();
     }
 
     /**
