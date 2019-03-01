@@ -5,6 +5,7 @@ Find how you waste time without wasting time to analyze it.
 
 *TimeTurner* helps you to track how you spend your time and it's smart doing that, making use really fast and easy.
 
+The App can be installed from Google Play: [TimeTurner](https://play.google.com/store/apps/details?id=iiitd.mc.timetracker&rdid=iiitd.mc.timetracker)
 
 ## Features
 
